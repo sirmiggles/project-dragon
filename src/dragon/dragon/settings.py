@@ -21,8 +21,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # todo: ##############################################
-# todo: regenerate key and don't publish to public git
-# todo: ##############################################
+#       regenerate key and don't publish to public git
+#       ##############################################
 
 SECRET_KEY = '-^2x4ioxjaf4or0m#hrie9-n2i=s!7o0g1kz=d0^9g8sj6^#=='
 
