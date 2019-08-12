@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
 
-class PollsConfig(AppConfig):
+class PageConfig(AppConfig):
+    """docstring"""
     name = 'page'
