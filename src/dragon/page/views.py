@@ -1,5 +1,8 @@
+from django.db.models import Manager
 from django.shortcuts import render
 from django.views import generic
+from django.db import models
+from .models import Book
 
 # Create your views here.
 
@@ -10,6 +13,6 @@ def page(request):
     return render(request, 'page/page.html')
 
 def library(request):
-    # todo: get a list of books and give to template
+    books = Book.objects.all().order_by('title')
 
-    return render(request, 'page/library.html')
+    return render(request, 'page/library.html', {'books' : books})
