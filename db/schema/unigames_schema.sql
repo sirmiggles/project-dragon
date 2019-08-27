@@ -21,9 +21,11 @@
 	==========================================================
 */
 
+USE [unigames]
+
 DROP TABLE IF EXISTS
-	[Transaction], [Game], [Book], [Genre],
-	[Member], [Rank], [Item], [Type]
+	[Loan], [Transactions], [Game], [Book], [Genre],
+	[Member], [Rank], [Item], [Type], [Collection]
 
 PRINT 'TABLES DELETED'
 GO
@@ -40,7 +42,7 @@ CREATE TABLE [dbo].[Item] (
 --	Reference Table for Games (MAIN STORAGE OF GAME INFORMATION)
 CREATE TABLE [dbo].[Game] (
 	[GameID]		INT PRIMARY KEY IDENTITY,							--	Primary Key for Game SubType Table
-	[GameItemID]		INT UNIQUE NOT NULL,								--	FK for Item Table
+	[GameItemID]	INT UNIQUE NOT NULL,								--	FK for Item Table
 	[GameName]		VARCHAR(256) NOT NULL,								--	Game's name
 	[GameGenre]		INT DEFAULT 0,										--	Default is '0' which is 'N/A'
 	[Description]	VARCHAR(1024) DEFAULT 'N/A',						--	Description of the game
@@ -60,6 +62,12 @@ CREATE TABLE [dbo].[Book] (
 	[Description]	VARCHAR(1024) DEFAULT 'N/A',
 	[Condition]		TINYINT DEFAULT 0,
 	[Notes]			VARCHAR(256) DEFAULT 'N/A'
+)
+
+--	Reference Table for the Collection an Item belongs in
+CREATE TABLE [dbo].[Collection] (
+	[CollectionID]		INT PRIMARY KEY IDENTITY,
+	[CollectionName]	VARCHAR(32) NOT NULL
 )
 
 --	Reference Table for Categories (Board Game, Book, etc)	--
@@ -91,13 +99,33 @@ CREATE TABLE [dbo].[Rank] (
 )
 
 --	Transaction Table for Borrowings (Main Library Table)
-CREATE TABLE [dbo].[Transaction] (
+CREATE TABLE [dbo].[Transactions] (
 	[TransactionID] INT PRIMARY KEY IDENTITY NOT NULL,					--	Identifier for the transaction
 	[BorrowerID]	INT NOT NULL,										--	Which member borrowed it?
 	[ApproverID]	INT NOT NULL,										--	Which member approved the transaction?
 	[DateBorrowed]	DATETIME NOT NULL,									--	Date which the item was borrowed
-	[ReturnerID]	INT NOT NULL,										--	Which member confirmed the item return?
+	[ReturnConfirmerID]	INT NOT NULL,									--	Which member confirmed the item return?
 	[DateReturned]	DATETIME NOT NULL,									--	Date which item was returned
+)
+
+--	Table for Tracking Item Borrowings
+CREATE TABLE [dbo].[Loan] (
+	[LoanID]					INT PRIMARY KEY IDENTITY NOT NULL,		--	Identifier for the Borrowing
+	[LoanTransactionID]			INT NOT NULL,							--	The Transaction that the Item was borrowed for
+	[LoanItemID]				INT NOT NULL							--	The Item that was borrowed
+)
+
+--	Reference Table for the Tags
+CREATE TABLE [dbo].[Tag] (
+	[TagID]						INT PRIMARY KEY IDENTITY NOT NULL,		--	Tag Identifier
+	[TagName]					VARCHAR(32) NOT NULL					--	Tag name/descriptor for the tag
+)
+
+--	Link Table for Items and Tags
+CREATE TABLE [dbo].[ItemTag] (
+	[ItemTagID]			INT PRIMARY KEY IDENTITY NOT NULL,
+	[LinkTag]			INT NOT NULL,
+	[TaggedItem]		INT NOT NULL
 )
 
 PRINT 'TABLES CREATED' 
@@ -107,17 +135,19 @@ PRINT 'TABLES CREATED'
 	======================================================
 */
 
+--	Link subclasses to Item Table (Polymorphic Association)
 ALTER TABLE [Game] ADD CONSTRAINT [FK_GameItemID]
 	FOREIGN KEY ([GameItemID]) REFERENCES Item([ItemID])
-GO
 
 ALTER TABLE [Book] ADD CONSTRAINT [FK_BookItemID]
 	FOREIGN KEY ([BookItemID]) REFERENCES Item([ItemID])
 
-GO
 --	Link Item to the Categories, Genre
 ALTER TABLE [Item] ADD CONSTRAINT [FK_Type]
 	FOREIGN KEY ([Type]) REFERENCES Type([TypeID])
+
+ALTER TABLE [Item] ADD CONSTRAINT [FK_Collection]
+	FOREIGN KEY ([Collection]) REFERENCES Collection([CollectionID])
 
 ALTER TABLE [Game] ADD CONSTRAINT [FK_GameGenre]
 	FOREIGN KEY ([GameGenre]) REFERENCES Genre([GenreID])
@@ -125,23 +155,34 @@ ALTER TABLE [Game] ADD CONSTRAINT [FK_GameGenre]
 ALTER TABLE [Book] ADD CONSTRAINT [FK_BookGenre]
 	FOREIGN KEY ([BookGenre]) REFERENCES Genre([GenreID])
 
+
 --	Link Members to the Ranks
 ALTER TABLE [Member] ADD CONSTRAINT [FK_Rank]
 	FOREIGN KEY ([Rank]) REFERENCES Rank([RankID])
 
 --	Link the transaction table to the members and items
-ALTER TABLE [Transaction] ADD CONSTRAINT [FK_ItemID]
-	FOREIGN KEY ([ItemID]) REFERENCES Item([ItemID])
+ALTER TABLE [Transactions] ADD CONSTRAINT [FK_BorrowerID]
+	FOREIGN KEY ([BorrowerID]) REFERENCES Member([MemberID])
 
-ALTER TABLE [Transaction] ADD CONSTRAINT [FK_MemberID]
-	FOREIGN KEY ([MemberID]) REFERENCES Member([MemberID])
-
-ALTER TABLE [Transaction] ADD CONSTRAINT [FK_ApproverID]
+ALTER TABLE [Transactions] ADD CONSTRAINT [FK_ApproverID]
 	FOREIGN KEY ([ApproverID]) REFERENCES Member([MemberID])
 
+ALTER TABLE [Transactions] ADD CONSTRAINT [FK_ReturnConfirmerID]
+	FOREIGN KEY ([ReturnConfirmerID]) REFERENCES Member([MemberID])
 
+--	Link the inventory to the transactions and item table
+ALTER TABLE [Loan] ADD CONSTRAINT [FK_LoanTransactionID]
+	FOREIGN KEY ([LoanTransactionID]) REFERENCES Transactions([TransactionID])
 
+ALTER TABLE [Loan] ADD CONSTRAINT [FK_LoanItemID]
+	FOREIGN KEY ([LoanItemID]) REFERENCES Item([ItemID])
 
+--	Link the Tag and Items
+ALTER TABLE [ItemTag] ADD CONSTRAINT [FK_ItemTagTag]
+	FOREIGN KEY ([LinkTag]) REFERENCES Tag([TagID])
+
+ALTER TABLE [ItemTag] ADD CONSTRAINT [FK_ItemTagItem]
+	FOREIGN KEY ([TaggedItem]) REFERENCES Item([ItemID])
 
 
 
