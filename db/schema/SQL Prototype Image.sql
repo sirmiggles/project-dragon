@@ -21,13 +21,14 @@
 CREATE DATABASE IF NOT EXISTS unigames;
 USE  unigames;
 DROP TABLE IF EXISTS
-	 Loan ,  Transactions ,  Game ,  Book ,  Genre , ClubMember ,  ClubRank ,  Item ,  ItemType ,  Collection, Tag, ItemTag
+	 Loan ,  Transactions ,  Game ,  Book ,  Genre , ClubMember ,  ClubRank ,  Item ,  ItemType ,  
+     Collection, Tag, ItemTag, Interest, MemberInterest
 ;
 
 #	Table for the Items	#
 CREATE TABLE  Item  (
 	 ItemID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,			# Primary Key for Items
-	 ItemType 			INT NOT NULL,										# Item Type - book, boardgame, etc.	(FK) (Mainly used for IF, Procedure)
+	 ItemType 		INT NOT NULL,										# Item Type - book, boardgame, etc.	(FK) (Mainly used for IF, Procedure)
 	 Available 		TINYINT NOT NULL DEFAULT 0,							#	Is the item available? 0 = True, 1 = False
 	 Collection 	INT DEFAULT 0,										#	Which collection the item belongs to (FK)
 	 Notes 			VARCHAR(1024) DEFAULT 'N/A'							#	Item notes, e.g. is the item missing pieces?
@@ -81,43 +82,61 @@ CREATE TABLE  ClubMember  (
 	 MemberID 		INT PRIMARY KEY  AUTO_INCREMENT NOT NULL,
 	 FirstName 		VARCHAR(255) NOT NULL,
 	 Surname 		VARCHAR(255) NOT NULL,
-	 Paid 			TINYINT DEFAULT 1,									#	Has the member paid? 0 = True, 1 = False
-	 MemberRank 			INT DEFAULT 0,										#	Member permissions  MySQL has enums 
-	 PrefPronoun 	VARCHAR(8) DEFAULT 'N/A'
+     PreferredName  VARCHAR(255),										#   To be updated by a trigger (to equal FirstName) if NULL
+	 #Paid 			TINYINT DEFAULT 1,									#	Has the member paid? 0 = True, 1 = False
+	 MemberRank 	INT DEFAULT 0,										#	Member permissions  MySQL has enums 
+	 PrefPronoun 	VARCHAR(8) DEFAULT 'N/A',
+     JoinDate       DATETIME DEFAULT NOW()	,							#   Datetime when member is added
+     GuildMember    BOOLEAN DEFAULT FALSE,
+     Email			VARCHAR(255) NOT NULL,								#   Email address is mandatory (can be changed)
+     PhoneNumber	VARCHAR(20) NOT NULL,
+     Incidents		VARCHAR(255) DEFAULT 'N/A'							#   Comments about previous bad behaviour
+     
+);
+
+#	Table which contains various possible member interests
+CREATE TABLE Interest (
+	InterestID		INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	InterestName	VARCHAR(32)
+);
+
+#	Link Table to Member Interests
+CREATE TABLE MemberInterest (
+	MemberID 		INT NOT NULL,
+	InterestID		INT NOT NULL
 );
 
 #	Reference Table for Permissions	(Ordinary, GK, Committee, etc.)
 CREATE TABLE  ClubRank  (
 	 RankID 		INT PRIMARY KEY  AUTO_INCREMENT NOT NULL,
-	 Name 	VARCHAR(32)	NOT NULL
+	 RankName 		VARCHAR(32)	NOT NULL
 );
 
 #	Transaction Table for Borrowings (Main Library Table)
 CREATE TABLE  Transactions  (
-	 TransactionID  INT PRIMARY KEY  AUTO_INCREMENT NOT NULL,					#	Identifier for the transaction
+	 TransactionID  INT PRIMARY KEY  AUTO_INCREMENT NOT NULL,			#	Identifier for the transaction
 	 BorrowerID 	INT NOT NULL,										#	Which member borrowed it?
 	 ApproverID 	INT NOT NULL,										#	Which member approved the transaction?
 	 DateBorrowed 	DATETIME NOT NULL,									#	Date which the item was borrowed
 	 ReturnConfirmerID 	INT NOT NULL,									#	Which member confirmed the item return?
-	 DateReturned 	DATETIME NOT NULL								#	Date which item was returned
+	 DateReturned 	DATETIME NOT NULL									#	Date which item was returned
 );
 
 #	Table for Tracking Item Borrowings
 CREATE TABLE   Loan  (
 	 LoanID 					INT PRIMARY KEY  AUTO_INCREMENT NOT NULL,		#	Identifier for the Borrowing
-	 LoanTransactionID 			INT NOT NULL,							#	The Transaction that the Item was borrowed for
-	 LoanItemID 				INT NOT NULL							#	The Item that was borrowed
+	 LoanTransactionID 			INT NOT NULL,									#	The Transaction that the Item was borrowed for
+	 LoanItemID 				INT NOT NULL									#	The Item that was borrowed
 );
 
 #	Reference Table for the Tags
 CREATE TABLE   Tag  (
 	 TagID 						INT PRIMARY KEY  AUTO_INCREMENT NOT NULL,		#	Tag Identifier
-	 TagName 					VARCHAR(32) NOT NULL					#	Tag name/descriptor for the tag
+	 TagName 					VARCHAR(32) NOT NULL							#	Tag name/descriptor for the tag
 );
 
 #	Link Table for Items and Tags
 CREATE TABLE   ItemTag  (
-	 ItemTagID 			INT PRIMARY KEY  AUTO_INCREMENT NOT NULL,
 	 LinkTag 			INT NOT NULL,
 	 TaggedItem 		INT NOT NULL
 );
@@ -176,6 +195,13 @@ ALTER TABLE  ItemTag  ADD CONSTRAINT  FK_ItemTagTag
 
 ALTER TABLE  ItemTag  ADD CONSTRAINT  FK_ItemTagItem 
 	FOREIGN KEY ( TaggedItem ) REFERENCES Item( ItemID );
+    
+#	Link the Members and their interests
+ALTER TABLE MemberInterest ADD CONSTRAINT FK_MIMember
+	FOREIGN KEY ( MemberID ) REFERENCES ClubMember(MemberID);
+    
+ALTER TABLE MemberInterest ADD CONSTRAINT FK_MIInterest
+	FOREIGN KEY (InterestID) REFERENCES Interest(InterestID);
 
 
 
