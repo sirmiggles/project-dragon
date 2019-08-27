@@ -136,8 +136,8 @@ ALTER TABLE  Book  ADD CONSTRAINT  FK_BookItemID
 	FOREIGN KEY ( BookItemID ) REFERENCES Item( ItemID );
 
 #	Link Item to the Categories, Genre
-ALTER TABLE  Item  ADD CONSTRAINT  FK_Type 
-	FOREIGN KEY ( ItemType ) REFERENCES Type( TypeID );
+ALTER TABLE  Item  ADD CONSTRAINT  FK_ItemType 
+	FOREIGN KEY ( ItemType ) REFERENCES ItemType( TypeID );
 
 ALTER TABLE  Item  ADD CONSTRAINT  FK_Collection 
 	FOREIGN KEY ( Collection ) REFERENCES Collection( CollectionID );
