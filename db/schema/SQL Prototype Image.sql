@@ -22,7 +22,7 @@ CREATE DATABASE IF NOT EXISTS unigames;
 USE  unigames;
 DROP TABLE IF EXISTS
 	Item, Game,  Book, Collection, ItemType, Genre, ClubMember, Nonmember, Users, Interest, MemberInterest, ClubRank,   
-	Transactions, Loan, Tag, ItemTag  
+	Transactions, Loan, Reservations, Tag, ItemTag  
 ;
 
 #	Table for the Items	#
@@ -98,7 +98,7 @@ CREATE TABLE NonMember	(
 	NonMemberID			INT PRIMARY KEY NOT NULL AUTO_INCREMENT,				#	PK of the NonMember Table
     FirstName			VARCHAR(255) NOT NULL,									#	First Name 
     Surname 			VARCHAR(255) NOT NULL,									#	Surname 			
-	OrganizationName 	VARCHAR(255) NOT NULL,									#	Name of the club or Organization
+	OrganizationName 	VARCHAR(255) DEFAULT NULL,								#	Name of the club or Organization
     Email				VARCHAR(255) NOT NULL,									#   Email address of the non-member or organization
 	PhoneNumber			VARCHAR(20) NOT NULL,									# 	Phone Number of the non-member or organization
     UserID				INT NOT NULL											#	FK from Users Table
@@ -144,6 +144,15 @@ CREATE TABLE   Loan  (
 	 LoanItemID 				INT NOT NULL									#	FK from Item Table - ID of the Item that was borrowed
 );
 
+#	Table for Tracking Item Reservations
+CREATE TABLE   Reservations  (
+	ReservationID				INT PRIMARY KEY NOT NULL AUTO_INCREMENT,		#	PK for the Reservations Table								
+	UserID						INT NOT NULL,									#	FK from Users Table - ID of user who wants to reserve an item
+    ItemID						INT NOT NULL UNIQUE,							#	FK from Items Table - ID of item to be borrowed
+    StartDate					DATETIME NOT NULL,								#	Earliest date where item shall no longer be borrowed to another user
+    ExpiryDate					DATETIME NOT NULL								#	Latest date until reservation expires
+    );
+
 #	Reference Table for the Tags
 CREATE TABLE   Tag  (
 	 TagID 						INT PRIMARY KEY NOT NULL AUTO_INCREMENT,		#	PK for the Tag Table - Tag Identifier
@@ -170,6 +179,16 @@ ALTER TABLE ClubMember ADD CONSTRAINT FK_MemberBorrower
 ALTER TABLE NonMember ADD CONSTRAINT FK_NonMemberBorrower
 	FOREIGN KEY (UserID) REFERENCES Users(UserID)
     ON UPDATE CASCADE;
+    
+    
+#	Link Reservations to users
+ALTER TABLE Reservations ADD CONSTRAINT FK_UsersReservation
+	FOREIGN KEY (UserID) REFERENCES Users(UserID)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+    
+ALTER TABLE Reservations ADD CONSTRAINT FK_ItemReservation
+	FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
+    ON DELETE CASCADE ON UPDATE CASCADE;
 
 
 #	Link subclasses to Item Table (Polymorphic Association)
