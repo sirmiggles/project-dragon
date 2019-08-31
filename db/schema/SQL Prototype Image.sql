@@ -21,7 +21,7 @@
 CREATE DATABASE IF NOT EXISTS unigames;
 USE  unigames;
 DROP TABLE IF EXISTS
-	Item, Game,  Book, Collection, ItemType, Genre, ClubMember, Interest, MemberInterest, ClubRank,   
+	Item, Game,  Book, Collection, ItemType, Genre, ClubMember, Nonmember, Users, Interest, MemberInterest, ClubRank,   
 	Transactions, Loan, Tag, ItemTag  
 ;
 
@@ -90,7 +90,23 @@ CREATE TABLE  ClubMember  (
      JoinDate      	 	DATETIME DEFAULT NOW(),									#   Datetime when member is added to the Table
      Email				VARCHAR(255) NOT NULL,									#   Email address is mandatory (can be changed)
      PhoneNumber		VARCHAR(20) NOT NULL,									# 	Phone Number of the member
-     Incidents			VARCHAR(255) DEFAULT 'N/A'								#   Comments about previous bad behaviour
+     Incidents			VARCHAR(255) DEFAULT 'N/A',								#   Comments about previous bad behaviour
+     UserID				INT NOT NULL											#	FK from Users Table
+);
+
+CREATE TABLE NonMember	(
+	NonMemberID			INT PRIMARY KEY NOT NULL AUTO_INCREMENT,				#	PK of the NonMember Table
+    FirstName			VARCHAR(255) NOT NULL,									#	First Name 
+    Surname 			VARCHAR(255) NOT NULL,									#	Surname 			
+	OrganizationName 	VARCHAR(255) NOT NULL,									#	Name of the club or Organization
+    Email				VARCHAR(255) NOT NULL,									#   Email address of the non-member or organization
+	PhoneNumber			VARCHAR(20) NOT NULL,									# 	Phone Number of the non-member or organization
+    UserID				INT NOT NULL											#	FK from Users Table
+);
+
+#	Table which generalizes a user and represents both members and non-members/organizations
+CREATE TABLE Users	(
+	UserID			INT PRIMARY KEY NOT NULL AUTO_INCREMENT						#	PK of the Users Table
 );
 
 #	Table which contains various possible member interests
@@ -114,10 +130,10 @@ CREATE TABLE  ClubRank  (
 #	Transaction Table for Borrowings (Main Library Table)
 CREATE TABLE  Transactions  (
 	 TransactionID  INT PRIMARY KEY NOT NULL AUTO_INCREMENT,			#	PK for the Transactions Table
-	 BorrowerID 	INT NOT NULL,										#	FK from ClubMember Table - Which member borrowed it?
-	 ApproverID 	INT NOT NULL,										#	FK from ClubMember Table - Which member approved the transaction?
+	 BorrowerID 	INT NOT NULL,										#	FK from Users Table - Which member borrowed it?
+	 ApproverID 	INT NOT NULL,										#	FK from Users Table - Which member approved the transaction?
 	 DateBorrowed 	DATETIME NOT NULL,									#	Date which the item was borrowed
-	 ReturnConfirmerID 	INT DEFAULT NULL,								#	FK from ClubMember Table - Which member confirmed the item return? (default NULL, as it may have not been returned)
+	 ReturnConfirmerID 	INT DEFAULT NULL,								#	FK from Users Table - Which member confirmed the item return? (default NULL, as it may have not been returned)
 	 DateReturned 	DATETIME DEFAULT NULL								#	Date which item was returned (default NULL, as it may have not been returned)
 );
 
@@ -145,6 +161,16 @@ CREATE TABLE   ItemTag  (
 	MAKING THE FOREIGN KEY LINKS FOR THE DB
 	======================================================
 */
+
+#	Link Club-Members and Non-Members to Borrower Table
+ALTER TABLE ClubMember ADD CONSTRAINT FK_MemberBorrower
+	FOREIGN KEY (UserID) REFERENCES Users(UserID)
+    ON UPDATE CASCADE;
+    
+ALTER TABLE NonMember ADD CONSTRAINT FK_NonMemberBorrower
+	FOREIGN KEY (UserID) REFERENCES Users(UserID)
+    ON UPDATE CASCADE;
+
 
 #	Link subclasses to Item Table (Polymorphic Association)
 ALTER TABLE  Game  ADD CONSTRAINT  FK_GameItemID 
@@ -181,15 +207,15 @@ ALTER TABLE  ClubMember  ADD CONSTRAINT  FK_Rank
 
 #	Link the transaction table to the members and items
 ALTER TABLE  Transactions  ADD CONSTRAINT  FK_BorrowerID 
-	FOREIGN KEY ( BorrowerID ) REFERENCES ClubMember( MemberID )
+	FOREIGN KEY ( BorrowerID ) REFERENCES Users( UserID )
     ON UPDATE CASCADE;
 
 ALTER TABLE  Transactions  ADD CONSTRAINT  FK_ApproverID 
-	FOREIGN KEY ( ApproverID ) REFERENCES ClubMember( MemberID )
+	FOREIGN KEY ( ApproverID ) REFERENCES Users( UserID )
     ON UPDATE CASCADE;
 
 ALTER TABLE  Transactions  ADD CONSTRAINT  FK_ReturnConfirmerID 
-	FOREIGN KEY ( ReturnConfirmerID ) REFERENCES ClubMember( MemberID )
+	FOREIGN KEY ( ReturnConfirmerID ) REFERENCES Users( UserID )
     ON UPDATE CASCADE;
 
 
