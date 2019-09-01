@@ -266,3 +266,63 @@ ALTER TABLE MemberInterest ADD CONSTRAINT FK_MIMember
 ALTER TABLE MemberInterest ADD CONSTRAINT FK_MIInterest
 	FOREIGN KEY (InterestID) REFERENCES Interest(InterestID)
     ON DELETE CASCADE ON UPDATE CASCADE;
+    
+    
+    
+    
+    
+    
+/*
+	==========================================================
+					INSERTING TEST DATA
+	==========================================================
+*/
+
+INSERT INTO ClubRank VALUES (NULL,'Regular Member');
+INSERT INTO ClubRank VALUES (NULL,'Gatekeeper');
+INSERT INTO ClubRank VALUES (NULL,'Committee Member');
+
+INSERT INTO Interest VALUES (NULL,'Card Games');
+INSERT INTO Interest VALUES (NULL,'RPGs');
+INSERT INTO Interest VALUES (NULL,'War Games');
+INSERT INTO Interest VALUES (NULL,'Board Games');
+
+INSERT INTO Users VALUES (NULL);
+INSERT INTO ClubMember VALUES (NULL, 'John', 'Rupert', NULL, DEFAULT, 1, FALSE, 22559471, DEFAULT, 'john.rupert@hello.bye', '0452587195', DEFAULT, 1);
+INSERT INTO Users VALUES (NULL);
+INSERT INTO ClubMember VALUES (NULL, 'Jake', 'Bonsonby', NULL, DEFAULT, 3, TRUE, 20718595, DEFAULT, 'jake.bonsonby@au.revoir', '0449527195', 'Destroyed several items in 2017', 2);
+INSERT INTO Users VALUES (NULL);
+INSERT INTO ClubMember VALUES (NULL, 'Alberta', 'Frederiksen', NULL, DEFAULT, 2, FALSE, 20182019, DEFAULT, 'alberta.frederiksen@bon.jour', '0478985195', DEFAULT, 3);
+INSERT INTO Users VALUES (NULL);
+INSERT INTO ClubMember VALUES (NULL, 'Ilanah', 'Johnson', NULL, DEFAULT, 1, TRUE, 20172018, DEFAULT, 'ilanah.johnson@guten.tag', '0452498565', DEFAULT, 4);
+
+INSERT INTO MemberInterest VALUES (1,1);
+INSERT INTO MemberInterest VALUES (1,2);
+INSERT INTO MemberInterest VALUES (1,4);
+INSERT INTO MemberInterest VALUES (2,3);
+INSERT INTO MemberInterest VALUES (3,2);
+INSERT INTO MemberInterest VALUES (3,3);
+INSERT INTO MemberInterest VALUES (3,4);
+INSERT INTO MemberInterest VALUES (4,1);
+INSERT INTO MemberInterest VALUES (4,4);
+
+
+/*
+	==========================================================
+					TEST QUERIES
+	==========================================================
+*/
+
+#Which Members have which interests?
+SELECT ClubMember.MemberID, FirstName, Surname, InterestName 
+FROM ClubMember JOIN MemberInterest ON (ClubMember.MemberID = MemberInterest.MemberID)
+				JOIN Interest ON (MemberInterest.InterestID = Interest.InterestID)
+ORDER BY ClubMember.MemberID;
+
+#Which Members have which rank?
+SELECT ClubMember.MemberID, FirstName, Surname, RankName
+FROM ClubMember JOIN ClubRank ON (ClubMember.MemberRank = ClubRank.RankID )
+ORDER BY ClubMember.MemberID;
+
+
+
