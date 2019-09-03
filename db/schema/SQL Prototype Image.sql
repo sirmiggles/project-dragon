@@ -28,12 +28,13 @@ DROP TABLE IF EXISTS
 
 #	Table for the Items	#
 CREATE TABLE  Item  (
-	 ItemID 			INT PRIMARY KEY NOT NULL AUTO_INCREMENT,			# 	PK for Items
-	 ItemType 			INT NOT NULL,										# 	FK from ItemType Table - Describes if it is a book, boardgame, etc.	(Mainly used for IF, Procedure)
-	 ItemDescription	VARCHAR(1024) DEFAULT 'N/A',						#	General description of the Item
-     Available 			BOOL NOT NULL DEFAULT TRUE,							#	Boolean for availability of the item 
-	 Collection 		INT DEFAULT NULL,									#	FK from Collection Table - Describes which collection the item belongs to
-	 Notes 				VARCHAR(1024) DEFAULT 'N/A'							#	Item notes, e.g. is the item missing pieces?
+	 ItemID 			INT PRIMARY KEY NOT NULL AUTO_INCREMENT,				# 	PK for Items
+	 ItemType 			INT NOT NULL,											# 	FK from ItemType Table - Describes if it is a book, boardgame, etc.	(Mainly used for IF, Procedure)
+	 ItemDescription	VARCHAR(1024) DEFAULT 'N/A',							#	General description of the Item
+     ItemCondition 		ENUM('EXCELLENT','VERY GOOD','GOOD','FAIR','BAD'),		#	Item's condition
+     Available 			BOOL NOT NULL DEFAULT TRUE,								#	Boolean for availability of the item 
+	 Collection 		INT DEFAULT NULL,										#	FK from Collection Table - Describes which collection the item belongs to
+	 Notes 				VARCHAR(1024) DEFAULT 'N/A'								#	Item notes, e.g. is the item missing pieces?
 );
 
 #	Reference Table for Games (MAIN STORAGE OF GAME INFORMATION)
@@ -41,7 +42,6 @@ CREATE TABLE  Game  (
 	 GameID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,					#	PK for Game SubType Table
 	 GameItemID 	INT UNIQUE NOT NULL,										#	FK from Item Table
 	 GameName 		VARCHAR(256) NOT NULL,										#	Game's name
-	 GameCondition 		ENUM('EXCELLENT','VERY GOOD','GOOD','FAIR','BAD'),		#	Game's condition
 	 MinPlayers 	INT DEFAULT 2,												#	Minimum number of players to be able to play a proper game
 	 MaxPlayers 	INT DEFAULT 4,												#	Maximum number of players to be able to play a proper game
 	 MinGameLength 	VARCHAR(16),												#	Minimum length of the game
@@ -54,7 +54,6 @@ CREATE TABLE  Book  (
 	 BookID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,					#	PK for Book SubType Table
 	 BookItemID 	INT UNIQUE NOT NULL,										#	FK from Item Table
 	 BookName 		VARCHAR(256) NOT NULL,										#	Name of the book
-	 BookCondition 		ENUM('EXCELLENT','VERY GOOD','GOOD','FAIR','BAD'),		#	Book's condition
 	 Notes 			VARCHAR(256) DEFAULT 'N/A'									#	Missing pages, damage, etc. 
 );
 
