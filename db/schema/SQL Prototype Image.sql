@@ -54,6 +54,7 @@ CREATE TABLE  Book  (
 	 BookID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,					#	PK for Book SubType Table
 	 BookItemID 	INT UNIQUE NOT NULL,										#	FK from Item Table
 	 BookName 		VARCHAR(256) NOT NULL,										#	Name of the book
+     ISBN			VARCHAR(16) DEFAULT NULL,									#	ISBN of the book
 	 Notes 			VARCHAR(256) DEFAULT 'N/A'									#	Missing pages, damage, etc. 
 );
 
