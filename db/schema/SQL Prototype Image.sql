@@ -21,9 +21,9 @@
 CREATE DATABASE IF NOT EXISTS unigames;
 USE  unigames;
 DROP TABLE IF EXISTS
-	Item, Game,  Book, Collection, ItemType, Genre, Equipment, ItemGenre, ItemEquipment, ClubMember, 
-    Nonmember, Users, Interest, Interests, MemberInterest, ClubRank,   
-	Transactions, Loan, Reservations, Tag, ItemTag  
+	Loan, ItemTag, Game, Book, ItemGenre, ItemEquipment, MemberInterest,
+    Transactions, Genre, Equipment, Tag, Interest, Reservations, Item,
+    ItemType, NonMember, ClubMember, ClubRank, Collection, Users
 ;
 
 #	Table for the Items	#
