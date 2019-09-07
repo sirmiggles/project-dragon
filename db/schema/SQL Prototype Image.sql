@@ -116,7 +116,7 @@ CREATE TABLE Equipment	(
 #	Link Table between Equipment and Item
 CREATE TABLE ItemEquipment	(
 	ItemID			INT NOT NULL,												#	FK from the Item Table
-    EquipmentID		INT NOT NULL											#	FK from the Equipment Table
+    EquipmentID		INT NOT NULL												#	FK from the Equipment Table
 );
 
 #	Table containing member data (raw - no logins yet)
@@ -130,8 +130,8 @@ CREATE TABLE  ClubMember  (
      GuildMember   	 	BOOLEAN DEFAULT FALSE,									#	Guild Membership (also for non-students!)
      UniversityID		VARCHAR(8) DEFAULT NULL,								#	UWA Student or Staff ID			
      JoinDate      	 	DATETIME DEFAULT NOW(),									#   Datetime when member is added to the Table
-     Email				VARCHAR(255) NOT NULL,									#   Email address is mandatory (can be changed)
-     PhoneNumber		VARCHAR(20) NOT NULL,									# 	Phone Number of the member
+     Email				BLOB(512) NOT NULL,										#   Email address is mandatory (can be changed)
+     PhoneNumber		BLOB(512) NOT NULL,										# 	Phone Number of the member
      Incidents			VARCHAR(255) DEFAULT 'N/A',								#   Comments about previous bad behaviour
      UserID				INT NOT NULL											#	FK from Users Table
 );
@@ -141,8 +141,8 @@ CREATE TABLE NonMember	(
     FirstName			VARCHAR(255) NOT NULL,									#	First Name 
     Surname 			VARCHAR(255) NOT NULL,									#	Surname 			
 	OrganizationName 	VARCHAR(255) DEFAULT NULL,								#	Name of the club or Organization
-    Email				VARCHAR(255) NOT NULL,									#   Email address of the non-member or organization
-	PhoneNumber			VARCHAR(20) NOT NULL,									# 	Phone Number of the non-member or organization
+    Email				BLOB(512) NOT NULL,										#   Email address of the non-member or organization
+	PhoneNumber			BLOB(512) NOT NULL,										# 	Phone Number of the non-member or organization
     UserID				INT NOT NULL											#	FK from Users Table
 );
 
@@ -349,10 +349,10 @@ ALTER TABLE MemberInterest ADD CONSTRAINT FK_MIInterest
 #Trigger to encrypt the email address and phone number of a Club Member    
 DELIMITER ++
 CREATE TRIGGER EncryptMember 
-BEFORE UPDATE ON ClubMember 
+BEFORE INSERT ON ClubMember 
 FOR EACH ROW BEGIN
-    SET NEW.Email = ENCRYPT(NEW.Email, 'key');
-    SET NEW.PhoneNumber = ENCRYPT(NEW.PhoneNumber, 'key');
+    SET NEW.Email = AES_ENCRYPT(NEW.Email, 'key');
+    SET NEW.PhoneNumber = AES_ENCRYPT(NEW.PhoneNumber, 'key');
 END++
 DELIMITER ;
 
@@ -360,10 +360,21 @@ DELIMITER ;
 #Trigger to encrypt the email address and phone number of a Non-Member    
 DELIMITER ++
 CREATE TRIGGER EncryptNonMember
-BEFORE UPDATE ON NonMember 
+BEFORE INSERT ON NonMember 
 FOR EACH ROW BEGIN
-    SET NEW.Email = ENCRYPT(NEW.Email, 'key');
-    SET NEW.PhoneNumber = ENCRYPT(NEW.PhoneNumber, 'key');
+    SET NEW.Email = AES_ENCRYPT(NEW.Email, 'key');
+    SET NEW.PhoneNumber = AES_ENCRYPT(NEW.PhoneNumber, 'key');
+END++
+DELIMITER ;
+
+
+DELIMITER ++
+CREATE TRIGGER DefaultBorrowingSpan
+BEFORE INSERT ON Transactions
+FOR EACH ROW BEGIN
+    IF DueDate IS NULL THEN
+		INSERT INTO Transactions SET DueDate = DATEADD(Week, 2, NOW());
+	END IF;
 END++
 DELIMITER ;
     
@@ -418,6 +429,14 @@ ORDER BY ClubMember.MemberID;
 
 #Which Members have which rank?
 SELECT ClubMember.MemberID, FirstName, Surname, RankName
+FROM ClubMember JOIN ClubRank ON (ClubMember.MemberRank = ClubRank.RankID )
+ORDER BY ClubMember.MemberID;
+*/
+
+#Show Member details after decryption
+SELECT 	ClubMember.MemberID, FirstName, Surname, RankName, 
+		CAST(AES_DECRYPT(Email,'key') AS CHAR) AS Email,
+        CAST(AES_DECRYPT(PhoneNumber,'key') AS CHAR) AS PhoneNumber
 FROM ClubMember JOIN ClubRank ON (ClubMember.MemberRank = ClubRank.RankID )
 ORDER BY ClubMember.MemberID;
 
