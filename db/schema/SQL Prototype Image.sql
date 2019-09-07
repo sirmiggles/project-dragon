@@ -339,8 +339,33 @@ ALTER TABLE MemberInterest ADD CONSTRAINT FK_MIInterest
 	FOREIGN KEY (InterestID) REFERENCES Interest(InterestID)
     ON DELETE CASCADE ON UPDATE CASCADE;
     
+ 
+ /*
+	==========================================================
+					TRIGGERS FOR INSERTION
+	==========================================================
+*/
     
-    
+#Trigger to encrypt the email address and phone number of a Club Member    
+DELIMITER ++
+CREATE TRIGGER EncryptMember 
+BEFORE UPDATE ON ClubMember 
+FOR EACH ROW BEGIN
+    SET NEW.Email = ENCRYPT(NEW.Email, 'key');
+    SET NEW.PhoneNumber = ENCRYPT(NEW.PhoneNumber, 'key');
+END++
+DELIMITER ;
+
+
+#Trigger to encrypt the email address and phone number of a Non-Member    
+DELIMITER ++
+CREATE TRIGGER EncryptNonMember
+BEFORE UPDATE ON NonMember 
+FOR EACH ROW BEGIN
+    SET NEW.Email = ENCRYPT(NEW.Email, 'key');
+    SET NEW.PhoneNumber = ENCRYPT(NEW.PhoneNumber, 'key');
+END++
+DELIMITER ;
     
     
     
