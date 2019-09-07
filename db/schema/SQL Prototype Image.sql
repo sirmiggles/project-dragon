@@ -21,7 +21,7 @@
 CREATE DATABASE IF NOT EXISTS unigames;
 USE  unigames;
 DROP TABLE IF EXISTS
-	Loan, ItemTag, Game, Book, ItemGenre, ItemEquipment, MemberInterest,
+	Loan, ItemTag, Game, Book, CardGame, Miscellaneous, ItemGenre, ItemEquipment, MemberInterest,
     Transactions, Genre, Equipment, Tag, Interest, Reservations, Item,
     ItemType, NonMember, ClubMember, ClubRank, Collection, Users
 ;
@@ -29,6 +29,7 @@ DROP TABLE IF EXISTS
 #	Table for the Items	#
 CREATE TABLE  Item  (
 	 ItemID 			INT PRIMARY KEY NOT NULL AUTO_INCREMENT,				# 	PK for Items
+     ItemTitle 			VARCHAR(256) NOT NULL,									#	Name/Title of the Item 
 	 ItemType 			INT NOT NULL,											# 	FK from ItemType Table - Describes if it is a book, boardgame, etc.	(Mainly used for IF, Procedure)
 	 ItemDescription	VARCHAR(1024) DEFAULT 'N/A',							#	General description of the Item
      ItemCondition 		ENUM('EXCELLENT','VERY GOOD','GOOD','FAIR','BAD'),		#	Item's condition
@@ -41,21 +42,31 @@ CREATE TABLE  Item  (
 CREATE TABLE  Game  (
 	 GameID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,					#	PK for Game SubType Table
 	 GameItemID 	INT UNIQUE NOT NULL,										#	FK from Item Table
-	 GameName 		VARCHAR(256) NOT NULL,										#	Game's name
 	 MinPlayers 	INT DEFAULT 2,												#	Minimum number of players to be able to play a proper game
 	 MaxPlayers 	INT DEFAULT 4,												#	Maximum number of players to be able to play a proper game
 	 MinGameLength 	VARCHAR(16),												#	Minimum length of the game
-     MaxGameLength 	VARCHAR(16),												#	Maximum length of the game
-	 Notes 			VARCHAR(256) DEFAULT 'N/A'									#	Missing pieces, damage, etc. 
+     MaxGameLength 	VARCHAR(16)													#	Maximum length of the game
 );
 
 #	Reference Table for Books (MAIN STORAGE OF BOOK INFORMATION)
 CREATE TABLE  Book  (
 	 BookID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,					#	PK for Book SubType Table
 	 BookItemID 	INT UNIQUE NOT NULL,										#	FK from Item Table
-	 BookName 		VARCHAR(256) NOT NULL,										#	Name of the book
-     ISBN			VARCHAR(16) DEFAULT NULL,									#	ISBN of the book
-	 Notes 			VARCHAR(256) DEFAULT 'N/A'									#	Missing pages, damage, etc. 
+     ISBN			VARCHAR(16) DEFAULT NULL									#	ISBN of the book
+);
+
+#	Reference Table for Card Games (MAIN STORAGE OF CARD GAME INFORMATION)
+CREATE TABLE CardGame	(
+	CardGameID		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,					#	PK for the CardGame Table
+    CardGameItemID	INT UNIQUE NOT NULL,										#	FK from the Item Table
+    MinPlayers 	INT DEFAULT 2,													#	Minimum number of players to be able to play a proper game
+	MaxPlayers 	INT DEFAULT 4													#	Maximum number of players to be able to play a proper game
+);
+
+#	Reference Table for Card Games (MAIN STORAGE OF CARD GAME INFORMATION)
+CREATE TABLE Miscellaneous	(
+	MiscID		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,						#	PK for the Miscellaneous Table
+    MiscItemID	INT UNIQUE NOT NULL												#	FK from the Item Table
 );
 
 #	Reference Table for the Collection an Item belongs in
@@ -218,6 +229,15 @@ ALTER TABLE  Game  ADD CONSTRAINT  FK_GameItemID
 ALTER TABLE  Book  ADD CONSTRAINT  FK_BookItemID 
 	FOREIGN KEY ( BookItemID ) REFERENCES Item( ItemID )
     ON DELETE CASCADE ON UPDATE CASCADE;
+    
+ALTER TABLE  CardGame  ADD CONSTRAINT  FK_GardGameItemID 
+	FOREIGN KEY ( CardGameItemID ) REFERENCES Item( ItemID )
+    ON DELETE CASCADE ON UPDATE CASCADE;
+    
+ALTER TABLE  Miscellaneous  ADD CONSTRAINT  FK_MiscellaneousItemID 
+	FOREIGN KEY ( MiscItemID ) REFERENCES Item( ItemID )
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
 
 #	Link Item to the Categories, Genre
 ALTER TABLE  Item  ADD CONSTRAINT  FK_ItemType 
