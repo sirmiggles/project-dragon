@@ -21,17 +21,20 @@
 CREATE DATABASE IF NOT EXISTS unigames;
 USE  unigames;
 DROP TABLE IF EXISTS
-	Item, Game,  Book, Collection, ItemType, Genre, ClubMember, Nonmember, Users, Interest, MemberInterest, ClubRank,   
-	Transactions, Loan, Reservations, Tag, ItemTag  
+	Loan, ItemTag, Game, Book, ItemGenre, ItemEquipment, MemberInterest,
+    Transactions, Genre, Equipment, Tag, Interest, Reservations, Item,
+    ItemType, NonMember, ClubMember, ClubRank, Collection, Users
 ;
 
 #	Table for the Items	#
 CREATE TABLE  Item  (
-	 ItemID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,			# 	PK for Items
-	 ItemType 		INT NOT NULL,										# 	FK from ItemType Table - Describes if it is a book, boardgame, etc.	(Mainly used for IF, Procedure)
-	 Available 		BOOL NOT NULL DEFAULT TRUE,							#	Boolean for availability of the item 
-	 Collection 	INT DEFAULT NULL,									#	FK from Collection Table - Describes which collection the item belongs to
-	 Notes 			VARCHAR(1024) DEFAULT 'N/A'							#	Item notes, e.g. is the item missing pieces?
+	 ItemID 			INT PRIMARY KEY NOT NULL AUTO_INCREMENT,				# 	PK for Items
+	 ItemType 			INT NOT NULL,											# 	FK from ItemType Table - Describes if it is a book, boardgame, etc.	(Mainly used for IF, Procedure)
+	 ItemDescription	VARCHAR(1024) DEFAULT 'N/A',							#	General description of the Item
+     ItemCondition 		ENUM('EXCELLENT','VERY GOOD','GOOD','FAIR','BAD'),		#	Item's condition
+     Available 			BOOL NOT NULL DEFAULT TRUE,								#	Boolean for availability of the item 
+	 Collection 		INT DEFAULT NULL,										#	FK from Collection Table - Describes which collection the item belongs to
+	 Notes 				VARCHAR(1024) DEFAULT 'N/A'								#	Item notes, e.g. is the item missing pieces?
 );
 
 #	Reference Table for Games (MAIN STORAGE OF GAME INFORMATION)
@@ -39,12 +42,10 @@ CREATE TABLE  Game  (
 	 GameID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,					#	PK for Game SubType Table
 	 GameItemID 	INT UNIQUE NOT NULL,										#	FK from Item Table
 	 GameName 		VARCHAR(256) NOT NULL,										#	Game's name
-	 GameGenre 		INT DEFAULT NULL,											#	FK from Genre Table - Default is NULL, which is 'N/A'
-	 GameDescription 	VARCHAR(1024) DEFAULT 'N/A',							#	Description of the game
-	 GameCondition 		ENUM('EXCELLENT','VERY GOOD','GOOD','FAIR','BAD'),		#	Game's condition
 	 MinPlayers 	INT DEFAULT 2,												#	Minimum number of players to be able to play a proper game
 	 MaxPlayers 	INT DEFAULT 4,												#	Maximum number of players to be able to play a proper game
-	 AveGameLength 	VARCHAR(32),												#	Average length of the game
+	 MinGameLength 	VARCHAR(16),												#	Minimum length of the game
+     MaxGameLength 	VARCHAR(16),												#	Maximum length of the game
 	 Notes 			VARCHAR(256) DEFAULT 'N/A'									#	Missing pieces, damage, etc. 
 );
 
@@ -53,9 +54,7 @@ CREATE TABLE  Book  (
 	 BookID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,					#	PK for Book SubType Table
 	 BookItemID 	INT UNIQUE NOT NULL,										#	FK from Item Table
 	 BookName 		VARCHAR(256) NOT NULL,										#	Name of the book
-	 BookGenre 		INT DEFAULT NULL,											#	FK from Genre Table - Default is NULL, which is 'N/A'
-	 BookDescription 	VARCHAR(1024) DEFAULT 'N/A',							#	Short worded description of the book
-	 BookCondition 		ENUM('EXCELLENT','VERY GOOD','GOOD','FAIR','BAD'),		#	Book's condition
+     ISBN			VARCHAR(16) DEFAULT NULL,									#	ISBN of the book
 	 Notes 			VARCHAR(256) DEFAULT 'N/A'									#	Missing pages, damage, etc. 
 );
 
@@ -71,10 +70,29 @@ CREATE TABLE  ItemType  (
 	 TypeName 	VARCHAR(255) NOT NULL									#	Name of the category (should be updated w.r.t. SubTypes of the Item Table)
 );
 
-#	Reference Table for Genres (Family, RPG, TCG, etc.)
+#	Table containing Genres (Family, RPG, TCG, etc.)
 CREATE TABLE  Genre  (
 	 GenreID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT ,			#	PK of the Genre Table
 	 GenreName 		VARCHAR(255) NOT NULL								#	Name of the genre
+);
+
+#	Link Table between Genres and Items
+CREATE TABLE ItemGenre	(
+	GenreID		INT NOT NULL,											#	FK from the Genre Table
+	ItemID 		INT NOT NULL											#	FK from the Item Table
+);
+
+#	Table containing information about Equipment
+CREATE TABLE Equipment	(
+	EquipmentID		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,			#	PK of the Equipment Table
+    EquipmentName	VARCHAR(255) NOT NULL,								#	Name of the Equipment Item
+	Notes			VARCHAR(1024) DEFAULT 'N/A'							#	Extra Notes on the Equipment
+);
+
+#	Link Table between Equipment and Item
+CREATE TABLE ItemEquipment	(
+	ItemID	INT NOT NULL,												#	FK from the Item Table
+    EquipmentID	INT NOT NULL											#	FK from the Equipment Table
 );
 
 #	Table containing member data (raw - no logins yet)
@@ -129,12 +147,13 @@ CREATE TABLE  ClubRank  (
 
 #	Transaction Table for Borrowings (Main Library Table)
 CREATE TABLE  Transactions  (
-	 TransactionID  INT PRIMARY KEY NOT NULL AUTO_INCREMENT,			#	PK for the Transactions Table
-	 BorrowerID 	INT NOT NULL,										#	FK from Users Table - Which member borrowed it?
-	 ApproverID 	INT NOT NULL,										#	FK from Users Table - Which member approved the transaction?
-	 DateBorrowed 	DATETIME NOT NULL,									#	Date which the item was borrowed
-	 ReturnConfirmerID 	INT DEFAULT NULL,								#	FK from Users Table - Which member confirmed the item return? (default NULL, as it may have not been returned)
-	 DateReturned 	DATETIME DEFAULT NULL								#	Date which item was returned (default NULL, as it may have not been returned)
+	 TransactionID  INT PRIMARY KEY NOT NULL AUTO_INCREMENT,					#	PK for the Transactions Table
+	 BorrowerID 	INT NOT NULL,												#	FK from Users Table - Which member borrowed it?
+	 ApproverID 	INT NOT NULL,												#	FK from Users Table - Which member approved the transaction?
+	 DateBorrowed 	DATETIME NOT NULL,											#	Date which the item was borrowed
+     DueDate		DATETIME NOT NULL, 											#	Date when the item is due to be returned
+	 ReturnConfirmerID 	INT DEFAULT NULL,										#	FK from Users Table - Which member confirmed the item return? (default NULL, as it may have not been returned)
+     DateReturned 	DATETIME DEFAULT NULL										#	Date which item was returned (default NULL, as it may have not been returned)
 );
 
 #	Table for Tracking Item Borrowings
@@ -208,15 +227,25 @@ ALTER TABLE  Item  ADD CONSTRAINT  FK_ItemType
 ALTER TABLE  Item  ADD CONSTRAINT  FK_Collection 
 	FOREIGN KEY ( Collection ) REFERENCES Collection( CollectionID )
     ON UPDATE CASCADE;
+    
+#	Link Item to Genre
+ALTER TABLE  ItemGenre ADD CONSTRAINT FK_ItemItemGenre
+	FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
+    ON UPDATE CASCADE ON DELETE CASCADE;
+    
+ALTER TABLE  ItemGenre ADD CONSTRAINT FK_ItemGenreGenre
+	FOREIGN KEY	(GenreID) REFERENCES Genre(GenreID)
+    ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE  Game  ADD CONSTRAINT  FK_GameGenre 
-	FOREIGN KEY ( GameGenre ) REFERENCES Genre( GenreID )
-    ON UPDATE CASCADE;
 
-ALTER TABLE  Book  ADD CONSTRAINT  FK_BookGenre 
-	FOREIGN KEY ( BookGenre ) REFERENCES Genre( GenreID )
-    ON UPDATE CASCADE;
-
+#	Link Item to Equipment
+ALTER TABLE  ItemEquipment ADD CONSTRAINT FK_ItemItemEquipment
+	FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
+    ON UPDATE CASCADE ON DELETE CASCADE;
+    
+ALTER TABLE  ItemEquipment ADD CONSTRAINT FK_ItemEquipmentEquipment
+	FOREIGN KEY	(EquipmentID) REFERENCES Equipment(EquipmentID)
+    ON UPDATE CASCADE ON DELETE CASCADE;    
 
 #	Link Members to the Ranks
 ALTER TABLE  ClubMember  ADD CONSTRAINT  FK_Rank 
@@ -313,7 +342,7 @@ INSERT INTO MemberInterest VALUES (4,4);
 	==========================================================
 */
 
-#Which Members have which interests?
+/*Which Members have which interests?
 SELECT ClubMember.MemberID, FirstName, Surname, InterestName 
 FROM ClubMember JOIN MemberInterest ON (ClubMember.MemberID = MemberInterest.MemberID)
 				JOIN Interest ON (MemberInterest.InterestID = Interest.InterestID)
@@ -323,6 +352,5 @@ ORDER BY ClubMember.MemberID;
 SELECT ClubMember.MemberID, FirstName, Surname, RankName
 FROM ClubMember JOIN ClubRank ON (ClubMember.MemberRank = ClubRank.RankID )
 ORDER BY ClubMember.MemberID;
-
 
 
