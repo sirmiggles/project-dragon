@@ -22,7 +22,7 @@ CREATE DATABASE IF NOT EXISTS unigames;
 USE  unigames;
 DROP TABLE IF EXISTS
 	Loan, ItemTag, Game, Book, CardGame, Miscellaneous, ItemGenre, ItemEquipment, MemberInterest,
-    Transactions, Genre, Equipment, Tag, Interest, Reservations, Item,
+    ItemMechanic, Mechanic, Transactions, Genre, Equipment, Tag, Interest, Reservations, Item,
     ItemType, NonMember, ClubMember, ClubRank, Collection, Users
 ;
 
@@ -69,7 +69,7 @@ CREATE TABLE Miscellaneous	(
     MiscItemID	INT UNIQUE NOT NULL												#	FK from the Item Table
 );
 
-#	Reference Table for the Collection an Item belongs in
+#	Reference Table for the Collection an Item belongs to
 CREATE TABLE  Collection  (
 	 CollectionID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,				#	PK for Collection Table					
 	 CollectionName 	VARCHAR(32) NOT NULL									#	Name of the collection
@@ -93,6 +93,19 @@ CREATE TABLE ItemGenre	(
 	ItemID 		INT NOT NULL											#	FK from the Item Table
 );
 
+#	Table containing names of various (game) mechanics of an Item
+CREATE TABLE  Mechanic  (
+	MechanicID				INT PRIMARY KEY NOT NULL AUTO_INCREMENT,				#	PK for the Mechanics Table
+    MechanicName			VARCHAR(255) NOT NULL,									#	Name of the Mechanic
+    MechanicDescription		VARCHAR(1024) NOT NULL									#	Brief description of what the mechanic entails
+);
+
+#	Link Table between Item and Mechanic
+CREATE TABLE  ItemMechanic  (
+	ItemID 			INT NOT NULL,												#	FK from the Item Table	
+	MechanicID		INT NOT NULL												#	FK from the Mechanic Table					
+);
+
 #	Table containing information about Equipment
 CREATE TABLE Equipment	(
 	EquipmentID		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,			#	PK of the Equipment Table
@@ -102,8 +115,8 @@ CREATE TABLE Equipment	(
 
 #	Link Table between Equipment and Item
 CREATE TABLE ItemEquipment	(
-	ItemID	INT NOT NULL,												#	FK from the Item Table
-    EquipmentID	INT NOT NULL											#	FK from the Equipment Table
+	ItemID			INT NOT NULL,												#	FK from the Item Table
+    EquipmentID		INT NOT NULL											#	FK from the Equipment Table
 );
 
 #	Table containing member data (raw - no logins yet)
@@ -257,6 +270,16 @@ ALTER TABLE  ItemGenre ADD CONSTRAINT FK_ItemGenreGenre
 	FOREIGN KEY	(GenreID) REFERENCES Genre(GenreID)
     ON UPDATE CASCADE ON DELETE CASCADE;
 
+
+#	Link Item to Mechanic
+ALTER TABLE  ItemMechanic ADD CONSTRAINT FK_ItemItemMechanic
+	FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
+    ON UPDATE CASCADE ON DELETE CASCADE;
+    
+ALTER TABLE  ItemMechanic ADD CONSTRAINT FK_ItemMechanicMechanic
+	FOREIGN KEY	(MechanicID) REFERENCES Mechanic(MechanicID)
+    ON UPDATE CASCADE ON DELETE CASCADE;
+    
 
 #	Link Item to Equipment
 ALTER TABLE  ItemEquipment ADD CONSTRAINT FK_ItemItemEquipment
