@@ -71,6 +71,9 @@ WSGI_APPLICATION = 'dragon.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+use_mysql = False
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -79,6 +82,11 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306'
+    }
+} if use_mysql else {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'dragon.sqlite3'
     }
 }
 
