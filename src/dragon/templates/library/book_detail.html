@@ -1,0 +1,29 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - {{ book.name }}{% endblock %}
+
+{% block content %}
+    <h3>Name</h3>
+    <p>{{ book.name }}</p>
+    <h3>Description</h3>
+    {% if book.description != '' %}
+
+        <p>{{ book.description }}</p>
+    {% else %}
+        <p>No description given</p>
+    {% endif %}
+
+    <h3>Notes</h3>
+    {% if book.notes != '' %}
+
+        <p>{{ book.notes }}</p>
+    {% else %}
+        <p>No notes given</p>
+    {% endif %}
+
+    <h3>Delete</h3>
+    <form action="{% url 'library:remove_book' book.id %}" method="post">
+        <input type="submit" value="!Delete Book!">
+        {% csrf_token %}
+    </form>
+{% endblock %}

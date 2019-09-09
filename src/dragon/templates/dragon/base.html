@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Unigames{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'dragon/style.css' %}">
+</head>
+<body>
+
+{# bar at top #}
+<div id="topbar">
+    <a href="/">
+        <span id="logo">
+            <img src="{% static 'dragon/bi-nigames-banner3.png' %}" width="350" height="130" alt="Unigames" border="0">
+        </span>
+    </a>
+</div>
+
+{% block menu %}
+<div id="menucontainer">
+    <div id="menu">
+        <a href="/">Home</a><br>
+        <a href="/faq/">FAQ</a><br>
+        <a href="/library/">The Library</a><br>
+        <a href="/admin">Admin</a><br>
+        <a href="http://webcam.ucc.asn.au/">Webcam</a><br>
+    </div>
+    <div id="menubottom"></div>
+</div>
+{% endblock %}
+
+<div id="bodytext">
+    {% block content %}{% endblock %}
+</div>
+
+<div id="footer">
+    <p> Not the real Unigames site</p>
+</div>
+
+</body>
+</html>
