@@ -18,10 +18,10 @@ def add_book(request: HttpRequest) -> HttpResponse:
     book = Book.create(name=request.POST['name'])
     if book.name != '':
         book.save()
-    return HttpResponseRedirect('/library')
+    return HttpResponseRedirect('/library/')
 
 
 def remove_book(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
     book.delete()
-    return HttpResponseRedirect('/library')
+    return HttpResponseRedirect('/library/')
