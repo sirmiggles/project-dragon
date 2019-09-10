@@ -3,29 +3,26 @@
 {% block title %}{{ block.super }} - Library{% endblock %}
 
 {% block content %}
-    <h1>Library</h1>
+<h1>Library</h1>
 
-    <h3>Items</h3>
-    <table style="width:100%">
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-        </tr>
-        {% for book in books %}
-            <tr>
-                <td><a href="{% url 'library:book_detail' book.id %}">{{ book.name }}</a></td>
-                <td>book</td>
-            </tr>
-        {% endfor %}
+<h3>Items</h3>
+<table style="width:100%">
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+  </tr>
+  {% for book in books %}
+  <tr>
+    <td><a href="{% url 'library:book_detail' book.id %}">{{ book.name }}</a></td>
+    <td>book</td>
+  </tr>
+  {% endfor %}
 
-    </table>
+</table>
 
-    <h1>Add Book</h1>
-    <form action="{% url 'library:add_book' %}" method="post">
-        Name:<br>
-        <input type="text" name="name"><br>
-        <input type="submit" value="Add Book">
-        {% csrf_token %}
-    </form>
+<h1>Add Book</h1>
+
+<a href="{% url 'library:book_form' %}">Add Book</a>
+
 {% endblock %}
 

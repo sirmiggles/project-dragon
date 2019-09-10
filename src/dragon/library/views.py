@@ -13,9 +13,13 @@ def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
     return render(request, 'library/book_detail.html', {'book': book})
 
+def book_form(request: HttpRequest) -> HttpResponse:
+    return render(request, 'library/book_form.html')
+
 
 def add_book(request: HttpRequest) -> HttpResponse:
-    book = Book.create(name=request.POST['name'])
+    book = Book(name = request.POST['name'], description=request.POST['description'])
+    #book = Book.create(name=request.POST['name'])
     if book.name != '':
         book.save()
     return HttpResponseRedirect('/library/')
