@@ -71,14 +71,14 @@ WSGI_APPLICATION = 'dragon.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-use_mysql = False
+use_mysql = True
 
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dragon',
-        'USER': 'kieran',
+        'USER': 'dungeonmaster',
         'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306'
