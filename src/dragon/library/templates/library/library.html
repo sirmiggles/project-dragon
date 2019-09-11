@@ -5,6 +5,11 @@
 {% block content %}
 <h1>Library</h1>
 
+<from method="GET" action="{% url 'library:searchbook' %}">
+    <input name="q" value="{{request.Get.q}} placeholder="search by name or isbn>
+    <button class="btn btn-success" type="submit">search</button>
+</from>
+
 <h3>Items</h3>
 <table style="width:100%">
   <tr>
