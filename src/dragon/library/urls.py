@@ -12,4 +12,5 @@ urlpatterns: List[path] = [
     path('add_book/', views.add_book, name='add_book'),
     path('remove_book/<int:book_id>', views.remove_book, name='remove_book'),
     path('book_form/', views.book_form, name='book_form')
+    path('results/', views.booksearch, name='searchbook')
 ]
