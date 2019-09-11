@@ -1,12 +1,17 @@
 from django.db import models
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=200)
+
+
 class Item(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=1000, blank=True, default='')
     notes = models.CharField(max_length=1000, blank=True, default='')
     available = models.BooleanField(default=True)
+    tags = models.ManyToManyField(Tag)
 
 
 class Book(Item):
@@ -15,19 +20,9 @@ class Book(Item):
     def __str__(self):
         return self.name
 
-    @classmethod
-    def create(cls, name):
-        book = cls(name=name)
-        return book
-
 
 class Game(Item):
     players = models.IntegerField(blank=True, default=1)
 
     def __str__(self):
         return self.name
-
-    @classmethod
-    def create(cls, name):
-        game = cls(name=name)
-        return game
