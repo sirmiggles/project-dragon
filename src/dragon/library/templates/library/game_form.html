@@ -1,15 +1,15 @@
 {% extends "dragon/base.html" %}
 
 <!-- Overrides block called title, title will now be "..... - Add game" -->
-{% block title %} {{block.super}}  - Add Game {% endblock %}
+{% block title %}{{ block.super }} - Add Game{% endblock %}
 
 {% block content %}
-<form action = "{% url 'library:add_game' %}" method = "post">
-    Name: <br>
-    <input type = "text" name = "name"><br>
-    Number of Players: <br>
-    <input type = "text" name = "number of players"><br>
-    <input type = "submit" value="Add Game">
-    {% csrf_token %}
-</form>
+    <form action="{% url 'library:add_game' %}" method="post">
+        <label for="name">Name:</label><br>
+        <input type="text" name="name" id="name"><br>
+        <label for="players">Number of Players:</label><br>
+        <input type="text" name="players" id="players"><br>
+        <input type="submit" value="Add Game">
+        {% csrf_token %}
+    </form>
 {% endblock %}

@@ -1,0 +1,29 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - {{ game.name }}{% endblock %}
+
+{% block content %}
+  <h3>Title</h3>
+  <p>{{ game.name }}</p>
+
+  <h3>Description</h3>
+  {% if game.description != '' %}
+    <p>{{ game.description }}</p>
+  {% else %}
+    <p>No description given</p>
+  {% endif %}
+
+  <h3>Notes</h3>
+  {% if game.notes != '' %}
+
+    <p>{{ game.notes }}</p>
+  {% else %}
+    <p>No notes given</p>
+  {% endif %}
+
+  <h3>Delete</h3>
+  <form action="{% url 'library:remove_game' game.id %}" method="post">
+    <input type="submit" value="!Delete Game!">
+    {% csrf_token %}
+  </form>
+{% endblock %}

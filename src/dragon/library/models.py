@@ -1,38 +1,42 @@
-from django.db import models
+from django.db.models import Model, CharField, AutoField, BooleanField, IntegerField, ManyToManyField
 
 
-class User(models.Model):
-    username = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.username
-
-
-class Tag(models.Model):
-    name = models.CharField(max_length=200)
+class Tag(Model):
+    name = CharField(max_length=200)
 
     def __str__(self):
         return self.name
 
 
-class Item(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200)
-    description = models.CharField(max_length=1000, blank=True, default='')
-    notes = models.CharField(max_length=1000, blank=True, default='')
-    available = models.BooleanField(default=True)
-    tags = models.ManyToManyField(Tag)
+class Item(Model):
+    id = AutoField(primary_key=True)
+    name = CharField(max_length=200)
+    description = CharField(max_length=1000, blank=True, default='')
+    notes = CharField(max_length=1000, blank=True, default='')
+    available = BooleanField(default=True)
+    tags = ManyToManyField(Tag)
+
+    type_choices = ((0, 'book'), (1, 'game'))
+    type = IntegerField(choices=type_choices)
 
 
 class Book(Item):
-    isbn = models.CharField(max_length=16, blank=True, default='')
+    isbn = CharField(max_length=16, blank=True, default='')
 
     def __str__(self):
         return self.name
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.type = 0
 
 
 class Game(Item):
-    players = models.IntegerField(blank=True, default=1)
+    players = IntegerField(blank=True, default=1)
 
     def __str__(self):
         return self.name
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.type = 1

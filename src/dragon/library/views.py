@@ -7,15 +7,10 @@ from .models import Book, Game, Item
 
 class LibraryView(generic.ListView):
     template_name = 'library/library.html'
-    context_object_name = 'books'
+    context_object_name = 'items'
 
     def get_queryset(self):
-        return Book.objects.order_by('name')
-
-
-# def library(request: HttpRequest) -> HttpResponse:
-#     books = Book.objects.all()
-#     return render(request, 'library/library.html', {'books': books})
+        return Item.objects.order_by('name')
 
 
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
@@ -23,14 +18,35 @@ def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
     return render(request, 'library/book_detail.html', {'book': book})
 
 
+def game_detail(request: HttpRequest, game_id: int) -> HttpResponse:
+    game = get_object_or_404(Game, pk=game_id)
+    return render(request, 'library/game_detail.html', {'game': game})
+
+
 def book_form(request: HttpRequest) -> HttpResponse:
     return render(request, 'library/book_form.html')
 
 
+def game_form(request: HttpRequest):
+    return render(request, 'library/game_form.html')
+
+
 def add_book(request: HttpRequest) -> HttpResponse:
-    book = Book(name=request.POST['name'], description=request.POST['description'], notes=request.POST['notes'])
+    name = request.POST['name']
+    description = request.POST['description']
+    notes = request.POST['notes']
+    book = Book(name=name, description=description, notes=notes)
     if book.name != '':
         book.save()
+    return HttpResponseRedirect('/library/')
+
+
+def add_game(request: HttpRequest):
+    name = request.POST['name']
+    num_players = int(request.POST["players"])
+    game = Game(name=name, players=num_players)
+    if game.name != '':
+        game.save()
     return HttpResponseRedirect('/library/')
 
 
@@ -40,14 +56,7 @@ def remove_book(request: HttpRequest, book_id: int) -> HttpResponse:
     return HttpResponseRedirect('/library/')
 
 
-def game_form(request: HttpRequest):
-    return render(request, 'library/game_form.html')
-
-
-def add_game(request: HttpRequest):
-    name = request.POST['name']
-    num_players = request.POST["number of players"]
-    game = Game(name=name, players=num_players)  # .POST[......] this was in the game_form
-    if game.name != '':
-        game.save()
+def remove_game(request: HttpRequest, game_id: int) -> HttpResponse:
+    game = get_object_or_404(Game, pk=game_id)
+    game.delete()
     return HttpResponseRedirect('/library/')

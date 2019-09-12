@@ -1,0 +1,16 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - Members{% endblock %}
+
+{% block content %}
+  <h1>Members</h1>
+  <table style="width:100%">
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+    </tr>
+    {% for user in users %}
+
+    {% endfor %}
+  </table>
+{% endblock %}
