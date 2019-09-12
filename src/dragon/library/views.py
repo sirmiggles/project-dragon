@@ -1,12 +1,21 @@
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.views import generic
 
 from .models import Book, Game, Item
 
 
-def library(request: HttpRequest) -> HttpResponse:
-    books = Book.objects.all()
-    return render(request, 'library/library.html', {'books': books})
+class LibraryView(generic.ListView):
+    template_name = 'library/library.html'
+    context_object_name = 'books'
+
+    def get_queryset(self):
+        return Book.objects.order_by('name')
+
+
+# def library(request: HttpRequest) -> HttpResponse:
+#     books = Book.objects.all()
+#     return render(request, 'library/library.html', {'books': books})
 
 
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
