@@ -19,6 +19,15 @@ class Item(Model):
     type_choices = ((0, 'book'), (1, 'game'))
     type = IntegerField(choices=type_choices)
 
+    condition_choices = (
+        (0, 'excellent'),
+        (1, 'very good'),
+        (2, 'good'),
+        (3, 'fair'),
+        (4, 'bad')
+    )
+    condition = IntegerField(choices=condition_choices)
+
 
 class Book(Item):
     isbn = CharField(max_length=16, blank=True, default='')
