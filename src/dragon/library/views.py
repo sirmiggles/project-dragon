@@ -33,19 +33,19 @@ def game_form(request: HttpRequest):
 
 def add_book(request: HttpRequest) -> HttpResponse:
     name = request.POST['name']
-    description = request.POST['description']
-    notes = request.POST['notes']
-    book = Book(name=name, description=description, notes=notes)
-    if book.name != '':
+    if name != '':
+        description = request.POST['description']
+        notes = request.POST['notes']
+        book = Book(name=name, description=description, notes=notes)
         book.save()
     return HttpResponseRedirect('/library/')
 
 
 def add_game(request: HttpRequest):
     name = request.POST['name']
-    num_players = int(request.POST["players"])
-    game = Game(name=name, players=num_players)
-    if game.name != '':
+    if name != '':
+        num_players = int(request.POST["players"])
+        game = Game(name=name, players=num_players)
         game.save()
     return HttpResponseRedirect('/library/')
 

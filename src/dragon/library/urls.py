@@ -1,11 +1,10 @@
-from typing import List
 from django.urls import path
 from . import views
 
 app_name = 'library'
 
-urlpatterns: List[path] = [
-    path('', views.LibraryView.as_view(), name='dragon'),
+urlpatterns = [
+    path('', views.LibraryView.as_view(), name='library'),
     path('book/<int:book_id>/', views.book_detail, name='book_detail'),
     path('game/<int:game_id>', views.game_detail, name='game_detail'),
     path('add_book/', views.add_book, name='add_book'),

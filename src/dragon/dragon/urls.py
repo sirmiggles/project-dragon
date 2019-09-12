@@ -23,5 +23,5 @@ urlpatterns: List[path] = [
     path('library/', include('library.urls')),
     path('', views.index, name='index'), #'' = homepage
     path('admin/', admin.site.urls),
-    path('faq/', views.faq, name='faq')
+    path('members/', include('members.urls'))
 ]
