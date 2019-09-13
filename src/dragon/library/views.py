@@ -36,7 +36,8 @@ def add_book(request: HttpRequest) -> HttpResponse:
     if name != '':
         description = request.POST['description']
         notes = request.POST['notes']
-        book = Book(name=name, description=description, notes=notes)
+        condition = request.POST['condition']
+        book = Book(name=name, description=description, notes=notes, condition=condition)
         book.save()
     return HttpResponseRedirect('/library/')
 
@@ -45,7 +46,8 @@ def add_game(request: HttpRequest):
     name = request.POST['name']
     if name != '':
         num_players = int(request.POST["players"])
-        game = Game(name=name, players=num_players)
+        condition = request.POST['condition']
+        game = Game(name=name, players=num_players, condition=condition)
         game.save()
     return HttpResponseRedirect('/library/')
 
