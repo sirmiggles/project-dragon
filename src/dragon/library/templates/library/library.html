@@ -10,6 +10,7 @@
     <tr>
       <th>Name</th>
       <th>ISBN</th>
+      <th>Availability</th>
     </tr>
     {% for book in books %}
       <tr>
@@ -18,6 +19,9 @@
         </a></td>
         <td>
           {{ book.isbn }}
+        </td>
+        <td>
+          {{ book.available }}
         </td>
       </tr>
     {% endfor %}
@@ -29,15 +33,37 @@
   <table style="width:100%">
     <tr>
       <th>Name</th>
+      <th>Players</th>
+      <th>Availability</th>
     </tr>
     {% for game in games %}
       <tr>
         <td><a href="{% url 'library:game_detail' game.id %}">
           {{ game.name }}
         </a></td>
+        <td>
+          {{ game.players }}
+        </td>
+        <td>
+          {{ game.available}}
+        </td>
       </tr>
     {% endfor %}
 
+  </table>
+
+  <h3>List of Tags</h3>
+  <table>
+    <tr>
+      <th>Tag Name</th>
+    </tr>
+    {% for tag in tags %}
+      <tr>
+        <td>
+          {{ tag.name }}
+        </td>
+      </tr>
+    {% endfor %}
   </table>
 
 
@@ -46,7 +72,9 @@
   <h1>Add Items</h1>
 
   <a href="{% url 'library:book_form' %}">Add Book</a><br>
-  <a href="{% url 'library:game_form' %}">Add Game</a>
+  <a href="{% url 'library:game_form' %}">Add Game</a><br>
+  <a href="{% url 'library:tag_form' %}">Manage Tags</a>
+
 
 {% endblock %}
 

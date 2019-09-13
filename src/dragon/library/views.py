@@ -2,13 +2,14 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 
-from .models import Book, Game, Item
+from .models import Book, Game, Tag
 
 
 def library_view(request: HttpRequest) -> HttpResponse:
     books = Book.objects.order_by('name')
     games = Game.objects.order_by('name')
-    return render(request, 'library/library.html', {'books': books, 'games': games})
+    tags = Tag.objects.order_by('name')
+    return render(request, 'library/library.html', {'books': books, 'games': games, 'tags': tags})
 
 
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
@@ -27,6 +28,10 @@ def book_form(request: HttpRequest) -> HttpResponse:
 
 def game_form(request: HttpRequest):
     return render(request, 'library/game_form.html')
+
+
+def tag_form(request: HttpRequest):
+    return render(request, 'library/tag_form.html')
 
 
 def add_book(request: HttpRequest) -> HttpResponse:
@@ -48,6 +53,14 @@ def add_game(request: HttpRequest):
         condition = request.POST['condition']
         game = Game(name=name, players=num_players, condition=condition)
         game.save()
+    return HttpResponseRedirect('/library/')
+
+
+def add_tag(request: HttpRequest):
+    name = request.POST['name']
+    if name != '':
+        tag = Tag(name=name)
+        tag.save()
     return HttpResponseRedirect('/library/')
 
 
