@@ -5,24 +5,42 @@
 {% block content %}
   <h1>Library</h1>
 
-  <h3>Items</h3>
+  <h3>Books</h3>
   <table style="width:100%">
     <tr>
       <th>Name</th>
-      <th>Type</th>
     </tr>
     {% for item in items %}
+      {% if item.type == 0 %}
       <tr>
-        <td><a {% if item.type == 0 %}
-          href="{% url 'library:book_detail' item.id %}"
-        {% else %}
-          href="{% url 'library:game_detail' item.id %}"
-        {% endif %}>{{ item.name }}</a></td>
-        <td>{{item.get_type_display}}</td>
+        <td><a href="{% url 'library:book_detail' item.id %}">
+          {{ item.name }}
+        </a></td>
       </tr>
+      {% endif %}
     {% endfor %}
 
   </table>
+
+  <h3>Games</h3>
+  <table style="width:100%">
+    <tr>
+      <th>Name</th>
+    </tr>
+    {% for item in items %}
+       {% if item.type == 1 %}
+      <tr>
+        <td><a href="{% url 'library:game_detail' item.id %}">
+          {{ item.name }}
+        </a></td>
+      </tr>
+      {% endif %}
+    {% endfor %}
+
+  </table>
+
+
+
 
   <h1>Add Items</h1>
 
