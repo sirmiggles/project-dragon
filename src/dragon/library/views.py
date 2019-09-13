@@ -5,12 +5,10 @@ from django.views import generic
 from .models import Book, Game, Item
 
 
-class LibraryView(generic.ListView):
-    template_name = 'library/library.html'
-    context_object_name = 'items'
-
-    def get_queryset(self):
-        return Item.objects.order_by('name')
+def library_view(request: HttpRequest) -> HttpResponse:
+    books = Book.objects.order_by('name')
+    games = Game.objects.order_by('name')
+    return render(request, 'library/library.html', {'books': books, 'games': games})
 
 
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
@@ -37,7 +35,8 @@ def add_book(request: HttpRequest) -> HttpResponse:
         description = request.POST['description']
         notes = request.POST['notes']
         condition = request.POST['condition']
-        book = Book(name=name, description=description, notes=notes, condition=condition)
+        isbn = request.POST['isbn']
+        book = Book(name=name, description=description, notes=notes, condition=condition, isbn=isbn)
         book.save()
     return HttpResponseRedirect('/library/')
 
