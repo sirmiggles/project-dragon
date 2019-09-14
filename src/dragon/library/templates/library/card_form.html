@@ -1,0 +1,31 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{block.super}} - Add Card{% endblock %}
+
+{% block content %}
+<h1>Add Card Game</h1>
+<form action="{% url 'library:add_card' %}" method="post">
+  <label>Name:</label>
+    <input type="text" name="name">
+  <br>
+  <label>Deck Type:</label>
+    <input type="text" name="deck_type">
+  <br>
+  <label>Description:</label>
+    <textarea description ="description"></textarea>
+  <br>
+
+  <label>Condition:</label>
+    <select name="condition">
+      <option value="0">Excellent</option>
+      <option value="1">Very good</option>
+      <option value="2">Good</option>
+      <option value="3">Fair</option>
+      <option value="4">Bad</option>
+    </select>
+  <br>
+
+  <input type="submit" value="Add Card Game">
+  {% csrf_token %}
+</form>
+{% endblock %}
