@@ -5,6 +5,14 @@
 {% block content %}
     <h3>Title</h3>
     <p>{{ book.name }}</p>
+
+    <h3>Attributes</h3>
+    <p>
+        ISBN: {{ book.isbn }}<br>
+        Condition: {{ book.get_condition_display }}
+    </p>
+
+
     <h3>Description</h3>
     {% if book.description != '' %}
 
@@ -13,7 +21,7 @@
         <p>No description given</p>
     {% endif %}
 
-    <h3>Notes</h3>
+    <h3>Additional Notes</h3>
     {% if book.notes != '' %}
 
         <p>{{ book.notes }}</p>

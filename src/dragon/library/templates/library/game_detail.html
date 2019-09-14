@@ -6,6 +6,13 @@
   <h3>Title</h3>
   <p>{{ game.name }}</p>
 
+  <h3>Attributes</h3>
+    <p>
+      Number of Players: {{ game.minplayers }}-{{ game.maxplayers }}<br>
+      Game Duration (minutes): {{ game.mingamelength }}-{{ game.maxgamelength }}<br>
+      Condition: {{ game.get_condition_display }}
+    </p>
+
   <h3>Description</h3>
   {% if game.description != '' %}
     <p>{{ game.description }}</p>

@@ -57,9 +57,13 @@ def add_book(request: HttpRequest) -> HttpResponse:
 def add_game(request: HttpRequest):
     name = request.POST['name']
     if name != '':
-        num_players = int(request.POST["players"])
+        minplayers = int(request.POST["minplayers"])
+        maxplayers = int(request.POST["maxplayers"])
+        mingamelength = request.POST["mingamelength"]
+        maxgamelength = request.POST["maxgamelength"]
         condition = request.POST['condition']
-        game = Game(name=name, players=num_players, condition=condition)
+        game = Game(name=name, maxplayers=maxplayers, minplayers=minplayers, condition=condition,
+                    mingamelength=mingamelength, maxgamelength=maxgamelength)
         game.save()
     return HttpResponseRedirect('/library/')
 

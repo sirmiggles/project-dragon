@@ -12,6 +12,13 @@ class BookForm(forms.ModelForm):
             'isbn',
             'condition'
         ]
+        labels = {
+            'name': 'Name',
+            'description': 'Description',
+            'notes': 'Notes',
+            'isbn': 'ISBN',
+            'condition': 'Condition'
+        }
 
 
 class GameForm(forms.ModelForm):
@@ -21,6 +28,19 @@ class GameForm(forms.ModelForm):
             'name',
             'description',
             'notes',
-            'players',
+            'minplayers',
+            'maxplayers',
+            'mingamelength',
+            'maxgamelength',
             'condition'
         ]
+        labels = {
+            'name': 'Name',
+            'description': 'Description',
+            'notes': 'Notes',
+            'minplayers': 'Min. Players',
+            'maxplayers': 'Max. Players',
+            'mingamelength': 'Min. Game Length (minutes)',
+            'maxgamelength': 'Max. Game Length (minutes)',
+            'condition': 'Condition'
+        }
