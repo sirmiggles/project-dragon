@@ -1,3 +1,4 @@
+
 from django.db.models import Model, CharField, TextField, AutoField, BooleanField, IntegerField, ManyToManyField
 
 
@@ -49,4 +50,14 @@ class Game(Item):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.type = 1
+
+
+class Card(Item):
+    deck_type = CharField(max_length=16, blank=True, default='N/A')
+
+    def __str__(self):
+        return self.name
+
+    def __init__(self, *args, **kwargs):
         self.type = 1

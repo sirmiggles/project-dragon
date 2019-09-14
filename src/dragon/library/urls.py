@@ -12,7 +12,9 @@ urlpatterns = [
     path('remove_game/<int:game_id>/', views.remove_game, name='remove_game'),
     path('book_form/', views.book_form, name='book_form'),
     path('game_form/', views.game_form, name='game_form'),
+    path('card_form/', views.card_form, name='card_form'),
     path('add_game/', views.add_game, name='add_game'),
+    path('add_card/', views.add_card, name='add_card'),
     path('tag_form', views.tag_form, name='tag_form'),
     path('add_tag', views.add_tag, name='add_tag')
 ]

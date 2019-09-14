@@ -52,6 +52,29 @@
 
   </table>
 
+<h3>Cards</h3>
+  <table style="width:100%">
+    <tr>
+      <th>Name</th>
+      <th>Deck Type</th>
+      <th>Availability</th>
+    </tr>
+    {% for card in cards %}
+      <tr>
+        <td><a href="{% url 'library:card_detail' card.id %}">
+          {{ card.name }}
+        </a></td>
+        <td>
+          {card.deck_type}}
+        </td>
+        <td>
+          {{ card.available}}
+        </td>
+      </tr>
+    {% endfor %}
+
+  </table>
+
   <h3>List of Tags</h3>
   <table>
     <tr>
@@ -73,6 +96,7 @@
 
   <a href="{% url 'library:book_form' %}">Add Book</a><br>
   <a href="{% url 'library:game_form' %}">Add Game</a><br>
+  <a href="{% url 'library:card_form' %}">Add Card</a><br>
   <a href="{% url 'library:tag_form' %}">Manage Tags</a>
 
 

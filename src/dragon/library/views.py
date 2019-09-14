@@ -2,7 +2,7 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
 from .forms import BookForm, GameForm
-from .models import Book, Game, Tag
+from .models import Book, Game, Tag, Card
 
 
 def library_view(request: HttpRequest) -> HttpResponse:
@@ -38,6 +38,14 @@ def game_form(request):
     return render(request, "library/game_form.html", {'form': form})
 
 
+def card_form(request):
+    form = GameForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+
+    return render(request, "library/card_form.html", {'form': form})
+
+
 def tag_form(request: HttpRequest):
     return render(request, 'library/tag_form.html')
 
@@ -62,6 +70,16 @@ def add_game(request: HttpRequest):
         condition = request.POST['condition']
         game = Game(name=name, maxplayers=maxplayers, minplayers=minplayers, condition=condition)
         game.save()
+    return HttpResponseRedirect('/library/')
+
+
+def add_card(request: HttpRequest):
+    name = request.POST['name']
+    if name != '':
+        deck_type = request.POST['deck_type']
+        description = request.POST['description']
+        condition = request.POST['condition']
+        card = Card(name=name, deck_type=deck_type, description=description, condition=condition)
     return HttpResponseRedirect('/library/')
 
 
