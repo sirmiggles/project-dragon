@@ -3,26 +3,10 @@
 {% block title %}{{ block.super }} - Add Book{% endblock %}
 
 {% block content %}
-  <h1>Add Book</h1>
-  <form action="{% url 'library:add_book' %}" method="post">
-    <label for="name">Name:</label>
-    <input type="text" name="name" id="name"><br>
-    <label for="description">Description:</label>
-    <input type="text" name="description" id="description"><br>
-    <label for="notes">Notes:</label>
-    <input type="text" name="notes" id="notes"><br>
-    <label for="isbn">ISBN</label>
-    <input type="text" name="isbn" id="isbn"><br>
-    <label for="condition">Condition:</label>
-    <select name="condition" id="condition">
-      <option value="0">Excellent</option>
-      <option value="1">Very good</option>
-      <option value="2">Good</option>
-      <option value="3">Fair</option>
-      <option value="4">Bad</option>
-    </select><br>
-
-    <input type="submit" value="Add Book">
-    {% csrf_token %}
-  </form>
+<h1>Add Book</h1>
+<form action="{% url 'library:add_book' %}" method="post">
+  {{ form.as_p }}
+  <input type="submit" value="Add Book">
+  {% csrf_token %}
+</form>
 {% endblock %}
