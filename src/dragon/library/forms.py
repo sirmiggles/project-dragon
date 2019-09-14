@@ -30,6 +30,8 @@ class GameForm(forms.ModelForm):
             'notes',
             'minplayers',
             'maxplayers',
+            'mingamelength',
+            'maxgamelength',
             'condition'
         ]
         labels = {
@@ -38,5 +40,7 @@ class GameForm(forms.ModelForm):
             'notes': 'Notes',
             'minplayers': 'Min. Players',
             'maxplayers': 'Max. Players',
+            'mingamelength': 'Min. Game Length (in minutes)',
+            'maxgamelength': 'Max. Game Length (in minutes)',
             'condition': 'Condition'
         }
