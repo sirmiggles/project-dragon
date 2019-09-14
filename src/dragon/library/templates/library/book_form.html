@@ -5,28 +5,7 @@
 {% block content %}
 <h1>Add Book</h1>
 <form action="{% url 'library:add_book' %}" method="post">
-  <label>Name:</label>
-    <input type="text" name="name">
-  <br>
-  <label>Description:</label>
-    <input type="text" name="description">
-  <br>
-  <label>Notes:</label>
-    <input type="text" name="notes">
-  <br>
-  <label>ISBN</label>
-    <input type="text" name="isbn">
-  <br>
-  <label>Condition:</label>
-    <select name="condition">
-      <option value="0">Excellent</option>
-      <option value="1">Very good</option>
-      <option value="2">Good</option>
-      <option value="3">Fair</option>
-      <option value="4">Bad</option>
-    </select>
-  <br>
-
+  {{ form.as_p }}
   <input type="submit" value="Add Book">
   {% csrf_token %}
 </form>

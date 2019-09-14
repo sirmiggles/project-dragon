@@ -1,7 +1,7 @@
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.views import generic
 
+from .forms import BookForm, GameForm
 from .models import Book, Game, Tag
 
 
@@ -22,12 +22,20 @@ def game_detail(request: HttpRequest, game_id: int) -> HttpResponse:
     return render(request, 'library/game_detail.html', {'game': game})
 
 
-def book_form(request: HttpRequest) -> HttpResponse:
-    return render(request, 'library/book_form.html')
+def book_form(request):
+    form = BookForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+
+    return render(request, "library/book_form.html", {'form': form})
 
 
-def game_form(request: HttpRequest):
-    return render(request, 'library/game_form.html')
+def game_form(request):
+    form = GameForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+
+    return render(request, "library/game_form.html", {'form': form})
 
 
 def tag_form(request: HttpRequest):
