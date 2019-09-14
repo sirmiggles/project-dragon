@@ -40,7 +40,7 @@ class GameForm(forms.ModelForm):
             'notes': 'Notes',
             'minplayers': 'Min. Players',
             'maxplayers': 'Max. Players',
-            'mingamelength': 'Min. Game Length (in minutes)',
-            'maxgamelength': 'Max. Game Length (in minutes)',
+            'mingamelength': 'Min. Game Length (minutes)',
+            'maxgamelength': 'Max. Game Length (minutes)',
             'condition': 'Condition'
         }
