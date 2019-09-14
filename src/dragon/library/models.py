@@ -17,7 +17,7 @@ class Item(Model):
     available = BooleanField(default=True)
     tags = ManyToManyField(Tag)
 
-    type_choices = ((0, 'book'), (1, 'game'))
+    type_choices = ((0, 'book'), (1, 'game'), (2, 'card'))
     type = IntegerField(choices=type_choices)
 
     condition_choices = (
@@ -60,4 +60,5 @@ class Card(Item):
         return self.name
 
     def __init__(self, *args, **kwargs):
-        self.type = 1
+        super().__init__(*args, **kwargs)
+        self.type = 2
