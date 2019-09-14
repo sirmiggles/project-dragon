@@ -21,6 +21,7 @@ class GameForm(forms.ModelForm):
             'name',
             'description',
             'notes',
-            'players',
+            'minplayers',
+            'maxplayers',
             'condition'
         ]
