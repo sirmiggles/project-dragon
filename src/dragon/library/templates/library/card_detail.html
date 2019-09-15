@@ -18,4 +18,9 @@
     <input type="submit" value="!Delete Card Game!">
     {% csrf_token %}
   </form>
+<h3>Borrow</h3>
+<form action="{% url 'library:borrow_card' card.id %}" method=""post>
+    <input type = "submit" value="Borrow this card game">
+    {% csrf_token %}
+</form>
 {% endblock %}

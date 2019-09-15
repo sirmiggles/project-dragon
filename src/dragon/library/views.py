@@ -1,8 +1,9 @@
+from django.db.models import BooleanField
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
 from .forms import BookForm, GameForm
-from .models import Book, Game, Tag, Card
+from .models import Book, Game, Tag, Card, Item
 
 
 def library_view(request: HttpRequest) -> HttpResponse:
@@ -110,3 +111,12 @@ def remove_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     card.delete()
     return HttpResponseRedirect('/library/')
+
+
+def borrow_card(request: HttpRequest, card_id: int) -> HttpResponse:
+    card = get_object_or_404(Card, pk=card_id)
+    card.available = False
+    card.save()
+    # Item.available = BooleanField(False)
+    return HttpResponseRedirect('/library/')
+

@@ -18,5 +18,7 @@ urlpatterns = [
     path('add_game/', views.add_game, name='add_game'),
     path('add_card/', views.add_card, name='add_card'),
     path('tag_form', views.tag_form, name='tag_form'),
-    path('add_tag', views.add_tag, name='add_tag')
+    path('add_tag', views.add_tag, name='add_tag'),
+    path('borrow_card/<int:card_id>/', views.borrow_card, name='borrow_card')
+
 ]
