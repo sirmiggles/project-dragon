@@ -46,7 +46,11 @@ def game_form(request):
 
 
 def card_form(request: HttpRequest) -> HttpResponse:
-    return render(request, "library/card_form.html")
+    form = GameForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+
+    return render(request, "library/card_form.html", {'form': form})
 
 
 def tag_form(request: HttpRequest):
