@@ -1,6 +1,5 @@
-from django.db.models import Model, CharField, TextField, AutoField, BooleanField, IntegerField, ManyToManyField,\
-    DurationField
-from datetime import timedelta
+
+from django.db.models import Model, CharField, TextField, AutoField, BooleanField, IntegerField, ManyToManyField
 
 
 class Tag(Model):
@@ -18,7 +17,7 @@ class Item(Model):
     available = BooleanField(default=True)
     tags = ManyToManyField(Tag)
 
-    type_choices = ((0, 'book'), (1, 'game'))
+    type_choices = ((0, 'book'), (1, 'game'), (2, 'card'))
     type = IntegerField(choices=type_choices)
 
     condition_choices = (
@@ -45,8 +44,6 @@ class Book(Item):
 class Game(Item):
     minplayers = IntegerField(blank=True, default=1)
     maxplayers = IntegerField(blank=True, default=8)
-    mingamelength = IntegerField(blank=True, default=1)
-    maxgamelength = IntegerField(blank=True, default=120)
 
     def __str__(self):
         return self.name
@@ -54,3 +51,14 @@ class Game(Item):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.type = 1
+
+
+class Card(Item):
+    deck_type = CharField(max_length=16, blank=True, default='N/A')
+
+    def __str__(self):
+        return self.name
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.type = 2
