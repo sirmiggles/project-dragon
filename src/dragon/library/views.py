@@ -120,6 +120,8 @@ def borrow_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     card.available = False
     card.save()
-    # Item.available = BooleanField(False)
     return HttpResponseRedirect('/library/')
 
+
+def borrowed(request: HttpRequest):
+    return render(request, 'library/borrowed.html')
