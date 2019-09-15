@@ -44,6 +44,8 @@ class Book(Item):
 class Game(Item):
     minplayers = IntegerField(blank=True, default=1)
     maxplayers = IntegerField(blank=True, default=8)
+    mingamelength = IntegerField(blank=True)
+    maxgamelength = IntegerField(blank=True)
 
     def __str__(self):
         return self.name
