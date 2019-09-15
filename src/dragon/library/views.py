@@ -2,7 +2,7 @@ from django.db.models import BooleanField
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
-from .forms import BookForm, GameForm
+from .forms import BookForm, GameForm, CardForm
 from .models import Book, Game, Tag, Card, Item
 
 
@@ -46,7 +46,11 @@ def game_form(request):
 
 
 def card_form(request: HttpRequest) -> HttpResponse:
-    return render(request, "library/card_form.html")
+    form = CardForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+
+    return render(request, "library/card_form.html", {'form': form})
 
 
 def tag_form(request: HttpRequest):

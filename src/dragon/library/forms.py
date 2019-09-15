@@ -1,5 +1,5 @@
 from django import forms
-from .models import Book, Game
+from .models import Book, Game, Card
 
 
 class BookForm(forms.ModelForm):
@@ -43,4 +43,22 @@ class GameForm(forms.ModelForm):
             'mingamelength': 'Min. Game Length (minutes)',
             'maxgamelength': 'Max. Game Length (minutes)',
             'condition': 'Condition'
+        }
+
+class CardForm(forms.ModelForm):
+    class Meta:
+        model = Card
+        fields = [
+            'name',
+            'description',
+            'notes',
+            'condition',
+            'deck_type'
+        ]
+        labels = {
+            'name': 'Name',
+            'description': 'Description',
+            'notes': 'Extra Notes',
+            'condition': 'Condition',
+            'deck_type': 'Deck Type'
         }
