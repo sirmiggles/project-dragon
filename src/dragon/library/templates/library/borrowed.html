@@ -1,0 +1,22 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - Borrowed from UniGames{% endblock %}
+{% block content %}
+
+  <h3>Borrowed Items</h3>
+  <table style="width:100%">
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+    </tr>
+    <tr>
+      <td>
+          {{ Item.name }}
+      </td>
+      <td>
+          {{Item.type}}
+      </td>
+    </tr>
+  </table>
+
+{% endblock %}
