@@ -21,6 +21,8 @@
 {% if card.available == True %}
   <h3>Borrow</h3>
   <form action="{% url 'library:borrow_card' card.id %}" method=""post>
+      <p><input type="checkbox" required name="borrower">As a borrower, I confirm these details.</p>
+      <p><input type="checkbox" required name="gatekeeper">As a Gatekeeper, I confirm this item is out.</p>
       <input type = "submit" value="Borrow this card game">
       {% csrf_token %}
   </form>
