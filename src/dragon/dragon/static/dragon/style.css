@@ -1,7 +1,49 @@
-* {
-    font-family : "Comic Sans MS";
-}
+@import url('https://fonts.googleapis.com/css?family=New+Rocker&display=swap');
 
+/*  The CSS for the main body  */
 body {
     background-color: whitesmoke;
 }
+
+/*  Styling for main header of base page  */
+#page-header {
+    margin: 0;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 2.5rem;
+}
+
+#header-text {
+    font-family: "New Rocker";
+    font-size: 4rem;
+}
+
+/*  Styling for the main navigation bar  */
+nav.bg-custom {
+    background-color: #370aa8;
+}
+
+.navbar-toggler.custom-toggler {
+    border-color: whitesmoke;
+}
+
+.fas.fa-bars {
+    color: whitesmoke;
+}
+
+.nav-item {
+    font-family: "New Rocker";
+    color: whitesmoke;
+    transition: 0.75s;
+    margin-left: 0.8rem;
+}
+
+.nav-item:hover {
+    background-color: #270875;
+    transition: 0.75s;
+}
+
+a.nav-link {
+    color: whitesmoke;
+}
+
