@@ -17,7 +17,7 @@ class Item(Model):
     notes = TextField(max_length=1000, blank=True, default='')
     available = BooleanField(default=True)
     tags = ManyToManyField(Tag)
-    due_date = DateField("Date", default=datetime.date.today)
+    # due_date = DateField("Date", default=datetime.date.today)
 
     type_choices = ((0, 'book'), (1, 'game'), (2, 'card'))
     type = IntegerField(choices=type_choices)

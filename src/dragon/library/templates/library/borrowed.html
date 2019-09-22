@@ -9,7 +9,7 @@
     <tr>
       <th>Name</th>
       <th>Type</th>
-      <th>Due Date</th>
+{#      <th>Due Date</th>#}
     </tr>
     {% for card in cards %}
       {% if card.available == False %}
@@ -18,11 +18,11 @@
                 {{card.name}}
             </td>
             <td>
-                {card.description}
+                {{card.description}}
             </td>
-            <td>
-                {card.due_date}
-            </td>
+{#            <td>#}
+{#                {card.due_date}#}
+{#            </td>#}
         </tr>
         {% endif %}
     {% endfor %}

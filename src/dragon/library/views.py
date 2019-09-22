@@ -14,6 +14,14 @@ def library_view(request: HttpRequest) -> HttpResponse:
     return render(request, 'library/library.html', {'books': books, 'games': games, 'cards': cards, 'tags': tags})
 
 
+# def borrowed_view(request: HttpRequest) -> HttpResponse:
+#     books = Book.objects.order_by('name')
+#     games = Game.objects.order_by('name')
+#     cards = Card.objects.order_by('name')
+#     tags = Tag.objects.order_by('name')
+#     return render(request, 'library/borrowed.html', {'books': books, 'games': games, 'cards': cards, 'tags': tags})
+
+
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
     return render(request, 'library/book_detail.html', {'book': book})
@@ -124,4 +132,9 @@ def borrow_card(request: HttpRequest, card_id: int) -> HttpResponse:
 
 
 def borrowed(request: HttpRequest):
-    return render(request, 'library/borrowed.html')
+    books = Book.objects.order_by('name')
+    games = Game.objects.order_by('name')
+    cards = Card.objects.order_by('name')
+    tags = Tag.objects.order_by('name')
+    return render(request, 'library/borrowed.html', {'books': books, 'games': games, 'cards': cards, 'tags': tags})
+
