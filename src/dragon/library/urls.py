@@ -20,6 +20,5 @@ urlpatterns = [
     path('tag_form', views.tag_form, name='tag_form'),
     path('add_tag', views.add_tag, name='add_tag'),
     path('borrow_card/<int:card_id>/', views.borrow_card, name='borrow_card'),
-    path('borrowed/', views.borrowed, name='borrowed')
-
+    path('borrowed/', views.borrowed, name='borrowed'),
 ]

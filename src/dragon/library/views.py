@@ -1,3 +1,4 @@
+
 from django.db.models import BooleanField
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -12,14 +13,6 @@ def library_view(request: HttpRequest) -> HttpResponse:
     cards = Card.objects.order_by('name')
     tags = Tag.objects.order_by('name')
     return render(request, 'library/library.html', {'books': books, 'games': games, 'cards': cards, 'tags': tags})
-
-
-# def borrowed_view(request: HttpRequest) -> HttpResponse:
-#     books = Book.objects.order_by('name')
-#     games = Game.objects.order_by('name')
-#     cards = Card.objects.order_by('name')
-#     tags = Tag.objects.order_by('name')
-#     return render(request, 'library/borrowed.html', {'books': books, 'games': games, 'cards': cards, 'tags': tags})
 
 
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
@@ -137,4 +130,6 @@ def borrowed(request: HttpRequest):
     cards = Card.objects.order_by('name')
     tags = Tag.objects.order_by('name')
     return render(request, 'library/borrowed.html', {'books': books, 'games': games, 'cards': cards, 'tags': tags})
+
+
 

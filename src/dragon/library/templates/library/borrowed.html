@@ -8,8 +8,8 @@
   <table style="width:100%">
     <tr>
       <th>Name</th>
-      <th>Type</th>
-{#      <th>Due Date</th>#}
+      <th>Description</th>
+      <th>Due Date</th>
     </tr>
     {% for card in cards %}
       {% if card.available == False %}
@@ -20,9 +20,9 @@
             <td>
                 {{card.description}}
             </td>
-{#            <td>#}
-{#                {card.due_date}#}
-{#            </td>#}
+            <td>
+                {{card.due_date}}
+            </td>
         </tr>
         {% endif %}
     {% endfor %}
