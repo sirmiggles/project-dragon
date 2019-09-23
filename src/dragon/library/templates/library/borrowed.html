@@ -14,9 +14,9 @@
     {% for card in cards %}
       {% if card.available == False %}
         <tr>
-            <td>
+            <td><a href="{% url 'library:borrow_detail' card.id %}">
                 {{card.name}}
-            </td>
+            </a></td>
             <td>
                 {{card.description}}
             </td>

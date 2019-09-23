@@ -1,4 +1,3 @@
-
 from django.db.models import BooleanField
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -132,4 +131,13 @@ def borrowed(request: HttpRequest):
     return render(request, 'library/borrowed.html', {'books': books, 'games': games, 'cards': cards, 'tags': tags})
 
 
+def borrow_detail(request: HttpRequest, card_id: int) -> HttpResponse:
+    card = get_object_or_404(Card, pk=card_id)
+    return render(request, 'library/borrow_detail.html', {'card': card})
 
+
+def returned(request: HttpRequest, card_id: int) -> HttpResponse:
+    card = get_object_or_404(Card, pk=card_id)
+    card.available = True
+    card.save()
+    return HttpResponseRedirect('/library/borrowed/')
