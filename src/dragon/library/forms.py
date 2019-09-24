@@ -10,6 +10,7 @@ class BookForm(forms.ModelForm):
             'description',
             'notes',
             'isbn',
+            'edition',
             'condition'
         ]
         labels = {
@@ -17,6 +18,7 @@ class BookForm(forms.ModelForm):
             'description': 'Description',
             'notes': 'Notes',
             'isbn': 'ISBN',
+            'edition': 'Edition',
             'condition': 'Condition'
         }
 
