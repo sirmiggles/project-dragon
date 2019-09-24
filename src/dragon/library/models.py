@@ -33,6 +33,7 @@ class Item(Model):
 class Book(Item):
     isbn = CharField(max_length=16, blank=True, default='N/A')
     edition = IntegerField(blank=True, default = 1)
+    year = IntegerField(blank=True, default = 2000)
 
     def __str__(self):
         return self.name

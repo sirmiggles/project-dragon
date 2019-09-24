@@ -12,6 +12,7 @@
       <th>Name</th>
       <th>ISBN</th>
       <th>Edition</th>
+      <th>Year</th>
       <th>Availability</th>
     </tr>
     {% for book in books %}
@@ -20,10 +21,13 @@
           {{ book.name }}
         </a></td>
         <td>
+          {{ book.isbn }}
+        </td>
+        <td>
           {{ book.edition }}
         </td>
         <td>
-          {{ book.isbn }}
+          {{ book.year }}
         </td>
         <td>
           {{ book.available }}

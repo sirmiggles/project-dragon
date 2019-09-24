@@ -11,6 +11,7 @@ class BookForm(forms.ModelForm):
             'notes',
             'isbn',
             'edition',
+            'year',
             'condition'
         ]
         labels = {
@@ -19,6 +20,7 @@ class BookForm(forms.ModelForm):
             'notes': 'Notes',
             'isbn': 'ISBN',
             'edition': 'Edition',
+            'year': 'Year',
             'condition': 'Condition'
         }
 
