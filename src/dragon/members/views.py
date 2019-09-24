@@ -21,6 +21,7 @@ def clubmember_form(request):
 def add_clubmember(request):
     firstname = request.POST['firstName']
     surname = request.POST['surname']
+
     if firstname != '':
         clubmember = ClubMember(firstName=firstname, surname=surname)
         clubmember.save()
