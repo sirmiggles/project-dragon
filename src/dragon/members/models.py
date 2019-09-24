@@ -18,7 +18,7 @@ class ClubMember(User):
 
     preferredName = CharField(max_length=50, default='')
     preferredPronoun = CharField(max_length=20, default='')
-    guildMember = BooleanField(default=False)
+    guildMember = BooleanField(default=True)
     isStudent = BooleanField(default=True)
     universityID = CharField(max_length=8, default='')
     joinDate = DateField(default=django.utils.timezone.now)

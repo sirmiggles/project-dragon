@@ -19,11 +19,26 @@ def clubmember_form(request):
 
 
 def add_clubmember(request):
-    firstname = request.POST['firstName']
+    firstName = request.POST['firstName']
     surname = request.POST['surname']
+    preferredName= request.POST['preferredName']
+    preferredPronoun= request.POST['preferredPronoun']
+    guildMember= bool(request.POST['guildMember'])
+    isStudent= bool(request.POST['isStudent'])
+    universityID= request.POST['universityID']
+    clubRank= request.POST['clubRank']
+    email= request.POST['email']
+    phoneNumber= request.POST['phoneNumber']
+    joinDate = request.POST['joinDate']
+    incidents= request.POST['incidents']
 
-    if firstname != '':
-        clubmember = ClubMember(firstName=firstname, surname=surname)
+
+    if firstName != '':
+        clubmember = ClubMember(firstName=firstName, surname=surname, preferredName=preferredName,
+                                preferredPronoun=preferredPronoun, guildMember=guildMember, isStudent=isStudent,
+                                universityID=universityID, clubRank=clubRank, email=email, phoneNumber=phoneNumber,
+                                joinDate=joinDate, incidents=incidents
+                                )
         clubmember.save()
     return HttpResponseRedirect('/members/')
 
