@@ -1,5 +1,7 @@
+import datetime
 
-from django.db.models import Model, CharField, TextField, AutoField, BooleanField, IntegerField, ManyToManyField
+from django.db.models import Model, CharField, TextField, AutoField, BooleanField, IntegerField, ManyToManyField, \
+    DateField
 
 
 class Tag(Model):
@@ -9,6 +11,11 @@ class Tag(Model):
         return self.name
 
 
+def return_date():
+    now = datetime.date.today()
+    return now + datetime.timedelta(days=14)
+
+
 class Item(Model):
     id = AutoField(primary_key=True)
     name = CharField(max_length=200)
@@ -16,6 +23,7 @@ class Item(Model):
     notes = TextField(max_length=1000, blank=True, default='')
     available = BooleanField(default=True)
     tags = ManyToManyField(Tag)
+    due_date = DateField(default=return_date)
 
     type_choices = ((0, 'book'), (1, 'game'), (2, 'card'))
     type = IntegerField(choices=type_choices)
@@ -57,6 +65,7 @@ class Game(Item):
 
 class Card(Item):
     deck_type = CharField(max_length=16, blank=True, default='N/A')
+    # due_date = DateField(default=return_date)
 
     def __str__(self):
         return self.name
