@@ -46,6 +46,9 @@ class Game(Item):
     maxplayers = IntegerField(blank=True, default=8)
     mingamelength = IntegerField(blank=True, default=0)
     maxgamelength = IntegerField(blank=True, default=10)
+    
+    difficulty_choices = ((0, 'Easy'), (1, 'Medium'), (2, 'Hard'))
+    difficulty = IntegerField(choices = difficulty_choices, default=0)
 
     def __str__(self):
         return self.name
