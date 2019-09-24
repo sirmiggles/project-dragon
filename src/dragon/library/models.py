@@ -34,6 +34,19 @@ class Book(Item):
     isbn = CharField(max_length=16, blank=True, default='N/A')
     edition = IntegerField(blank=True, default = 1)
     year = IntegerField(blank=True, default = 2000)
+    
+    genre_choices = (
+        (0, 'Fantasy'), 
+        (1, 'Romance'), 
+        (2, 'Sci-Fi'), 
+        (3, 'Western'), 
+        (4, 'Thriller'), 
+        (5, 'Mystery'), 
+        (6, 'Detective'), 
+        (7, 'Dystopia'),
+        (8, 'Other')
+    )
+    genre = IntegerField(choices=genre_choices, default=8)
 
     def __str__(self):
         return self.name

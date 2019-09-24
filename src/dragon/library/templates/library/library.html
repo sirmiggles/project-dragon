@@ -13,6 +13,7 @@
       <th>ISBN</th>
       <th>Edition</th>
       <th>Year</th>
+      <th>Genre</th>
       <th>Availability</th>
     </tr>
     {% for book in books %}
@@ -28,6 +29,9 @@
         </td>
         <td>
           {{ book.year }}
+        </td>
+        <td>
+          {{ book.get_genre_display }}
         </td>
         <td>
           {{ book.available }}
