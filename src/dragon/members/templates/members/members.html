@@ -10,9 +10,9 @@
       <th>Name</th>
       <th>Type</th>
     </tr>
-    {% for user in users %}
+    {% for clubmember in clubmembers %}
       <tr>
-        <td><a href="{% url 'members:user_detail' user.id %}">{{ user.username }}</a></td>
+        <td><a href="{% url 'members:user_detail' user.id %}">{{ clubmember.FirstName }} {{ clubmember.Surname }}</a></td>
         <td>user</td>
       </tr>
     {% endfor %}

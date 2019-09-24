@@ -11,7 +11,7 @@ class User(Model):
     PhoneNumber = CharField(max_length=20, default='')
 
     def __str__(self):
-        return self.username
+        return self.Id
 
 
 class ClubMember(User):
@@ -22,8 +22,11 @@ class ClubMember(User):
     IsStudent = BooleanField(default=True)
     UniversityID = CharField(max_length=8, default='')
     JoinDate = DateField(default=django.utils.timezone.now)
-    Incidents = TextField(max_length=400,default='N/A')
+    Incidents = TextField(max_length=400, default='N/A')
 
     rank_choices = ((0, 'Regular Member'), (1, 'Gatekeeper'), (2, 'Committee Member'))
     ClubRank = IntegerField(choices=rank_choices, default=0)
+
+    def __str__(self):
+        return self.Id
 
