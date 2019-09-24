@@ -3,20 +3,18 @@
 {% block title %}{{ block.super }} - Members{% endblock %}
 
 {% block content %}
-  <h1>Members</h1>
+  <h1>Club Members</h1>
   <h3>List</h3>
   <table style="width:100%">
     <tr>
       <th>Name</th>
-      <th>Type</th>
     </tr>
     {% for clubmember in clubmembers %}
       <tr>
-        <td><a href="{% url 'members:user_detail' user.id %}">{{ clubmember.FirstName }} {{ clubmember.Surname }}</a></td>
-        <td>user</td>
+        <td><a href="{% url 'members:clubmember_detail' clubmember.id %}">{{ clubmember.firstName }} {{ clubmember.surname }}</a></td>
       </tr>
     {% endfor %}
   </table>
-  <h3>Add user</h3>
-  <a href="{% url 'members:user_form' %}">Add User</a>
+  <h3>Add Club Member</h3>
+  <a href="{% url 'members:clubmember_form' %}">Add Club Member</a>
 {% endblock %}

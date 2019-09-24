@@ -1,0 +1,13 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - Club Member: {{ clubmember.first }}{% endblock %}
+
+{% block content %}
+  <h3>Username</h3>
+  <p>{{ user.username }}</p>
+  <h3>Delete</h3>
+  <form action="{% url 'members:remove_clubmember' clubmember.id %}" method="post">
+    <input type="submit" value="Delete Club Member">
+    {% csrf_token %}
+  </form>
+{% endblock %}

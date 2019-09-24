@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
 from .models import User, ClubMember
+from .forms import ClubMemberForm
 
 
 def members(request):
@@ -9,8 +10,12 @@ def members(request):
     return render(request, 'members/members.html', {'clubmembers': clubmembers})
 
 
-def user_form(request):
-    return render(request, 'members/user_form.html')
+def clubmember_form(request):
+    form = ClubMemberForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+
+    return render(request, "members/clubmember_form.html", {'form': form})
 
 
 def add_clubmember(request):
@@ -24,7 +29,7 @@ def add_clubmember(request):
 
 def clubmember_detail(request, clubmember_id):
     clubmember = get_object_or_404(ClubMember, pk=clubmember_id)
-    return render(request, 'members/user_detail.html', {'clubmember': clubmember})
+    return render(request, 'members/clubmember_detail.html', {'clubmember': clubmember})
 
 
 def remove_clubmember(request, clubmember_id):
