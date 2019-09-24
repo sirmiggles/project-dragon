@@ -68,7 +68,7 @@ def add_book(request: HttpRequest) -> HttpResponse:
         year = request.POST['year']
         genre = request.POST['genre']
         book = Book(name=name, description=description, notes=notes, condition=condition, isbn=isbn, year=year,
-            genre=genre)
+            edition=edition, genre=genre)
         book.save()
     return HttpResponseRedirect('/library/')
 
