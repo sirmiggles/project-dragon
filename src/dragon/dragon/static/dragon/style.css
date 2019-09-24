@@ -1,139 +1,49 @@
+@import url('https://fonts.googleapis.com/css?family=New+Rocker&display=swap');
+
+/*  The CSS for the main body  */
 body {
-color: black;
-background: #fcfcfe;
-margin: 0;
-padding: 0;
-font-family:  verdana, helvetica, sans-serif;
-width:100%;
+    background-color: whitesmoke;
 }
 
-
-
-#topbar {
-background: url("bookheader.png") #9c0001 repeat-x top left;
-margin:0;
-padding:0;
-height: 110px;
-border-bottom: solid #9c0001 5px;
+/*  Styling for main header of base page  */
+#page-header {
+    margin: 0;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 2.5rem;
 }
 
-#logo {
-margin: 0;
-border:0;
-padding:0;
-position: absolute;
-top:0;
-right:0;
+#header-text {
+    font-family: "New Rocker";
+    font-size: 4rem;
 }
 
-#logo img {
-border: 0px;
+/*  Styling for the main navigation bar  */
+nav.bg-custom {
+    background-color: #370aa8;
 }
 
-#menubar {
-width:140px;
-padding: 5px;
-margin-left: 1em;
-margin-right: 0;
-border-left: solid #9c0001 2px;
-border-bottom: solid #9c0001 2px;
-float:right;
+.navbar-toggler.custom-toggler {
+    border-color: whitesmoke;
 }
 
-#menubar p {
-padding: 2px 1em 2px 1em;
-margin:0;
-border: 5px;
+.fas.fa-bars {
+    color: whitesmoke;
 }
 
-#menubar a {
-color: #9c0001;
-text-decoration: none;
-font-weight:bold;
+.nav-item {
+    font-family: "New Rocker";
+    color: whitesmoke;
+    transition: 0.75s;
+    margin-left: 0.8rem;
 }
 
-#bodytext {
-margin: 0;
-padding: 1em 2em 1em 2em;
+.nav-item:hover {
+    background-color: #270875;
+    transition: 0.75s;
 }
 
-h1 {
-font-size:140%;
-color: black;
-text-align:center;
-margin-top: 1em;
-padding: 0;
-
+a.nav-link {
+    color: whitesmoke;
 }
 
-h2 {
-font-size:130%;
-color: #9c0001;
-margin-top: 1em;
-margin-bottom:0em;
-padding: 0;
-font-weight: bolder;
-}
-
-h3 {
-font-size:110%;
-margin:0;
-margin-top:1em;
-color: #9c0001;
-padding: 0;
-}
-
-h4 h5 {
-font-size:100%;
-color: #9c0001;
-padding: 0;
-}
-
-#footer {
-margin: 0;
-height:auto;
-width:100%;
-position: relative;
-bottom:2%;
-}
-
-#footer p {
-padding: 2px 0 2px 0;
-text-align: center;
-font-size:80%;
-margin:0;
-}
-
-#menucontainer {
-float: right;
-width: 150px;
-padding: 0;
-margin-left: 5px;
-margin-right: 15px;
-}
-
-#menu {
-background: url('flag.gif') repeat-y #9c0001;
-margin: 0;
-padding: 20px;
-top: 0;
-font-weight: bold;
-font-size: 90%;
-}
-
-#menu a {
-background: #9c0001;
-color: white;
-}
-
-#menubottom {
-background: url('flagbottom.gif');
-margin: 0;
-padding: 0;
-height: 40px;
-width: 150px;
-}
-
-table, th, td {
-    border: 1px solid black;
-}
