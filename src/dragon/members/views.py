@@ -5,7 +5,7 @@ from .models import User, ClubMember
 
 
 def members(request):
-    clubmembers = ClubMember.objects.order_by('FirstName')
+    clubmembers = ClubMember.objects.order_by('firstName')
     return render(request, 'members/members.html', {'clubmembers': clubmembers})
 
 
@@ -13,20 +13,21 @@ def user_form(request):
     return render(request, 'members/user_form.html')
 
 
-def add_user(request):
-    username = request.POST['username']
-    if username != '':
-        user = User(username=username)
-        user.save()
+def add_clubmember(request):
+    firstname = request.POST['firstName']
+    surname = request.POST['surname']
+    if firstname != '':
+        clubmember = ClubMember(firstName=firstname, surname=surname)
+        clubmember.save()
     return HttpResponseRedirect('/members/')
 
 
-def user_detail(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
-    return render(request, 'members/user_detail.html', {'user': user})
+def clubmember_detail(request, clubmember_id):
+    clubmember = get_object_or_404(ClubMember, pk=clubmember_id)
+    return render(request, 'members/user_detail.html', {'clubmember': clubmember})
 
 
-def remove_user(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
-    user.delete()
+def remove_clubmember(request, clubmember_id):
+    clubmember = get_object_or_404(ClubMember, pk=clubmember_id)
+    clubmember.delete()
     return HttpResponseRedirect('/members/')
