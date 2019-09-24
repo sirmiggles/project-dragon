@@ -64,7 +64,11 @@ def add_book(request: HttpRequest) -> HttpResponse:
         notes = request.POST['notes']
         condition = request.POST['condition']
         isbn = request.POST['isbn']
-        book = Book(name=name, description=description, notes=notes, condition=condition, isbn=isbn)
+        edition = request.POST['edition']
+        year = request.POST['year']
+        genre = request.POST['genre']
+        book = Book(name=name, description=description, notes=notes, condition=condition, isbn=isbn, year=year,
+            edition=edition, genre=genre)
         book.save()
     return HttpResponseRedirect('/library/')
 
@@ -72,13 +76,18 @@ def add_book(request: HttpRequest) -> HttpResponse:
 def add_game(request: HttpRequest):
     name = request.POST['name']
     if name != '':
+        description = request.POST['description']
+        notes = request.POST['notes']
         minplayers = int(request.POST["minplayers"])
         maxplayers = int(request.POST["maxplayers"])
         mingamelength = request.POST["mingamelength"]
         maxgamelength = request.POST["maxgamelength"]
+        difficulty = request.POST['difficulty']
+        genre = request.POST['genre']
         condition = request.POST['condition']
         game = Game(name=name, maxplayers=maxplayers, minplayers=minplayers, condition=condition,
-                    mingamelength=mingamelength, maxgamelength=maxgamelength)
+                    mingamelength=mingamelength, maxgamelength=maxgamelength, difficulty=difficulty, genre=genre,
+                    description=description, notes=notes)
         game.save()
     return HttpResponseRedirect('/library/')
 

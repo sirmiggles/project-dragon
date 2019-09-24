@@ -10,6 +10,8 @@
     <p>
       Number of Players: {{ game.minplayers }}-{{ game.maxplayers }}<br>
       Game Duration (minutes): {{ game.mingamelength }}-{{ game.maxgamelength }}<br>
+      Genre: {{ game.get_genre_display }}<br>
+      Difficulty: {{ game.get_difficulty_display }}<br>
       Condition: {{ game.get_condition_display }}
     </p>
 

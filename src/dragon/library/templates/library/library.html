@@ -11,6 +11,9 @@
     <tr>
       <th>Name</th>
       <th>ISBN</th>
+      <th>Edition</th>
+      <th>Year</th>
+      <th>Genre</th>
       <th>Availability</th>
     </tr>
     {% for book in books %}
@@ -20,6 +23,15 @@
         </a></td>
         <td>
           {{ book.isbn }}
+        </td>
+        <td>
+          {{ book.edition }}
+        </td>
+        <td>
+          {{ book.year }}
+        </td>
+        <td>
+          {{ book.get_genre_display }}
         </td>
         <td>
           {{ book.available }}
@@ -36,6 +48,8 @@
       <th>Name</th>
       <th>Players</th>
       <th>Game Duration (minutes)</th>
+      <th>Genre</th>
+      <th>Difficulty</th>
       <th>Availability</th>
     </tr>
     {% for game in games %}
@@ -48,6 +62,12 @@
         </td>
         <td>
           {{ game.mingamelength }}-{{ game.maxgamelength }}
+        </td>
+        <td>
+          {{ game.get_genre_display }}
+        </td>
+        <td>
+          {{ game.get_difficulty_display }}
         </td>
         <td>
           {{ game.available}}

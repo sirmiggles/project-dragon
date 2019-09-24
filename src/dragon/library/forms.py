@@ -10,6 +10,9 @@ class BookForm(forms.ModelForm):
             'description',
             'notes',
             'isbn',
+            'edition',
+            'year',
+            'genre',
             'condition'
         ]
         labels = {
@@ -17,6 +20,9 @@ class BookForm(forms.ModelForm):
             'description': 'Description',
             'notes': 'Notes',
             'isbn': 'ISBN',
+            'edition': 'Edition',
+            'year': 'Year',
+            'genre': 'Genre',
             'condition': 'Condition'
         }
 
@@ -32,6 +38,8 @@ class GameForm(forms.ModelForm):
             'maxplayers',
             'mingamelength',
             'maxgamelength',
+            'difficulty',
+            'genre',
             'condition'
         ]
         labels = {
@@ -42,6 +50,8 @@ class GameForm(forms.ModelForm):
             'maxplayers': 'Max. Players',
             'mingamelength': 'Min. Game Length (minutes)',
             'maxgamelength': 'Max. Game Length (minutes)',
+            'difficulty': 'Difficulty',
+            'genre': 'Genre',
             'condition': 'Condition'
         }
 
