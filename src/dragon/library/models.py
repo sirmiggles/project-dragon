@@ -48,7 +48,10 @@ class Game(Item):
     maxgamelength = IntegerField(blank=True, default=10)
     
     difficulty_choices = ((0, 'Easy'), (1, 'Medium'), (2, 'Hard'))
-    difficulty = IntegerField(choices = difficulty_choices, default=0)
+    difficulty = IntegerField(choices=difficulty_choices, default=0)
+
+    genre_choices = ((0, 'Wargames'), (1, 'Roll & Move games'), (2, 'Worker Placement games'), (3, 'Cooperative games'), (4, 'Area Control games'), (5, 'Secret Identity games'), (6, 'Legacy games'), (7, 'Combat games'), (8, 'Party games'), (9, 'Other'))
+    genre = IntegerField(choices=genre_choices, default=0)
 
     def __str__(self):
         return self.name

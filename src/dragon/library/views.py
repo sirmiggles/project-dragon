@@ -77,9 +77,10 @@ def add_game(request: HttpRequest):
         mingamelength = request.POST["mingamelength"]
         maxgamelength = request.POST["maxgamelength"]
         difficulty = request.POST['difficulty']
+        genre = request.POST['genre']
         condition = request.POST['condition']
         game = Game(name=name, maxplayers=maxplayers, minplayers=minplayers, condition=condition,
-                    mingamelength=mingamelength, maxgamelength=maxgamelength, difficulty=difficulty)
+                    mingamelength=mingamelength, maxgamelength=maxgamelength, difficulty=difficulty, genre=genre)
         game.save()
     return HttpResponseRedirect('/library/')
 
