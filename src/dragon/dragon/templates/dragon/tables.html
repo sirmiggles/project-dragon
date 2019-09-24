@@ -1,0 +1,69 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }}{% endblock %}
+
+{% block content %}
+
+<h1>Library</h1>
+
+<h3>Book</h3>
+<table border = 1>
+    <tr>
+        <th>Title</th>
+        <th>ISBN</th>
+        <th>Edition</th>
+        <th>Version</th>
+        <th>Author</th>
+        <th>Publisher</th>
+        <th>Year</th>
+        <th>Genre</th>
+        <th>Available</th>
+    </tr>
+
+    <tr>
+        <td>How to Pikachu Meme</td>
+        <td>123456</td>
+        <td>7th</td>
+        <td>2nd</td>
+        <td>Pikachu</td>
+        <td>Pokemon Company</td>
+        <td>2018</td>
+        <td>Meme</td>
+        <td>Yes</td>
+    </tr>
+</table>
+
+<h3>Games</h3>
+<table border = 1>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Genre</th>
+        <th>Edition</th>
+        <th>Difficulty</th>
+        <th>Min Player</th>
+        <th>Max Player</th>
+        <th>Min Duration</th>
+        <th>Max Duration</th>
+        <th>Tags</th>
+        <th>Availability</th>
+        <th>Notes</th>
+    </tr>
+
+    <tr>
+        <td>Snakes & Ladders</td>
+        <td>A place where snakes and ladders hanging out with the players.</td>
+        <td>Adventurous</td>
+        <td>11th</td>
+        <td>Very Easy</td>
+        <td>How many friends do you have?</td>
+        <td>As many as you want</td>
+        <td>As short as it can take</td>
+        <td>As long as it can go</td>
+        <td>Fun, family, snakes</td>
+        <td>No</td>
+        <td>Sirfetch'd donated this.</td>
+    </tr>
+</table>
+
+{% endblock %}
