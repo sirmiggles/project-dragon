@@ -4,8 +4,35 @@
 
 {% block content %}
   <h1>Library</h1>
-
   <h3><a href="{% url 'library:borrowed' %}">Borrowed from Unigames</a></h3>
+
+  <h3>Items</h3>
+  <table style="width:100%">
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Availability</th>
+    </tr>
+    {% for item in items %}
+      <tr>
+        <td>
+          {{ item.name }}
+        </a></td>
+        <td>
+          {{ item.description }}
+        </td>
+        <td>
+          {{ item.get_type_display }}
+        </td>
+        <td>
+          {{ item.available }}
+        </td>
+      </tr>
+    {% endfor %}
+
+  </table>
+
   <h3>Books</h3>
   <table style="width:100%">
     <tr>
