@@ -34,6 +34,8 @@ class ClubMember(User):
 class NonMember(User):
 
     organization = CharField(max_length=200)
+    addedDate = DateField(default=django.utils.timezone.now)
+    incidents = TextField(max_length=400, default='N/A')
 
     def __str__(self):
         return self.id
