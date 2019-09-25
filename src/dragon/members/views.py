@@ -1,12 +1,13 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
-from .models import User, ClubMember
+from .models import ClubMember
 from .forms import ClubMemberForm
 
 
 def members(request):
     clubmembers = ClubMember.objects.order_by('firstName')
+    nonmembers = NonMember.objects.order_by('firstName')
     return render(request, 'members/members.html', {'clubmembers': clubmembers})
 
 

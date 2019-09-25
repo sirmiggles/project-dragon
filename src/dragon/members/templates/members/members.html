@@ -8,10 +8,20 @@
   <table style="width:100%">
     <tr>
       <th>Name</th>
+      <th>Preferred Name</th>
+      <th>Phone Number</th>
+      <th>Email</th>
+      <th>University ID</th>
+      <th>Club Rank</th>
     </tr>
     {% for clubmember in clubmembers %}
       <tr>
         <td><a href="{% url 'members:clubmember_detail' clubmember.id %}">{{ clubmember.firstName }} {{ clubmember.surname }}</a></td>
+        <td> {{ clubmember.preferredName }}</td>
+        <td> {{ clubmember.phoneNumber }}</td>
+        <td> {{ clubmember.email }}</td>
+        <td> {{ clubmember.universityID }}</td>
+        <td> {{ clubmember.get_clubRank_display }}</td>
       </tr>
     {% endfor %}
   </table>
