@@ -9,4 +9,9 @@ urlpatterns = [
     path('add_clubmember/', views.add_clubmember, name='add_clubmember'),
     path('clubmember/<int:clubmember_id>/', views.clubmember_detail, name='clubmember_detail'),
     path('remove_clubmember/<int:clubmember_id>/', views.remove_clubmember, name='remove_clubmember')
+
+    path('nonmember_form/', views.nonmember_form, name='nonmember_form'),
+    path('add_nonmember/', views.add_nonmember, name='add_nonmember'),
+    path('nonmember/<int:nonmember_id>/', views.nonmember_detail, name='nonmember_detail'),
+    path('remove_nonmember/<int:nonmember_id>/', views.remove_nonmember, name='remove_nonmember')
 ]
