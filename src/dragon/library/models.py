@@ -25,15 +25,15 @@ class Item(Model):
     tags = ManyToManyField(Tag)
     due_date = DateField(default=return_date)
 
-    type_choices = ((0, 'book'), (1, 'game'), (2, 'card'))
+    type_choices = ((0, 'Book'), (1, 'Game'), (2, 'Card'))
     type = IntegerField(choices=type_choices)
 
     condition_choices = (
-        (0, 'excellent'),
-        (1, 'very good'),
-        (2, 'good'),
-        (3, 'fair'),
-        (4, 'bad')
+        (0, 'Excellent'),
+        (1, 'Very good'),
+        (2, 'Good'),
+        (3, 'Fair'),
+        (4, 'Bad')
     )
     condition = IntegerField(choices=condition_choices)
 
