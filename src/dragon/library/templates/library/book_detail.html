@@ -90,7 +90,6 @@
   <form action="{% url 'library:remove_book' book.id %}" method="post">
     <button class="btn btn-warning btn-danger btn-sm" id="delete-button" type="submit">DELETE</button>
     {% csrf_token %}
-</form>
+  </form>
 </div>
-
 {% endblock %}
