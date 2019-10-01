@@ -10,12 +10,12 @@
 <div class="d-md-flex" id="item-details">
   <!--  Left column of item page  -->
   <div class="d-flex col-12 col-md-4 flex-column">
-    <div class="container-fluid">
-      <img id="book-img" src="https://dummyimage.com/200x200/d6d6d6.png&text=[INSERT+IMAGE+HERE]"/> 
+    <div class="container-fluid item-img-container">
+      <img class="rounded" id="book-img" src="https://dummyimage.com/200x200/d6d6d6.png&text=[INSERT+IMAGE+HERE]"/> 
     </div>
 
-    <div class="container-fluid">
-      <h3>Title</h3>
+    <div class="container-fluid item-title-container">
+      <h3 id="item-title">Title</h3>
       <p>{{ book.name }}</p>
     </div>
   </div>
@@ -23,30 +23,32 @@
   <div class="container-fluid">
     <div class="container-fluid item-attributes">
       <h3 class="attr-header">Attributes</h3>
-      <div class="d-flex p-0 flex-column flex-md-row" id="book-isbn">
-        <div class="p-0 col-6">
-          <h5>ISBN:</h5>
+      <div class="attr-tags-container">
+        <div class="d-flex flex-column flex-md-row" id="isbn-details">
+          <div class="p-0 col-3 text-md-center attr-cell">
+            <h5 class="cat-header">ISBN:</h5>
+          </div>
+          <div class="p-0 col-9 text-md-center attr-cell">
+            <h6 class="cat-value" id="book-isbn">{{ book.isbn }}</h6>
+          </div>
         </div>
-        <div class="p-0 col-6">
-          <p>{{ book.isbn }}</p>
-        </div>
-      </div>
-      <div class="d-flex flex-column flex-md-row">
-        <div class="p-0 col-12 col-md-3">
-          <h5>Edition:</h5>
-          <p>{{ book.edition }}</p>
-        </div>
-        <div class="p-0 col-12 col-md-3">
-          <h5>Year:</h5>
-          <p>{{ book.year }}</p>
-        </div>
-        <div class="p-0 col-12 col-md-3">
-          <h5>Genre:</h5>
-          <p>{{ book.get_genre_display }}</p>
-        </div>
-        <div class="p-0 col-12 col-md-3">
-          <h5>Condition:</h5>
-          <p>{{ book.get_condition_display }}</p>
+        <div class="d-flex flex-column flex-md-row">
+          <div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+            <h5 class="cat-header">Edition:</h5>
+            <h6 class="cat-value">{{ book.edition }}</h6>
+          </div>
+          <div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+            <h5 class="cat-header">Year:</h5>
+            <h6 class="cat-value">{{ book.year }}</h6>
+          </div>
+          <div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+            <h5 class="cat-header">Genre:</h5>
+            <h6 class="cat-value">{{ book.get_genre_display }}</h6>
+          </div>
+          <div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+            <h5 class="cat-header">Condition:</h5>
+            <h6 class="cat-value">{{ book.get_condition_display }}</h6>
+          </div>
         </div>
       </div>
       
@@ -65,17 +67,17 @@
       {% endif %}
 
       <h3>Tags:</h3>
-      <div class="p-0 d-flex flex-column flex-md-row">
-        <div class="p-0 col-12 col-md-2 item-tag">
+      <div class=" d-flex flex-column flex-md-row">
+        <div class=" col-12 col-md-2 item-tag">
           <h5>TAG 1</h5>
         </div>
-        <div class="p-0 col-12 col-md-2 item-tag">
+        <div class=" col-12 col-md-2 item-tag">
           <h5>TAG 2</h5>
         </div>
-        <div class="p-0 col-12 col-md-2 item-tag">
+        <div class=" col-12 col-md-2 item-tag">
           <h5>TAG 3</h5>
         </div>
-        <div class="p-0 col-12 col-md-2 item-tag">
+        <div class=" col-12 col-md-2 item-tag">
           <h5>TAG 4</h5>
         </div>
       </div>
@@ -83,11 +85,11 @@
   </div>
 </div>
 
-<div class="container-fluid">
-<h5 class="item-delete-message">Click here to delete this</h5>
-<form action="{% url 'library:remove_book' book.id %}" method="post">
-  <input type="submit" value="!Delete Book!">
-  {% csrf_token %}
+<div class="text-center text-md-right" id="delete-item">
+  <h6 class="item-delete-message">Click here to delete this</h6>
+  <form action="{% url 'library:remove_book' book.id %}" method="post">
+    <button class="btn btn-warning btn-danger btn-sm" id="delete-button" type="submit">DELETE</button>
+    {% csrf_token %}
 </form>
 </div>
 
