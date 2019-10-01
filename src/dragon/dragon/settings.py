@@ -27,12 +27,20 @@ if SECRET_KEY == None:
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
+<<<<<<< HEAD
 DEBUG = os.environ.get('DRAGON_DEBUG') == "True"
 
 if DEBUG == None:
     warnings.warn("No debug setting is set, defaulting to true")
     DEBUG = True
 elif DEBUG == True:
+=======
+debug_var = os.environ.get('DRAGON_DEBUG')
+
+DEBUG = debug_var == "True" if debug_var is not None else True
+
+if DEBUG:
+>>>>>>> master
     warnings.warn("Using debug mode")
 
 ALLOWED_HOSTS = []
