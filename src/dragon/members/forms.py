@@ -1,5 +1,5 @@
 from django import forms
-from .models import ClubMember
+from .models import ClubMember, NonMember
 
 
 class ClubMemberForm(forms.ModelForm):
@@ -32,4 +32,28 @@ class ClubMemberForm(forms.ModelForm):
             'joinDate': 'Join Date',
             'incidents': 'Previous Incidents',
             'clubRank': 'Club Rank'
-    }
+        }
+
+
+class NonMemberForm(forms.ModelForm):
+    class Meta:
+        model = NonMember
+        fields = [
+            'firstName',
+            'surname',
+            'email',
+            'phoneNumber',
+            'organization',
+            'incidents',
+            'addedDate'
+        ]
+        labels = {
+            'firstName': 'First name',
+            'surname': 'Surname',
+            'email': 'Email address',
+            'phoneNumber': 'Phone Number',
+            'organization': 'Organization Name',
+            'incidents': 'Previous Incidents',
+            'addedDate': 'Date added:'
+        }
+
