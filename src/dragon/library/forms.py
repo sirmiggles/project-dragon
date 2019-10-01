@@ -1,6 +1,10 @@
 from django import forms
 from .models import Book, Game, Card
 
+# These classes produce a standard format to create a form
+# they can be instantiated in `views.py` and added to the
+# context of the render function to create the html form
+
 
 class BookForm(forms.ModelForm):
     class Meta:
