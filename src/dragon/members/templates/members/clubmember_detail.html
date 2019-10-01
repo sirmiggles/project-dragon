@@ -1,0 +1,36 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - Club Member: {{ clubmember.firstname }}{% endblock %}
+
+{% block content %}
+  <h3>Name</h3>
+  <p>First Name: {{ clubmember.firstName }}<br>
+     Surname: {{ clubmember.surname }}
+  </p>
+  <h3>Personal Details</h3>
+  <p>
+    Preferred Name: {{ clubmember.preferredName }}<br>
+    Preferred Pronoun: {{ clubmember.preferredPronoun }}<br>
+    Guild Membership: {{ clubmember.guildMember }}<br>
+    Is Student: {{ clubmember.isStudent }}<br>
+    University ID: {{ clubmember.universityID }}<br>
+    Member Rank: {{ clubmember.get_clubRank_display }}<br>
+  </p>
+  <h3>Contact Details</h3>
+  <p>
+    Email: {{ clubmember.email }}<br>
+    Phone Number: {{ clubmember.phoneNumber }}<br>
+  <h3>Additional Info</h3>
+  <p>
+    Join Date: {{ clubmember.joinDate }}<br>
+    Incidents: {{ clubmember.incidents }}<br>
+  </p>
+
+
+  </p>
+  <h3>Delete</h3>
+  <form action="{% url 'members:remove_clubmember' clubmember.id %}" method="post">
+    <input type="submit" value="Delete Club Member">
+    {% csrf_token %}
+  </form>
+{% endblock %}
