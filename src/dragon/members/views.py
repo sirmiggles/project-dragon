@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
 from .models import ClubMember, NonMember
@@ -78,13 +78,13 @@ def nonmember_detail(request, nonmember_id):
     return render(request, 'members/nonmember_detail.html', {'nonmember': nonmember})
 
 
-def remove_clubmember(request, clubmember_id):
+def remove_clubmember(request: HttpRequest, clubmember_id: int) -> HttpResponse:
     clubmember = get_object_or_404(ClubMember, pk=clubmember_id)
     clubmember.delete()
     return HttpResponseRedirect('/members/')
 
 
-def remove_nonmember(request, nonmember_id):
+def remove_nonmember(request: HttpRequest, nonmember_id: int) -> HttpResponse:
     nonmember = get_object_or_404(NonMember, pk=nonmember_id)
     nonmember.delete()
     return HttpResponseRedirect('/members/')
