@@ -32,8 +32,14 @@
           <li class="nav-item">
             <a class="text-center text-md-left nav-link" href="/library">LIBRARY</a>
           </li>
-          <li class="nav-item">
-            <a class="text-center text-md-left nav-link" href="/members">MEMBERS</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-center text-md-left" href="#" id="memberDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              MEMBERS
+            </a>
+            <div class="dropdown-menu" aria-labelledby="memberDropdown">
+              <a class="dropdown-item text-center text-md-left" href="/members/clubmembers">Club Members</a>
+              <a class="dropdown-item text-center text-md-left" href="/members/nonmembers">Non-Members</a>
+            </div>
           </li>
           <li class="nav-item">
             <a class="text-center text-md-left nav-link" href="/admin">ADMIN</a>

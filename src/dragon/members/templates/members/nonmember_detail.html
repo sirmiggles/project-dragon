@@ -1,0 +1,28 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - Non-Member: {{ nonmember.firstname }}{% endblock %}
+
+{% block content %}
+  <h3>Name</h3>
+  <p>First Name: {{ nonmember.firstName }}<br>
+     Surname: {{ nonmember.surname }}<br>
+  </p>
+  <h3>Contact Details</h3>
+  <p>
+    Email: {{ nonmember.email }}<br>
+    Phone Number: {{ nonmember.phoneNumber }}<br>
+    Organization: {{ nonmember.organization }}<br>
+  <h3>Additional Info</h3>
+  <p>
+    Added Date: {{ nonmember.addedDate }}<br>
+    Incidents: {{ nonmember.incidents }}<br>
+  </p>
+
+
+  </p>
+  <h3>Delete</h3>
+  <form action="{% url 'members:remove_nonmember' nonmember.id %}" method="post">
+    <input type="submit" value="Delete Non-Member">
+    {% csrf_token %}
+  </form>
+{% endblock %}
