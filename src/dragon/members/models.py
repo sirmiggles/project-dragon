@@ -1,12 +1,11 @@
 from django.db.models import Model, CharField, AutoField, BooleanField, IntegerField, EmailField, DateField, TextField
 import django.utils
-from datetime import datetime
 
 
 class User(Model):
-    id = AutoField(primary_key=True, default=0)
-    firstName = CharField(max_length=50, default='')
-    surname = CharField(max_length=50, default='')
+    id = AutoField(primary_key=True)
+    firstName = CharField(max_length=50)
+    surname = CharField(max_length=50)
     email = EmailField(default='')
     phoneNumber = CharField(max_length=20, default='')
 
@@ -29,4 +28,21 @@ class ClubMember(User):
 
     def __str__(self):
         return self.id
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+class NonMember(User):
+
+    organization = CharField(max_length=200)
+    addedDate = DateField(default=django.utils.timezone.now)
+    incidents = TextField(max_length=400, default='N/A')
+
+    def __str__(self):
+        return self.id
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
 

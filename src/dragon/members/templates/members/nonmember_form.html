@@ -1,0 +1,12 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - Add Non-Member{% endblock %}
+
+{% block content %}
+<h1>Add Non-Member</h1>
+<form action="{% url 'members:add_nonmember' %}" method="post">
+  {{ form.as_p }}
+  <input type="submit" value="Add Non-Member">
+  {% csrf_token %}
+</form>
+{% endblock %}

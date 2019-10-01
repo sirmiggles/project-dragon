@@ -3,6 +3,9 @@ from . import views
 
 app_name = 'library'
 
+# the urls to access library pages
+# todo: this has gotten rather long, maybe we could split them up semantically then concat them together
+
 urlpatterns = [
     path('', views.library_view, name='library'),
     path('book/<int:book_id>/', views.book_detail, name='book_detail'),

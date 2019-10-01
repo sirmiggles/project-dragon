@@ -1,0 +1,40 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - Members{% endblock %}
+
+{% block content %}
+  <form class="form-inline my-2 my-lg-2">
+    <input class="form-control mr-sm-2"
+           type="search"
+           placeholder="Search"
+           aria-label="Search"
+           name="search"
+           value={{ searchterm }}>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+  <h1>Club Members</h1>
+  <h3>List</h3>
+  <table style="width:100%">
+    <tr>
+      <th>Name</th>
+      <th>Preferred Name</th>
+      <th>Phone Number</th>
+      <th>Email</th>
+      <th>University ID</th>
+      <th>Club Rank</th>
+    </tr>
+    {% for clubmember in clubmembers %}
+      <tr>
+        <td><a href="{% url 'members:clubmember_detail' clubmember.id %}">{{ clubmember.firstName }} {{ clubmember.surname }}</a></td>
+        <td> {{ clubmember.preferredName }}</td>
+        <td> {{ clubmember.phoneNumber }}</td>
+        <td> {{ clubmember.email }}</td>
+        <td> {{ clubmember.universityID }}</td>
+        <td> {{ clubmember.get_clubRank_display }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+  <h3>Add Entry</h3>
+  <a href="{% url 'members:clubmember_form' %}">Add Club Member</a><br>
+
+{% endblock %}
