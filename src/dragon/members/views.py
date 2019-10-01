@@ -71,7 +71,7 @@ def add_clubmember(request):
                                 joinDate=joinDate, incidents=incidents
                                 )
         clubmember.save()
-    return HttpResponseRedirect('/members/')
+    return HttpResponseRedirect('/members/clubmembers/')
 
 
 def add_nonmember(request):
@@ -88,7 +88,7 @@ def add_nonmember(request):
                               addedDate=addedDate, incidents=incidents, organization=organization
                               )
         nonmember.save()
-    return HttpResponseRedirect('/members/')
+    return HttpResponseRedirect('/members/nonmembers/')
 
 
 def clubmember_detail(request, clubmember_id):

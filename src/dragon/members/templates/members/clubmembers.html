@@ -34,26 +34,7 @@
       </tr>
     {% endfor %}
   </table>
-  <h1>Non-Members</h1>
-  <h3>List</h3>
-  <table style="width:100%">
-    <tr>
-      <th>Name</th>
-      <th>Organization</th>
-      <th>Phone Number</th>
-      <th>Email</th>
-    </tr>
-    {% for nonmember in nonmembers %}
-      <tr>
-        <td><a href="{% url 'members:nonmember_detail' nonmember.id %}">{{ nonmember.firstName }} {{ nonmember.surname }}</a></td>
-        <td> {{ nonmember.organization }}</td>
-        <td> {{ nonmember.phoneNumber }}</td>
-        <td> {{ nonmember.email }}</td>
-      </tr>
-    {% endfor %}
-  </table>
   <h3>Add Entry</h3>
   <a href="{% url 'members:clubmember_form' %}">Add Club Member</a><br>
-  <a href="{% url 'members:nonmember_form' %}">Add Non-Member</a>
 
 {% endblock %}
