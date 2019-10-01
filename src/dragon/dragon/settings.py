@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-import os
+import os, warnings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,12 +22,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ.get('DRAGON_SECRET_KEY')
 if SECRET_KEY == None:
-    print("warning: no secret key found, using public default")
+    warnings.warn("No secret key found, using public default")
     SECRET_KEY = '$rbe#s_2)bih1pyp*$bwx%du#!b($(bugv!g@92au9@!hia&e$'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DRAGON_DEBUG') == "True"
+
+if DEBUG == None:
+    warnings.warn("No debug setting is set, defaulting to true")
+    DEBUG = True
+elif DEBUG == True:
+    warnings.warn("Using debug mode")
 
 ALLOWED_HOSTS = []
 
