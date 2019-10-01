@@ -4,11 +4,25 @@ from django.shortcuts import render, get_object_or_404
 from .models import ClubMember, NonMember
 from .forms import ClubMemberForm, NonMemberForm
 
+from django.db.models import Q
+
 
 def members(request):
+
+    searchterm = ''
     clubmembers = ClubMember.objects.order_by('firstName')
     nonmembers = NonMember.objects.order_by('firstName')
-    return render(request, 'members/members.html', {'clubmembers': clubmembers, 'nonmembers': nonmembers})
+
+    if 'search' in request.GET:
+        searchterm = request.GET['search']
+        clubmemberfilters = Q(firstName__icontains=searchterm) | Q(surname__icontains=searchterm) | \
+                  Q(preferredName__icontains=searchterm)
+        nonmemberfilters = Q(firstName__icontains=searchterm) | Q(surname__icontains=searchterm)
+        clubmembers = clubmembers.filter(clubmemberfilters)
+        nonmembers = nonmembers.filter(nonmemberfilters)
+
+    return render(request, 'members/members.html', {'clubmembers': clubmembers, 'nonmembers': nonmembers,
+                                                    'searchterm': searchterm})
 
 
 def clubmember_form(request):
