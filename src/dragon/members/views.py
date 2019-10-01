@@ -7,22 +7,31 @@ from .forms import ClubMemberForm, NonMemberForm
 from django.db.models import Q
 
 
-def members(request):
+def clubmembers(request):
 
     searchterm = ''
     clubmembers = ClubMember.objects.order_by('firstName')
-    nonmembers = NonMember.objects.order_by('firstName')
 
     if 'search' in request.GET:
         searchterm = request.GET['search']
         clubmemberfilters = Q(firstName__icontains=searchterm) | Q(surname__icontains=searchterm) | \
                   Q(preferredName__icontains=searchterm)
-        nonmemberfilters = Q(firstName__icontains=searchterm) | Q(surname__icontains=searchterm)
         clubmembers = clubmembers.filter(clubmemberfilters)
+
+    return render(request, 'members/clubmembers.html', {'clubmembers': clubmembers, 'searchterm': searchterm})
+
+
+def nonmembers(request):
+
+    searchterm = ''
+    nonmembers = NonMember.objects.order_by('firstName')
+
+    if 'search' in request.GET:
+        searchterm = request.GET['search']
+        nonmemberfilters = Q(firstName__icontains=searchterm) | Q(surname__icontains=searchterm)
         nonmembers = nonmembers.filter(nonmemberfilters)
 
-    return render(request, 'members/members.html', {'clubmembers': clubmembers, 'nonmembers': nonmembers,
-                                                    'searchterm': searchterm})
+    return render(request, 'members/nonmembers.html', {'nonmembers': nonmembers, 'searchterm': searchterm})
 
 
 def clubmember_form(request):
