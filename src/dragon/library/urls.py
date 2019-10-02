@@ -16,6 +16,8 @@ urlpatterns = [
     path('book/<int:book_id>/', views.book_detail, name='book_detail'),
     path('add_book/', views.add_book, name='add_book'),
     path('book_form/', views.book_form, name='book_form'),
+    path('book_edit_form/<int:book_id>/', views.book_edit_form, name='book_edit_form'),
+    path('update_book/<int:book_id>/', views.update_book, name='update_book'),
     path('remove_book/<int:book_id>/', views.remove_book, name='remove_book'),
 
     # Urls for game library page
