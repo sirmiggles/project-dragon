@@ -18,7 +18,7 @@
     <input type="submit" value="!Delete Card Game!">
     {% csrf_token %}
   </form>
-{% if card.available == True %}
+{% if card.is_available == True %}
   <h3>Borrow</h3>
   <form action="{% url 'library:borrow_card' card.id %}" method="post">
       <p><input type="checkbox" required name="borrower">As a borrower, I confirm these details.</p>

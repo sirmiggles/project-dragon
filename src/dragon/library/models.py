@@ -4,6 +4,7 @@ from django.db.models import Model, CharField, TextField, AutoField, BooleanFiel
     DateField
 
 
+
 # These classes are mapped to database entries,
 # but can also be instantiated in python code.
 # They can be retrieved from the database via queries
@@ -56,6 +57,16 @@ class Item(Model):
         (4, 'Bad')
     )
     condition = IntegerField(choices=condition_choices)
+
+    def is_available(self):
+        return self.available
+
+    def get_due_date(self):
+        return self.due_date
+
+    # req: borrow table to be updated via this method
+    def borrow(self, user):
+        pass
 
 
 class Book(Item):
@@ -127,6 +138,8 @@ class Card(Item):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.type = 2
+
+
 
 # notes (Kieran): I would prefer having default text being an empty string
 #                 This would be simpler to test for and give custom output
