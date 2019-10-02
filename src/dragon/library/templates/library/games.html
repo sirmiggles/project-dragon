@@ -1,0 +1,53 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - Games{% endblock %}
+
+{% block content %}
+  <h1>Game Library</h1>
+
+  <h3><a href="{% url 'library:borrowed' %}">Borrowed from Unigames</a></h3>
+
+  <h3>Games</h3>
+  <table style="width:100%">
+    <tr>
+      <th>Name</th>
+      <th>Players</th>
+      <th>Game Duration (minutes)</th>
+      <th>Genre</th>
+      <th>Difficulty</th>
+      <th>Availability</th>
+    </tr>
+    {% for game in games %}
+      <tr>
+        <td><a href="{% url 'library:game_detail' game.id %}">
+          {{ game.name }}
+        </a></td>
+        <td>
+          {{ game.minplayers }}-{{ game.maxplayers }}
+        </td>
+        <td>
+          {{ game.mingamelength }}-{{ game.maxgamelength }}
+        </td>
+        <td>
+          {{ game.get_genre_display }}
+        </td>
+        <td>
+          {{ game.get_difficulty_display }}
+        </td>
+        <td>
+          {{ game.available}}
+        </td>
+      </tr>
+    {% endfor %}
+
+  </table>
+
+
+  <h1>Add Items</h1>
+
+  <a href="{% url 'library:game_form' %}">Add Game</a><br>
+  <a href="{% url 'library:tag_form' %}">Manage Tags</a>
+
+
+{% endblock %}
+
