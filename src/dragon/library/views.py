@@ -79,7 +79,7 @@ def add_book(request: HttpRequest) -> HttpResponse:
         book = Book(name=name, description=description, notes=notes, condition=condition, isbn=isbn, year=year,
             edition=edition, genre=genre)
         book.save()
-    return HttpResponseRedirect('/library/')
+    return HttpResponseRedirect('/library/books')
 
 
 def add_game(request: HttpRequest):
@@ -98,7 +98,7 @@ def add_game(request: HttpRequest):
                     mingamelength=mingamelength, maxgamelength=maxgamelength, difficulty=difficulty, genre=genre,
                     description=description, notes=notes)
         game.save()
-    return HttpResponseRedirect('/library/')
+    return HttpResponseRedirect('/library/games')
 
 
 def add_card(request: HttpRequest):
@@ -109,7 +109,7 @@ def add_card(request: HttpRequest):
         condition = request.POST['condition']
         card = Card(name=name, deck_type=deck_type, description=description, condition=condition)
         card.save()
-    return HttpResponseRedirect('/library/')
+    return HttpResponseRedirect('/library/cardgames')
 
 
 def add_tag(request: HttpRequest):
@@ -117,32 +117,32 @@ def add_tag(request: HttpRequest):
     if name != '':
         tag = Tag(name=name)
         tag.save()
-    return HttpResponseRedirect('/library/')
+    return HttpResponseRedirect('/library/books')
 
 
 def remove_book(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
     book.delete()
-    return HttpResponseRedirect('/library/')
+    return HttpResponseRedirect('/library/books')
 
 
 def remove_game(request: HttpRequest, game_id: int) -> HttpResponse:
     game = get_object_or_404(Game, pk=game_id)
     game.delete()
-    return HttpResponseRedirect('/library/')
+    return HttpResponseRedirect('/library/games')
 
 
 def remove_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     card.delete()
-    return HttpResponseRedirect('/library/')
+    return HttpResponseRedirect('/library/cardgames')
 
 
 def borrow_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     card.available = False
     card.save()
-    return HttpResponseRedirect('/library/')
+    return HttpResponseRedirect('/library/cardgames')
 
 
 def borrowed(request: HttpRequest):
