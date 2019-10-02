@@ -8,40 +8,40 @@ from .models import Book, Game, Tag, Card, Item, Borrow
 # Viewing the Items table, ordered by the name
 def all_view(request: HttpRequest) -> HttpResponse:
     items = Item.objects.order_by('name')
-    return render(request, 'library/items.html', {'items': items})
+    return render(request, 'library/item/all.html', {'items': items})
 
 
 def book_view(request: HttpRequest) -> HttpResponse:
     books = Book.objects.order_by('name')
     tags = Tag.objects.order_by('name')
-    return render(request, 'library/books.html', {'books': books, 'tags': tags})
+    return render(request, 'library/book/all.html', {'books': books, 'tags': tags})
 
 
 def game_view(request: HttpRequest) -> HttpResponse:
     games = Game.objects.order_by('name')
     tags = Tag.objects.order_by('name')
-    return render(request, 'library/games.html', {'games': games, 'tags': tags})
+    return render(request, 'library/game/all.html', {'games': games, 'tags': tags})
 
 
 def cardgame_view(request: HttpRequest) -> HttpResponse:
     cards = Card.objects.order_by('name')
     tags = Tag.objects.order_by('name')
-    return render(request, 'library/cardgames.html', {'cards': cards, 'tags': tags})
+    return render(request, 'library/cardgame/all.html', {'cards': cards, 'tags': tags})
 
 
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
-    return render(request, 'library/book_detail.html', {'book': book})
+    return render(request, 'library/book/detail.html', {'book': book})
 
 
 def game_detail(request: HttpRequest, game_id: int) -> HttpResponse:
     game = get_object_or_404(Game, pk=game_id)
-    return render(request, 'library/game_detail.html', {'game': game})
+    return render(request, 'library/game/detail.html', {'game': game})
 
 
 def card_detail(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
-    return render(request, 'library/card_detail.html', {'card': card})
+    return render(request, 'library/card/detail.html', {'card': card})
 
 
 def book_form(request):
@@ -49,7 +49,7 @@ def book_form(request):
     if form.is_valid():
         form.save()
 
-    return render(request, "library/book_form.html", {'form': form})
+    return render(request, "library/book/create_form.html", {'form': form})
 
 
 def game_form(request):
@@ -57,7 +57,7 @@ def game_form(request):
     if form.is_valid():
         form.save()
 
-    return render(request, "library/game_form.html", {'form': form})
+    return render(request, "library/game/create_form.html", {'form': form})
 
 
 def card_form(request: HttpRequest) -> HttpResponse:
@@ -65,7 +65,7 @@ def card_form(request: HttpRequest) -> HttpResponse:
     if form.is_valid():
         form.save()
 
-    return render(request, "library/card_form.html", {'form': form})
+    return render(request, "library/card/create_form.html", {'form': form})
 
 
 def tag_form(request: HttpRequest):
@@ -147,7 +147,7 @@ def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
     form = BookForm(request.POST or None)
     if form.is_valid():
         form.save()
-    return render(request, "library/book_edit_form.html", {'book': book, 'form': form})
+    return render(request, "library/book/create_form.html", {'book': book, 'form': form})
 
 
 def remove_book(request: HttpRequest, book_id: int) -> HttpResponse:
