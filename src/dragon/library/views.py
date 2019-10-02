@@ -10,6 +10,7 @@ def all_view(request: HttpRequest) -> HttpResponse:
     items = Item.objects.order_by('name')
     return render(request, 'library/items.html', {'items': items})
 
+
 def book_view(request: HttpRequest) -> HttpResponse:
     books = Book.objects.order_by('name')
     tags = Tag.objects.order_by('name')
@@ -82,7 +83,7 @@ def add_book(request: HttpRequest) -> HttpResponse:
         year = request.POST['year']
         genre = request.POST['genre']
         book = Book(name=name, description=description, notes=notes, condition=condition, isbn=isbn, year=year,
-            edition=edition, genre=genre)
+                    edition=edition, genre=genre)
         book.save()
     return HttpResponseRedirect('/library/books')
 
@@ -124,6 +125,7 @@ def add_tag(request: HttpRequest):
         tag.save()
     return HttpResponseRedirect('/library/books')
 
+
 def update_book(request: HttpRequest, book_id: int):
     book = get_object_or_404(Book, pk=book_id)
     book.name = request.POST['name']
@@ -137,7 +139,7 @@ def update_book(request: HttpRequest, book_id: int):
         book.genre = request.POST['genre']
         book.save()
     return HttpResponseRedirect('/library/books')
-    
+
 
 # Added rendering for book editing, referring to the book id
 def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
@@ -146,6 +148,7 @@ def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
     if form.is_valid():
         form.save()
     return render(request, "library/book_edit_form.html", {'book': book, 'form': form})
+
 
 def remove_book(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
@@ -188,4 +191,3 @@ def returned(request: HttpRequest, card_id: int) -> HttpResponse:
     loan = get_object_or_404(Borrow, item_id=card_id)
     loan.delete()
     return HttpResponseRedirect('/library/card/' + str(card_id))
-

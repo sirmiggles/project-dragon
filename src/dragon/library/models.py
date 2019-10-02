@@ -61,7 +61,6 @@ class Item(Model):
         query = Borrow.objects.filter(item_id=self.id)
         return len(query) == 0
 
-
     def get_due_date(self):
         borrow = Borrow.objects.get(item=self.id)
         return borrow.due_date
@@ -147,6 +146,13 @@ class Card(Item):
 
 
 class Borrow(Model):
+    """
+    Borrows are used to track when something is out of the library
+    When something is taken out an entry in this table is added
+    When it is returned this table is modified to indicate so
+    Currently that involves deleting the entry
+    todo: archive borrows
+    """
     item = models.OneToOneField(Item, on_delete=models.CASCADE)
     borrow_date = models.DateField(auto_now=True)
     due_date = models.DateField(auto_now_add=True)
