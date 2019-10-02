@@ -1,4 +1,4 @@
-#item-details {
+.item-details {
     margin: 0.5rem;
     padding: 0.5rem;
     padding-top: 2rem;
@@ -7,13 +7,17 @@
     border-radius: 0.5rem;
 }
 
+.left-column {
+    border-right: 1px solid silver;
+}
+
 .item-img-container {
     padding: 0;
     margin: 0;
     border-bottom: 1px solid silver;
 }
 
-#book-img {
+.item-img {
     display: block;
     margin: auto;
     margin-bottom: 2rem;
@@ -26,10 +30,6 @@
 
 #item-title {
     font-size: 1.5rem;
-}
-
-.item-attributes {
-    border-left: 1px solid silver;
 }
 
 .attr-header {
@@ -48,21 +48,13 @@
     padding-bottom: 0.1rem;
 }
 
-#isbn-details {
-    border-bottom: 1px solid silver;
-}
-
 .cat-value {
     font-weight: normal;
     font-size: 1rem;
     text-align: center;
 }
 
-#book-isbn {
-    padding-top: 0.5rem;
-}
-
-#delete-item {
+.delete-container {
     margin: 1rem;
     padding: 0;
 }
@@ -78,16 +70,22 @@
     width: 10%;
 }
 
+/*  Book specific styling  */
+#isbn-details {
+    border-bottom: 1px solid silver;
+}
+
+#book-isbn {
+    padding-top: 0.5rem;
+}
+
+
 /*  Media queries for mobile display  */
 /*  Up to 576px wide displays, will be mobile  */
 /*  As per Bootstrap 4's size viewport specifications  */
 @media screen and (max-width: 576px) {
-    #book-img {
+    .item-img {
         size: auto;
-    }
-    
-    .item-attributes {
-        border-left: none;
     }
 
     .attr-tags-container {
@@ -95,16 +93,8 @@
         margin-bottom: 1rem;
     }
 
-    #isbn-details {
-        border: none;
-    }
-
     .attr-cell {
         border: none;
-    }
-
-    #book-isbn {
-        padding-top: 0;
     }
 
     .cat-value {
@@ -114,6 +104,14 @@
     #delete-button {
         font-size: 0.5rem;
         width: 66.7%;
+    }
+
+    #isbn-details {
+        border: none;
+    }
+
+    #book-isbn {
+        padding-top: 0;
     }
 }
 
