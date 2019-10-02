@@ -1,4 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=New+Rocker&display=swap');
+:root {
+    --main-theme-color: #370aa8;
+    --main-theme-color-dark: #270875;
+}
 
 /*  The CSS for the main body  */
 body {
@@ -19,7 +23,7 @@ body {
 
 /*  Styling for the main navigation bar  */
 nav.bg-custom {
-    background-color: #370aa8;
+    background-color: var(--main-theme-color);
 }
 
 .navbar-toggler.custom-toggler {
@@ -38,7 +42,7 @@ nav.bg-custom {
 }
 
 .nav-item:hover {
-    background-color: #270875;
+    background-color: var(--main-theme-color-dark);
     transition: 0.75s;
 }
 
