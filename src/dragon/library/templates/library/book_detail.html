@@ -1,91 +1,74 @@
-{% extends "dragon/base.html" %}
+{% extends "library/item_details.html" %}
 
-{% block title %}{{ block.super }} - {{ book.name }}{% endblock %}
-{% load static %}
-{% block page-styles %}
-<link rel="stylesheet" type="text/css" href="{% static 'dragon/book_detail.css' %}">
-{% endblock %}
+{% block page-title %}{{ book.name }}{% endblock %}
 
-{% block content %}
-<div class="d-md-flex" id="item-details">
-  <!--  Left column of item page  -->
-  <div class="d-flex col-12 col-md-4 flex-column">
-    <div class="container-fluid item-img-container">
-      <img class="rounded" id="book-img" src="https://dummyimage.com/200x200/d6d6d6.png&text=[INSERT+IMAGE+HERE]"/> 
-    </div>
-
-    <div class="container-fluid item-title-container">
-      <h3 id="item-title">Title</h3>
-      <p>{{ book.name }}</p>
-    </div>
+{%block item-img %}<img class="rounded item-img" src="https://dummyimage.com/200x200/d6d6d6.png&text=[INSERT+IMAGE+HERE]"/>{% endblock %}
+{% block item-name %}<h5>{{ book.name }}</h5>{% endblock %}
+<!--  Right column of item page  -->
+{% block misc %}
+<!--  Book ISBN  -->
+<div class="d-flex flex-column flex-md-row" id="isbn-details">
+  <div class="p-0 col-3 text-md-center attr-cell">
+    <h5 class="cat-header">ISBN:</h5>
   </div>
-  <!--  Right column of item page  -->
-  <div class="container-fluid">
-    <div class="container-fluid item-attributes">
-      <h3 class="attr-header">Attributes</h3>
-      <div class="attr-tags-container">
-        <div class="d-flex flex-column flex-md-row" id="isbn-details">
-          <div class="p-0 col-3 text-md-center attr-cell">
-            <h5 class="cat-header">ISBN:</h5>
-          </div>
-          <div class="p-0 col-9 text-md-center attr-cell">
-            <h6 class="cat-value" id="book-isbn">{{ book.isbn }}</h6>
-          </div>
-        </div>
-        <div class="d-flex flex-column flex-md-row">
-          <div class="p-0 col-12 col-md-3 text-md-center attr-cell">
-            <h5 class="cat-header">Edition:</h5>
-            <h6 class="cat-value">{{ book.edition }}</h6>
-          </div>
-          <div class="p-0 col-12 col-md-3 text-md-center attr-cell">
-            <h5 class="cat-header">Year:</h5>
-            <h6 class="cat-value">{{ book.year }}</h6>
-          </div>
-          <div class="p-0 col-12 col-md-3 text-md-center attr-cell">
-            <h5 class="cat-header">Genre:</h5>
-            <h6 class="cat-value">{{ book.get_genre_display }}</h6>
-          </div>
-          <div class="p-0 col-12 col-md-3 text-md-center attr-cell">
-            <h5 class="cat-header">Condition:</h5>
-            <h6 class="cat-value">{{ book.get_condition_display }}</h6>
-          </div>
-        </div>
-      </div>
-      
-      <h3 class="attr-header">Description</h3>
-      {% if book.description != '' %}
-      <p>{{ book.description }}</p>
-      {% else %}
-      <p>No description given</p>
-      {% endif %}
-
-      <h3 class="attr-header">Additional Notes</h3>
-      {% if book.notes != '' %}
-      <p>{{ book.notes }}</p>
-      {% else %}
-      <p>No notes given</p>
-      {% endif %}
-
-      <h3>Tags:</h3>
-      <div class=" d-flex flex-column flex-md-row">
-        <div class=" col-12 col-md-2 item-tag">
-          <h5>TAG 1</h5>
-        </div>
-        <div class=" col-12 col-md-2 item-tag">
-          <h5>TAG 2</h5>
-        </div>
-        <div class=" col-12 col-md-2 item-tag">
-          <h5>TAG 3</h5>
-        </div>
-        <div class=" col-12 col-md-2 item-tag">
-          <h5>TAG 4</h5>
-        </div>
-      </div>
-    </div>
+  <div class="p-0 col-9 text-md-center attr-cell">
+    <h6 class="cat-value" id="book-isbn">{{ book.isbn }}</h6>
   </div>
 </div>
+{% endblock %}
 
-<div class="text-center text-md-right" id="delete-item">
+{% block attributes %}
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+  <h5 class="cat-header">Edition:</h5>
+  <h6 class="cat-value">{{ book.edition }}</h6>
+</div>
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+  <h5 class="cat-header">Year:</h5>
+  <h6 class="cat-value">{{ book.year }}</h6>
+</div>
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+  <h5 class="cat-header">Genre:</h5>
+  <h6 class="cat-value">{{ book.get_genre_display }}</h6>
+</div>
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+  <h5 class="cat-header">Condition:</h5>
+  <h6 class="cat-value">{{ book.get_condition_display }}</h6>
+</div>
+{% endblock %}
+
+{% block item-description %}
+{% if book.description != '' %}
+<p>{{ book.description }}</p>
+{% else %}
+<p>No description given</p>
+{% endif %}
+{% endblock %}
+
+{% block item-notes %}
+{% if book.notes != '' %}
+<p>{{ book.notes }}</p>
+{% else %}
+<p>No notes given</p>
+{% endif %}
+{% endblock %}
+
+{% block item-tags %}
+<div class=" col-12 col-md-2 item-tag">
+  <h5>TAG 1</h5>
+</div>
+<div class=" col-12 col-md-2 item-tag">
+  <h5>TAG 2</h5>
+</div>
+<div class=" col-12 col-md-2 item-tag">
+  <h5>TAG 3</h5>
+</div>
+<div class=" col-12 col-md-2 item-tag">
+  <h5>TAG 4</h5>
+</div>
+{% endblock %}
+
+{% block delete %}
+<div class="text-center text-md-right delete-container">
   <h6 class="item-delete-message">Click here to delete this</h6>
   <form action="{% url 'library:remove_book' book.id %}" method="post">
     <button class="btn btn-warning btn-danger btn-sm" id="delete-button" type="submit">DELETE</button>
