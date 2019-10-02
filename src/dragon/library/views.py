@@ -149,6 +149,32 @@ def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
     return render(request, "library/book_edit_form.html", {'book': book, 'form': form})
 
 
+def update_game(request: HttpRequest, game_id: int):
+    game = get_object_or_404(Book, pk=game_id)
+    game.name = request.POST['name']
+    if game.name != '':
+        game.description = request.POST['description']
+        game.notes = request.POST['notes']
+        game.condition = request.POST['condition']
+        game.minplayers = request.POST['minplayers']
+        game.maxplayers = request.POST['maxplayers']
+        game.mingamelength = request.POST['mingamelength']
+        game.maxgamelength = request.POST['maxgamelength']
+        game.difficulty = request.POST['difficulty']
+        game.genre = request.POST['genre']
+        game.save()
+    return HttpResponseRedirect('/library/games')
+
+
+# Added rendering for book editing, referring to the book id
+def game_edit_form(request: HttpRequest, game_id: int) -> HttpResponse:
+    game = get_object_or_404(Book, pk=game_id)
+    form = GameForm(instance=game)
+    if form.is_valid():
+        form.save()
+    return render(request, "library/game_edit_form.html", {'game': game, 'form': form})
+
+
 def remove_book(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
     book.delete()
