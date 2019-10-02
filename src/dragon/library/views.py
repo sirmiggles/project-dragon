@@ -20,13 +20,7 @@ def game_view(request: HttpRequest) -> HttpResponse:
 def cardgame_view(request: HttpRequest) -> HttpResponse:
     cards = Card.objects.order_by('name')
     tags = Tag.objects.order_by('name')
-<<<<<<< HEAD
-    items = Item.objects.order_by('name')
-    return render(request, 'library/library.html', {'books': books, 'games': games, 'cards': cards, 'tags': tags, 
-        'items': items})
-=======
     return render(request, 'library/cardgames.html', {'cards': cards, 'tags': tags})
->>>>>>> 5dcca440695687f893f5d95daf8f07e1d5e0b740
 
 
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
