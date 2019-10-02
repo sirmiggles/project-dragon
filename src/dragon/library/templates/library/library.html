@@ -4,12 +4,53 @@
 
 {% block content %}
   <h1>Library</h1>
-
   <h3><a href="{% url 'library:borrowed' %}">Borrowed from Unigames</a></h3>
-  <h3>Books</h3>
+
+
+  <!-- An "Items" table for displaying every item they have -->
+  <h3>Items</h3>
   <table style="width:100%">
     <tr>
       <th>Name</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Availability</th>
+    </tr>
+
+    <!-- Trying to refer to book/game/card.id to link to their detail page -->
+    {% for item in items %}
+      <tr>
+        {% if item.type == 0 %}
+          <td><a href="{% url 'library:book_detail' item.id %}">
+            {{ item.name }}
+          </a></td>
+        {% elif item.type == 1 %}
+          <td><a href="{% url 'library:game_detail' item.id %}">
+            {{ item.name }}
+          </a></td>
+        {% elif item.type == 2 %}
+          <td><a href="{% url 'library:card_detail' item.id %}">
+            {{ item.name }}
+          </a></td>
+        {% endif %}
+        <td>
+          {{ item.description }}
+        </td>
+        <td>
+          {{ item.get_type_display }}
+        </td>
+        <td>
+          {{ item.available }}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <!-- A "Books" table that displays the list of books  -->
+  <h3>Books</h3>
+  <table style="width:100%">
+    <tr>
+      <th>Title</th>
       <th>ISBN</th>
       <th>Edition</th>
       <th>Year</th>
@@ -41,7 +82,7 @@
 
   </table>
 
-
+  <!-- A "Games" table that displays the list of games  -->
   <h3>Games</h3>
   <table style="width:100%">
     <tr>
@@ -77,7 +118,8 @@
 
   </table>
 
-<h3>Card Games</h3>
+  <!-- A "Card Games" table that displays the list of card games  -->
+  <h3>Card Games</h3>
   <table style="width:100%">
     <tr>
       <th>Name</th>
@@ -100,6 +142,8 @@
 
   </table>
 
+
+  <!-- A list of tags created -->
   <h3>List of Tags</h3>
   <table>
     <tr>
@@ -122,7 +166,7 @@
   <a href="{% url 'library:book_form' %}">Add Book</a><br>
   <a href="{% url 'library:game_form' %}">Add Game</a><br>
   <a href="{% url 'library:card_form' %}">Add Card Game</a><br>
-  <a href="{% url 'library:tag_form' %}">Manage Tags</a>
+  <a href="{% url 'library:tag_form' %}">Add Tags</a>
 
 
 {% endblock %}

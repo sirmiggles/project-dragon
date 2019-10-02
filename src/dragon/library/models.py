@@ -44,16 +44,16 @@ class Item(Model):
     # ??? (Kieran) I believe this will set the default due date for all items as 2 weeks from
     # ???          when the database applies this migration, which doesn't make any sense to me
     due_date = DateField(default=return_date)
-    # our database model is a discriminated union, these are the options of the discriminate
-    type_choices = ((0, 'book'), (1, 'game'), (2, 'card'))
+
+    type_choices = ((0, 'Book'), (1, 'Game'), (2, 'Card'))
     type = IntegerField(choices=type_choices)
 
     condition_choices = (
-        (0, 'excellent'),
-        (1, 'very good'),
-        (2, 'good'),
-        (3, 'fair'),
-        (4, 'bad')
+        (0, 'Excellent'),
+        (1, 'Very good'),
+        (2, 'Good'),
+        (3, 'Fair'),
+        (4, 'Bad')
     )
     condition = IntegerField(choices=condition_choices)
 

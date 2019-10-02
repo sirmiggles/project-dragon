@@ -10,7 +10,9 @@ def library_view(request: HttpRequest) -> HttpResponse:
     games = Game.objects.order_by('name')
     cards = Card.objects.order_by('name')
     tags = Tag.objects.order_by('name')
-    return render(request, 'library/library.html', {'books': books, 'games': games, 'cards': cards, 'tags': tags})
+    items = Item.objects.order_by('name')
+    return render(request, 'library/library.html', {'books': books, 'games': games, 'cards': cards, 'tags': tags, 
+        'items': items})
 
 
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
