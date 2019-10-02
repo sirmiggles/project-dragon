@@ -57,6 +57,11 @@ class Item(Model):
     )
     condition = IntegerField(choices=condition_choices)
 
+    def is_available(self):
+        return self.available
+    def get_due_date(self):
+        return self.due_date
+
 
 class Book(Item):
     isbn = CharField(max_length=16, blank=True, default='')
