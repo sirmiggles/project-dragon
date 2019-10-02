@@ -8,6 +8,9 @@ app_name = 'library'
 
 urlpatterns = [
 
+    # Urls for items library page
+    path('ALL/', views.all_view, name='ALL'),
+
     # Urls for book library page
     path('books/', views.book_view, name='books'),
     path('book/<int:book_id>/', views.book_detail, name='book_detail'),
