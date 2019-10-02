@@ -5,6 +5,11 @@ from .forms import BookForm, GameForm, CardForm
 from .models import Book, Game, Tag, Card, Item
 
 
+# Viewing the Items table, ordered by the name
+def all_view(request: HttpRequest) -> HttpResponse:
+    items = Item.objects.order_by('name')
+    return render(request, 'library/items.html', {'items': items})
+
 def book_view(request: HttpRequest) -> HttpResponse:
     books = Book.objects.order_by('name')
     tags = Tag.objects.order_by('name')
