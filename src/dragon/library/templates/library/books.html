@@ -1,0 +1,65 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - Books{% endblock %}
+
+{% block content %}
+  <h1>Book Library</h1>
+
+  <h3><a href="{% url 'library:borrowed' %}">Borrowed from Unigames</a></h3>
+  <h3>Books</h3>
+  <table style="width:100%">
+    <tr>
+      <th>Name</th>
+      <th>ISBN</th>
+      <th>Edition</th>
+      <th>Year</th>
+      <th>Genre</th>
+      <th>Availability</th>
+    </tr>
+    {% for book in books %}
+      <tr>
+        <td><a href="{% url 'library:book_detail' book.id %}">
+          {{ book.name }}
+        </a></td>
+        <td>
+          {{ book.isbn }}
+        </td>
+        <td>
+          {{ book.edition }}
+        </td>
+        <td>
+          {{ book.year }}
+        </td>
+        <td>
+          {{ book.get_genre_display }}
+        </td>
+        <td>
+          {{ book.available }}
+        </td>
+      </tr>
+    {% endfor %}
+
+  </table>
+
+  <h3>List of Tags</h3>
+    <table>
+      <tr>
+        <th>Tag Name</th>
+      </tr>
+      {% for tag in tags %}
+        <tr>
+          <td>
+            {{ tag.name }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+
+  <h1>Add Items</h1>
+
+  <a href="{% url 'library:book_form' %}">Add Book</a><br>
+  <a href="{% url 'library:tag_form' %}">Manage Tags</a>
+
+
+{% endblock %}
+
