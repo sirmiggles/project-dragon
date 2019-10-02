@@ -1,0 +1,42 @@
+#item-details {
+    margin: 0.5rem;
+    padding: 1.5rem;
+    padding-top: 2rem;
+    border: 1px solid silver;
+    border-radius: 0.5rem;
+}
+
+#book-img {
+    display: block;
+    margin: auto;
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+}
+
+#book-isbn {
+    margin: 0;
+    padding: 0;
+}
+
+.item-attributes {
+    border-left: 1px solid silver;
+}
+
+
+.item-delete-message {
+    color: silver;
+}
+
+/*  Media queries for mobile display  */
+/*  Up to 576px wide displays, will be mobile  */
+/*  As per Bootstrap 4's size viewport specifications  */
+@media screen and (max-width: 576px) {
+    #book-img {
+        size: auto;
+    }
+    
+    .item-attributes {
+        border-left: none;
+    }
+}
+

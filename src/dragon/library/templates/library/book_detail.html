@@ -1,40 +1,94 @@
 {% extends "dragon/base.html" %}
 
 {% block title %}{{ block.super }} - {{ book.name }}{% endblock %}
+{% load static %}
+{% block page-styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'dragon/book_detail.css' %}">
+{% endblock %}
 
 {% block content %}
-    <h3>Title</h3>
-    <p>{{ book.name }}</p>
+<div class="d-md-flex" id="item-details">
+  <!--  Left column of item page  -->
+  <div class="d-flex col-12 col-md-4 flex-column">
+    <div class="container-fluid">
+      <img id="book-img" src="https://dummyimage.com/200x200/d6d6d6.png&text=[INSERT+IMAGE+HERE]"/> 
+    </div>
 
-    <h3>Attributes</h3>
-    <p>
-        ISBN: {{ book.isbn }}<br>
-        Edition: {{ book.edition }}<br>
-        Year: {{ book.year }}<br>
-        Genre: {{ book.get_genre_display }}<br>
-        Condition: {{ book.get_condition_display }}
-    </p>
+    <div class="container-fluid">
+      <h3>Title</h3>
+      <p>{{ book.name }}</p>
+    </div>
+  </div>
+  <!--  Right column of item page  -->
+  <div class="container-fluid">
+    <div class="container-fluid item-attributes">
+      <h3 class="attr-header">Attributes</h3>
+      <div class="d-flex p-0 flex-column flex-md-row" id="book-isbn">
+        <div class="p-0 col-6">
+          <h5>ISBN:</h5>
+        </div>
+        <div class="p-0 col-6">
+          <p>{{ book.isbn }}</p>
+        </div>
+      </div>
+      <div class="d-flex flex-column flex-md-row">
+        <div class="p-0 col-12 col-md-3">
+          <h5>Edition:</h5>
+          <p>{{ book.edition }}</p>
+        </div>
+        <div class="p-0 col-12 col-md-3">
+          <h5>Year:</h5>
+          <p>{{ book.year }}</p>
+        </div>
+        <div class="p-0 col-12 col-md-3">
+          <h5>Genre:</h5>
+          <p>{{ book.get_genre_display }}</p>
+        </div>
+        <div class="p-0 col-12 col-md-3">
+          <h5>Condition:</h5>
+          <p>{{ book.get_condition_display }}</p>
+        </div>
+      </div>
+      
+      <h3 class="attr-header">Description</h3>
+      {% if book.description != '' %}
+      <p>{{ book.description }}</p>
+      {% else %}
+      <p>No description given</p>
+      {% endif %}
 
+      <h3 class="attr-header">Additional Notes</h3>
+      {% if book.notes != '' %}
+      <p>{{ book.notes }}</p>
+      {% else %}
+      <p>No notes given</p>
+      {% endif %}
 
-    <h3>Description</h3>
-    {% if book.description != '' %}
+      <h3>Tags:</h3>
+      <div class="p-0 d-flex flex-column flex-md-row">
+        <div class="p-0 col-12 col-md-2 item-tag">
+          <h5>TAG 1</h5>
+        </div>
+        <div class="p-0 col-12 col-md-2 item-tag">
+          <h5>TAG 2</h5>
+        </div>
+        <div class="p-0 col-12 col-md-2 item-tag">
+          <h5>TAG 3</h5>
+        </div>
+        <div class="p-0 col-12 col-md-2 item-tag">
+          <h5>TAG 4</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <p>{{ book.description }}</p>
-    {% else %}
-        <p>No description given</p>
-    {% endif %}
+<div class="container-fluid">
+<h5 class="item-delete-message">Click here to delete this</h5>
+<form action="{% url 'library:remove_book' book.id %}" method="post">
+  <input type="submit" value="!Delete Book!">
+  {% csrf_token %}
+</form>
+</div>
 
-    <h3>Additional Notes</h3>
-    {% if book.notes != '' %}
-
-        <p>{{ book.notes }}</p>
-    {% else %}
-        <p>No notes given</p>
-    {% endif %}
-
-    <h3>Delete</h3>
-    <form action="{% url 'library:remove_book' book.id %}" method="post">
-        <input type="submit" value="!Delete Book!">
-        {% csrf_token %}
-    </form>
 {% endblock %}
