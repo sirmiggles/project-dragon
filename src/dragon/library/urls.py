@@ -7,21 +7,31 @@ app_name = 'library'
 # todo: this has gotten rather long, maybe we could split them up semantically then concat them together
 
 urlpatterns = [
-    path('', views.library_view, name='library'),
+
+    # Urls for book library page
+    path('books/', views.book_view, name='books'),
     path('book/<int:book_id>/', views.book_detail, name='book_detail'),
-    path('game/<int:game_id>/', views.game_detail, name='game_detail'),
-    path('card/<int:card_id>/', views.card_detail, name='card_detail'),
     path('add_book/', views.add_book, name='add_book'),
-    path('remove_book/<int:book_id>/', views.remove_book, name='remove_book'),
-    path('remove_game/<int:game_id>/', views.remove_game, name='remove_game'),
-    path('remove_card/<int:card_id>/', views.remove_card, name='remove_card'),
     path('book_form/', views.book_form, name='book_form'),
-    path('game_form/', views.game_form, name='game_form'),
-    path('card_form/', views.card_form, name='card_form'),
+    path('remove_book/<int:book_id>/', views.remove_book, name='remove_book'),
+
+    # Urls for game library page
+    path('games/', views.game_view, name='games'),
+    path('game/<int:game_id>/', views.game_detail, name='game_detail'),
     path('add_game/', views.add_game, name='add_game'),
+    path('game_form/', views.game_form, name='game_form'),
+    path('remove_game/<int:game_id>/', views.remove_game, name='remove_game'),
+
+    # Urls for card game library page
+    path('cardgames/', views.cardgame_view, name='cardgames'),
+    path('card/<int:card_id>/', views.card_detail, name='card_detail'),
     path('add_card/', views.add_card, name='add_card'),
+    path('card_form/', views.card_form, name='card_form'),
+    path('remove_card/<int:card_id>/', views.remove_card, name='remove_card'),
+
     path('tag_form', views.tag_form, name='tag_form'),
     path('add_tag', views.add_tag, name='add_tag'),
+
     path('borrow_card/<int:card_id>/', views.borrow_card, name='borrow_card'),
     path('returned/<int:card_id>/', views.returned, name='returned'),
     path('borrow_detail/<int:card_id>/', views.borrow_detail, name='borrow_detail'),
