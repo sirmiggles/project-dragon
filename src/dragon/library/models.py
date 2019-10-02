@@ -1,7 +1,10 @@
 import datetime
 
+from django.db import models
 from django.db.models import Model, CharField, TextField, AutoField, BooleanField, IntegerField, ManyToManyField, \
     DateField
+
+from ..members.models import User
 
 
 # These classes are mapped to database entries,
@@ -59,8 +62,13 @@ class Item(Model):
 
     def is_available(self):
         return self.available
+
     def get_due_date(self):
         return self.due_date
+
+    # req: borrow table to be updated via this method
+    def borrow(self, user):
+        pass
 
 
 class Book(Item):
@@ -132,6 +140,12 @@ class Card(Item):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.type = 2
+
+
+class Borrow(Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    item = models.OneToOneField(Item, on_delete=models.CASCADE)
+    due_date = models.DateField(auto_now_add=True)
 
 # notes (Kieran): I would prefer having default text being an empty string
 #                 This would be simpler to test for and give custom output
