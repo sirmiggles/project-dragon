@@ -1,0 +1,60 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - {% block page-title %}{% endblock %}{% endblock %}
+{% load static %}
+{% block page-styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'dragon/item_detail.css' %}">
+{% endblock %}
+
+<!--  Main page content  -->
+{% block content %}
+<!--  Details of the item  -->
+<div class="d-md-flex item-details">
+  <!--  Left column of details -->
+  <div class="d-flex col-12 col-md-4 flex-column left-column">
+    <div class="container-fluid item-img-container">
+      {% block item-img %}{% endblock %}
+    </div>
+  
+    <div class="container-fluid item-title-container">
+      <h3 id="item-title">Title</h3>
+      {% block item-name %}<h5>{{ book.name }}</h5>{% endblock %}
+    </div>
+  </div>
+  <!--  Right column of item page  -->
+<div class="container-fluid">
+  <div class="container-fluid item-attributes">
+    <h3 class="attr-header">Attributes</h3>
+    <div class="attr-tags-container">
+      {% block misc %}
+      {% endblock %}
+      <div class="d-flex flex-column flex-md-row">
+        {% block attributes %}
+        {% endblock %}
+      </div>
+    </div>
+    
+    <h3 class="attr-header">Description</h3>
+    {% block item-description %}
+    {% endblock %}
+
+    <h3 class="attr-header">Additional Notes</h3>
+    {% block item-notes %}
+    {% endblock %}
+
+    <h3>Tags:</h3>
+    <div class=" d-flex flex-column flex-md-row">
+      {% block item-tags %}
+      {% endblock %}
+    </div>
+  </div>
+</div>
+
+{% block page-content %}
+{% endblock %}
+</div>
+<!--  The delete button  -->
+{% block delete %}
+{% endblock %}
+{% endblock %}
+
