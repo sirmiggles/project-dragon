@@ -1,8 +1,8 @@
 import datetime
 
+from django.db import models
 from django.db.models import Model, CharField, TextField, AutoField, BooleanField, IntegerField, ManyToManyField, \
     DateField
-
 
 
 # These classes are mapped to database entries,
@@ -14,7 +14,7 @@ from django.db.models import Model, CharField, TextField, AutoField, BooleanFiel
 # is a strongly recommended way of accessing objects
 
 
-class Tag(Model):
+class Tag(models.Model):
     name = CharField(max_length=200)
 
     def __str__(self):
@@ -59,14 +59,21 @@ class Item(Model):
     condition = IntegerField(choices=condition_choices)
 
     def is_available(self):
-        return self.available
+        query = Borrow.objects.filter(item_id=self.id)
+        return len(query) == 0
+
 
     def get_due_date(self):
-        return self.due_date
+        borrow = Borrow.objects.get(item=self.id)
+        return borrow.due_date
 
-    # req: borrow table to be updated via this method
-    def borrow(self, user):
-        pass
+    # borrow currently doesn't use the user, but this will make the item unavailable
+    def borrow_item(self):
+        now = datetime.date.today()
+        borrow_date = now
+        due_date = now + datetime.timedelta(days=14)
+        lone = Borrow(item_id=self.id, borrow_date=borrow_date, due_date=due_date)
+        lone.save()
 
 
 class Book(Item):
@@ -140,6 +147,10 @@ class Card(Item):
         self.type = 2
 
 
+class Borrow(Model):
+    item = models.OneToOneField(Item, on_delete=models.CASCADE)
+    borrow_date = models.DateField(auto_now=True)
+    due_date = models.DateField(auto_now_add=True)
 
 # notes (Kieran): I would prefer having default text being an empty string
 #                 This would be simpler to test for and give custom output

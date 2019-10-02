@@ -2,7 +2,7 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
 from .forms import BookForm, GameForm, CardForm
-from .models import Book, Game, Tag, Card, Item
+from .models import Book, Game, Tag, Card, Item, Borrow
 
 
 # Viewing the Items table, ordered by the name
@@ -167,8 +167,7 @@ def remove_card(request: HttpRequest, card_id: int) -> HttpResponse:
 
 def borrow_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
-    card.available = False
-    card.save()
+    card.borrow_item()
     return HttpResponseRedirect('/library/cardgames')
 
 
@@ -186,8 +185,7 @@ def borrow_detail(request: HttpRequest, card_id: int) -> HttpResponse:
 
 
 def returned(request: HttpRequest, card_id: int) -> HttpResponse:
-    card = get_object_or_404(Card, pk=card_id)
-    card.available = True
-    card.save()
-    return HttpResponseRedirect('/library/borrowed/')
+    loan = get_object_or_404(Borrow, item_id=card_id)
+    loan.delete()
+    return HttpResponseRedirect('/library/card/' + str(card_id))
 
