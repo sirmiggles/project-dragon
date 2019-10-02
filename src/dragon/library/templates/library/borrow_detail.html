@@ -12,7 +12,7 @@
   {% else %}
     <p>No description given</p>
   {% endif %}
-    <p>This item is due on {{ card.due_date }}</p>
+    <p>This item is due on {{ card.get_due_date }}</p>
 {#    want part on, this item is due on...#}
   <form action="{% url 'library:returned' card.id %}" method="post">
     <input type="submit" value="Item returned">
