@@ -5,12 +5,22 @@ from .forms import BookForm, GameForm, CardForm
 from .models import Book, Game, Tag, Card, Item
 
 
-def library_view(request: HttpRequest) -> HttpResponse:
+def book_view(request: HttpRequest) -> HttpResponse:
     books = Book.objects.order_by('name')
+    tags = Tag.objects.order_by('name')
+    return render(request, 'library/books.html', {'books': books, 'tags': tags})
+
+
+def game_view(request: HttpRequest) -> HttpResponse:
     games = Game.objects.order_by('name')
+    tags = Tag.objects.order_by('name')
+    return render(request, 'library/games.html', {'games': games, 'tags': tags})
+
+
+def cardgame_view(request: HttpRequest) -> HttpResponse:
     cards = Card.objects.order_by('name')
     tags = Tag.objects.order_by('name')
-    return render(request, 'library/library.html', {'books': books, 'games': games, 'cards': cards, 'tags': tags})
+    return render(request, 'library/cardgames.html', {'cards': cards, 'tags': tags})
 
 
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
