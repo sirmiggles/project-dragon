@@ -4,7 +4,7 @@ from django.db import models
 from django.db.models import Model, CharField, TextField, AutoField, BooleanField, IntegerField, ManyToManyField, \
     DateField
 
-from ..members.models import User
+from src.dragon.members.models import User
 
 
 # These classes are mapped to database entries,
