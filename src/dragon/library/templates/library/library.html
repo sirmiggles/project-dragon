@@ -16,11 +16,23 @@
       <th>Type</th>
       <th>Availability</th>
     </tr>
+
+    <!-- Trying to refer to book/game/card.id to link to their detail page -->
     {% for item in items %}
       <tr>
-        <td>
-          {{ item.name }}
-        </a></td>
+        {% if item.type == 0 %}
+          <td><a href="{% url 'library:book_detail' item.id %}">
+            {{ item.name }}
+          </a></td>
+        {% elif item.type == 1 %}
+          <td><a href="{% url 'library:game_detail' item.id %}">
+            {{ item.name }}
+          </a></td>
+        {% elif item.type == 2 %}
+          <td><a href="{% url 'library:card_detail' item.id %}">
+            {{ item.name }}
+          </a></td>
+        {% endif %}
         <td>
           {{ item.description }}
         </td>
@@ -38,7 +50,7 @@
   <h3>Books</h3>
   <table style="width:100%">
     <tr>
-      <th>Name</th>
+      <th>Title</th>
       <th>ISBN</th>
       <th>Edition</th>
       <th>Year</th>
