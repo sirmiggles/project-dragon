@@ -3,7 +3,7 @@ from django.test.client import RequestFactory
 
 # Create your tests here.
 
-from .views import add_book
+from . import views
 from .models import Book
 
 
@@ -20,14 +20,51 @@ class BookTests(TestCase):
 
         todo: make view testable and complete test
         """
-        request = self.factory.post('library/add_book', data={'name':''})
-        response = add_book(request)
+        request = self.factory.post('library/add_book', data={'name': ''})
+        response = views.add_book(request)
 
-    def test_is_avaliable_method_on_book(self):
+    def test_is_available_method_on_book(self):
         # The fields for available will be removed so in the future
         # this test will need to borrow the book to become unavailable
-        available_book = Book(name='avaliable', available=True)
-        unavailable_book = Book(name='unavaliable', available=False)
+        available_book = Book(name='available', available=True)
+        unavailable_book = Book(name='unavailable', available=False)
 
         self.assertTrue(available_book.is_available())
         self.assertFalse(unavailable_book.is_available())
+
+
+class RenderingViewTests(TestCase):
+    """
+    run views that render a page to see if they still work
+    """
+
+    def setup(self):
+        self.factory = RequestFactory()
+
+    def render_library(self):
+        try:
+            request = self.factory.get('library/')
+            views.all_view(request)
+        except:
+            self.fail()
+
+    def render_books(self):
+        try:
+            request = self.factory.get('library/')
+            views.book_view(request)
+        except:
+            self.fail()
+
+    def render_game_view(self):
+        try:
+            request = self.factory.get('library/')
+            views.game_view(request)
+        except:
+            self.fail()
+
+    def render_cardgame(self):
+        try:
+            request = self.factory.get('library/')
+            views.cardgame_view(request)
+        except:
+            self.fail()

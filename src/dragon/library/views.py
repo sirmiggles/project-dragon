@@ -41,7 +41,7 @@ def game_detail(request: HttpRequest, game_id: int) -> HttpResponse:
 
 def card_detail(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
-    return render(request, 'library/card/detail.html', {'card': card})
+    return render(request, 'library/cardgame/detail.html', {'card': card})
 
 
 def book_form(request):
@@ -65,7 +65,7 @@ def card_form(request: HttpRequest) -> HttpResponse:
     if form.is_valid():
         form.save()
 
-    return render(request, "library/card/create_form.html", {'form': form})
+    return render(request, "library/cardgame/create_form.html", {'form': form})
 
 
 def tag_form(request: HttpRequest):
