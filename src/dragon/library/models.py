@@ -4,7 +4,6 @@ from django.db.models import Model, CharField, TextField, AutoField, BooleanFiel
     DateField
 
 
-
 # These classes are mapped to database entries,
 # but can also be instantiated in python code.
 # They can be retrieved from the database via queries

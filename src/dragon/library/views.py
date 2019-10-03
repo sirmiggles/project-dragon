@@ -150,7 +150,7 @@ def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
 
 
 def update_game(request: HttpRequest, game_id: int):
-    game = get_object_or_404(Book, pk=game_id)
+    game = get_object_or_404(Game, pk=game_id)
     game.name = request.POST['name']
     if game.name != '':
         game.description = request.POST['description']
@@ -166,13 +166,34 @@ def update_game(request: HttpRequest, game_id: int):
     return HttpResponseRedirect('/library/games')
 
 
-# Added rendering for book editing, referring to the book id
+# Added rendering for game editing, referring to the game id
 def game_edit_form(request: HttpRequest, game_id: int) -> HttpResponse:
-    game = get_object_or_404(Book, pk=game_id)
+    game = get_object_or_404(Game, pk=game_id)
     form = GameForm(instance=game)
     if form.is_valid():
         form.save()
     return render(request, "library/game_edit_form.html", {'game': game, 'form': form})
+
+
+def update_cardgame(request: HttpRequest, cardgame_id: int):
+    cardgame = get_object_or_404(Card, pk=cardgame_id)
+    cardgame.name = request.POST['name']
+    if cardgame.name != '':
+        cardgame.description = request.POST['description']
+        cardgame.notes = request.POST['notes']
+        cardgame.condition = request.POST['condition']
+        cardgame.deck_type = request.POST['deck_type']
+        cardgame.save()
+    return HttpResponseRedirect('/library/cardgames')
+
+
+# Added rendering for game editing, referring to the game id
+def cardgame_edit_form(request: HttpRequest, cardgame_id: int) -> HttpResponse:
+    cardgame = get_object_or_404(Card, pk=cardgame_id)
+    form = CardForm(instance=cardgame)
+    if form.is_valid():
+        form.save()
+    return render(request, "library/card_edit_form.html", {'cardgame': cardgame, 'form': form})
 
 
 def remove_book(request: HttpRequest, book_id: int) -> HttpResponse:
@@ -192,6 +213,8 @@ def remove_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card.delete()
     return HttpResponseRedirect('/library/cardgames')
 
+
+# Borrowing-related views
 
 def borrow_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
