@@ -175,25 +175,25 @@ def game_edit_form(request: HttpRequest, game_id: int) -> HttpResponse:
     return render(request, "library/game_edit_form.html", {'game': game, 'form': form})
 
 
-def update_card(request: HttpRequest, cardgame_id: int):
-    cardgame = get_object_or_404(Card, pk=cardgame_id)
-    cardgame.name = request.POST['name']
-    if cardgame.name != '':
-        cardgame.description = request.POST['description']
-        cardgame.notes = request.POST['notes']
-        cardgame.condition = request.POST['condition']
-        cardgame.deck_type = request.POST['deck_type']
-        cardgame.save()
+def update_card(request: HttpRequest, card_id: int):
+    card = get_object_or_404(Card, pk=card_id)
+    card.name = request.POST['name']
+    if card.name != '':
+        card.description = request.POST['description']
+        card.notes = request.POST['notes']
+        card.condition = request.POST['condition']
+        card.deck_type = request.POST['deck_type']
+        card.save()
     return HttpResponseRedirect('/library/cardgames')
 
 
 # Added rendering for game editing, referring to the game id
-def card_edit_form(request: HttpRequest, cardgame_id: int) -> HttpResponse:
-    cardgame = get_object_or_404(Card, pk=cardgame_id)
-    form = CardForm(instance=cardgame)
+def card_edit_form(request: HttpRequest, card_id: int) -> HttpResponse:
+    card = get_object_or_404(Card, pk=card_id)
+    form = CardForm(instance=card)
     if form.is_valid():
         form.save()
-    return render(request, "library/card_edit_form.html", {'cardgame': cardgame, 'form': form})
+    return render(request, "library/card_edit_form.html", {'card': card, 'form': form})
 
 
 def remove_book(request: HttpRequest, book_id: int) -> HttpResponse:
