@@ -174,7 +174,7 @@ def game_edit_form(request: HttpRequest, game_id: int) -> HttpResponse:
     form = GameForm(instance=game)
     if form.is_valid():
         form.save()
-    return render(request, "library/game_edit_form.html", {'game': game, 'form': form})
+    return render(request, "library/game/edit_form.html", {'game': game, 'form': form})
 
 
 def update_card(request: HttpRequest, card_id: int):
@@ -195,7 +195,7 @@ def card_edit_form(request: HttpRequest, card_id: int) -> HttpResponse:
     form = CardForm(instance=card)
     if form.is_valid():
         form.save()
-    return render(request, "library/card_edit_form.html", {'card': card, 'form': form})
+    return render(request, "library/cardgame/edit_form.html", {'card': card, 'form': form})
 
 
 def remove_book(request: HttpRequest, book_id: int) -> HttpResponse:
