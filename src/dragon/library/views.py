@@ -175,7 +175,7 @@ def game_edit_form(request: HttpRequest, game_id: int) -> HttpResponse:
     return render(request, "library/game_edit_form.html", {'game': game, 'form': form})
 
 
-def update_cardgame(request: HttpRequest, cardgame_id: int):
+def update_card(request: HttpRequest, cardgame_id: int):
     cardgame = get_object_or_404(Card, pk=cardgame_id)
     cardgame.name = request.POST['name']
     if cardgame.name != '':
@@ -188,7 +188,7 @@ def update_cardgame(request: HttpRequest, cardgame_id: int):
 
 
 # Added rendering for game editing, referring to the game id
-def cardgame_edit_form(request: HttpRequest, cardgame_id: int) -> HttpResponse:
+def card_edit_form(request: HttpRequest, cardgame_id: int) -> HttpResponse:
     cardgame = get_object_or_404(Card, pk=cardgame_id)
     form = CardForm(instance=cardgame)
     if form.is_valid():
