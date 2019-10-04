@@ -3,6 +3,7 @@ from .models import ClubMember, NonMember
 
 
 class ClubMemberForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = ClubMember
         fields = [
@@ -10,6 +11,7 @@ class ClubMemberForm(forms.ModelForm):
             'surname',
             'email',
             'phoneNumber',
+            'password',
             'preferredName',
             'preferredPronoun',
             'guildMember',
@@ -22,6 +24,7 @@ class ClubMemberForm(forms.ModelForm):
         labels= {
             'firstName': 'First name',
             'surname': 'Surname',
+            'password': 'Password',
             'email': 'Email address',
             'phoneNumber': 'Phone Number',
             'preferredName': 'Preferred Name',
