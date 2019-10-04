@@ -53,6 +53,7 @@ def nonmember_form(request):
 def add_clubmember(request):
     firstName = request.POST['firstName']
     surname = request.POST['surname']
+    password = request.POST['password']
     preferredName = request.POST['preferredName']
     preferredPronoun = request.POST['preferredPronoun']
     guildMember = bool(request.POST['guildMember'])
@@ -65,7 +66,7 @@ def add_clubmember(request):
     incidents = request.POST['incidents']
 
     if firstName != '':
-        clubmember = ClubMember(firstName=firstName, surname=surname, preferredName=preferredName,
+        clubmember = ClubMember(firstName=firstName, surname=surname, password=password,preferredName=preferredName,
                                 preferredPronoun=preferredPronoun, guildMember=guildMember, isStudent=isStudent,
                                 universityID=universityID, clubRank=clubRank, email=email, phoneNumber=phoneNumber,
                                 joinDate=joinDate, incidents=incidents
