@@ -15,6 +15,7 @@ class User(Model):
 
 class ClubMember(User):
 
+    password = CharField(max_length=100,default='')
     preferredName = CharField(max_length=50, default='')
     preferredPronoun = CharField(max_length=20, default='')
     guildMember = BooleanField(default=True)
