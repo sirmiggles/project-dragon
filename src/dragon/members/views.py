@@ -6,6 +6,8 @@ from .forms import ClubMemberForm, NonMemberForm
 
 from django.db.models import Q
 
+from django.contrib.auth import authenticate,login,logout
+
 
 def clubmembers(request):
 
@@ -112,3 +114,22 @@ def remove_nonmember(request: HttpRequest, nonmember_id: int) -> HttpResponse:
     nonmember = get_object_or_404(NonMember, pk=nonmember_id)
     nonmember.delete()
     return HttpResponseRedirect('/members/nonmembers/')
+
+def login(request):
+    if request.method =='POST':
+        firstName = request.POST['firstName']
+        password = request.POST['password']
+        
+        user = authenticate(firstName=firstName,password=password)
+        if user is not None:
+            authenticate.login(request,user)
+            return redirect('/')
+        else:
+            messages.info(request,'invalid credentials')
+            return redirect('login')
+    else:
+        return render(request, 'members/login.html')
+    
+def logout(request):
+    authenticate.logout(request)
+    return redirect('/')
