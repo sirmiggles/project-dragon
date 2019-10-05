@@ -50,10 +50,16 @@
     </div>
   </div>
 </div>
+
+<h3>Edit</h3>
 {% block item-edit %}
 {% endblock %}
-<!--  The delete button  -->
-{% block delete %}
+
+<div class="text-center text-md-right delete-container">
+  <h6 class="item-delete-message">Click here to delete this</h6>
+  {% block delete %}
+  {% endblock %}
+</div>
 {% endblock %}
-{% endblock %}
+
 

@@ -12,7 +12,7 @@
       <th>Due Date</th>
     </tr>
     {% for card in cards %}
-      {% if card.in_available == False %}
+      {% if card.is_available == False %}
         <tr>
             <td><a href="{% url 'library:borrow_detail' card.id %}">
                 {{card.name}}
