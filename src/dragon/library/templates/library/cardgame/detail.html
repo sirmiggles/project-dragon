@@ -1,33 +1,83 @@
-{% extends "dragon/base.html" %}
+{% extends "library/item/details.html" %}
 
-{% block title %}{{ block.super }} - {{ card.name }}{% endblock %}
+{% block page-title %}{{ card.name }}{% endblock %}
 
-{% block content %}
-  <h3>Title</h3>
-  <p>{{ card.name }}</p>
-
-  <h3>Description</h3>
-  {% if card.description != '' %}
-    <p>{{ card.description }}</p>
-  {% else %}
-    <p>No description given</p>
-  {% endif %}
-
-  <h3>Delete</h3>
-  <form action="{% url 'library:remove_card' card.id %}" method="post">
-    <input type="submit" value="!Delete Card Game!">
-    {% csrf_token %}
-  </form>
-{% if card.is_available == True %}
-  <h3>Borrow</h3>
-  <form action="{% url 'library:borrow_card' card.id %}" method="post">
-      <p><input type="checkbox" required name="borrower">As a borrower, I confirm these details.</p>
-      <p><input type="checkbox" required name="gatekeeper">As a Gatekeeper, I confirm this item is out.</p>
-      <input type = "submit" value="Borrow this card game">
-      {% csrf_token %}
-  </form>
-{% else %}
-<p> Card Game is unavailable right now</p>
-{% endif %}
-
+{%block item-img %}<img class="rounded item-img" src="https://dummyimage.com/200x200/d6d6d6.png&text=[INSERT+IMAGE+HERE]"/>{% endblock %}
+{% block item-name %}<h5>{{ card.name }}</h5>{% endblock %}
+<!--  Right column of item page  -->
+{% block misc %}
 {% endblock %}
+
+{% block attributes %}
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Genre:</h5>
+  <h6 class="cat-value">{{ card.get_genre_display }}</h6>
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Deck Type:</h5>
+  <h6 class="cat-value">{{ card.deck_type }}</h6>
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Condition:</h5>
+  <h6 class="cat-value">{{ card.get_condition_display }}</h6>
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Players:</h5>
+  <h6 class="cat-value">{{ card.minplayers }}-{{ card.maxplayers }} </h6>
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Duration:</h5>
+  <h6 class="cat-value">{{ card.mingamelength }}-{{ card.maxgamelength }}</h6>
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Difficulty:</h5>
+  <h6 class="cat-value">{{ card.get_condition_display }}</h6>
+</div>
+{% endblock %}
+
+{% block item-description %}
+{% if card.description != '' %}
+<p>{{ card.description }}</p>
+{% else %}
+<p>No description given</p>
+{% endif %}
+{% endblock %}
+
+{% block item-notes %}
+{% if card.notes != '' %}
+<p>{{ card.notes }}</p>
+{% else %}
+<p>No notes given</p>
+{% endif %}
+{% endblock %}
+
+{% block item-tags %}
+<div class=" col-12 col-md-2 item-tag">
+  <h5>TAG 1</h5>
+</div>
+<div class=" col-12 col-md-2 item-tag">
+  <h5>TAG 2</h5>
+</div>
+<div class=" col-12 col-md-2 item-tag">
+  <h5>TAG 3</h5>
+</div>
+<div class=" col-12 col-md-2 item-tag">
+  <h5>TAG 4</h5>
+</div>
+{% endblock %}
+
+{% block item-edit %}
+<form action="{% url 'library:card_edit_form' card.id %}" method="post">
+  <input type="submit" value="Edit card game">
+  {% csrf_token %}
+</form>
+{% endblock %}
+
+
+{% block delete %}
+<form action="{% url 'library:remove_card' card.id %}" method="post">
+  <button class="btn btn-warning btn-danger btn-sm" id="delete-button" type="submit">DELETE</button>
+  {% csrf_token %}
+</form>
+{% endblock %}
+

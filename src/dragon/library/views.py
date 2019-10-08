@@ -112,8 +112,16 @@ def add_card(request: HttpRequest):
     if name != '':
         deck_type = request.POST['deck_type']
         description = request.POST['description']
+        notes = request.POST['notes']
+        minplayers = int(request.POST["minplayers"])
+        maxplayers = int(request.POST["maxplayers"])
+        mingamelength = request.POST["mingamelength"]
+        maxgamelength = request.POST["maxgamelength"]
+        difficulty = request.POST['difficulty']
         condition = request.POST['condition']
-        card = Card(name=name, deck_type=deck_type, description=description, condition=condition)
+        card = Card(name=name, deck_type=deck_type, description=description, condition=condition, notes=notes,
+                    maxplayers=maxplayers, minplayers=minplayers, mingamelength=mingamelength,
+                    maxgamelength=maxgamelength, difficulty= difficulty)
         card.save()
     return HttpResponseRedirect('/library/cardgames')
 
@@ -150,7 +158,6 @@ def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
     return render(request, "library/book/create_form.html", {'book': book, 'form': form})
 
 
-
 def update_game(request: HttpRequest, game_id: int):
     game = get_object_or_404(Game, pk=game_id)
     game.name = request.POST['name']
@@ -184,6 +191,11 @@ def update_card(request: HttpRequest, card_id: int):
         card.description = request.POST['description']
         card.notes = request.POST['notes']
         card.condition = request.POST['condition']
+        card.minplayers = request.POST['minplayers']
+        card.maxplayers = request.POST['maxplayers']
+        card.mingamelength = request.POST['mingamelength']
+        card.maxgamelength = request.POST['maxgamelength']
+        card.difficulty = request.POST['difficulty']
         card.deck_type = request.POST['deck_type']
         card.save()
     return HttpResponseRedirect('/library/cardgames')

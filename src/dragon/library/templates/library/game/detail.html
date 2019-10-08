@@ -1,38 +1,79 @@
-{% extends "dragon/base.html" %}
+{% extends "library/item/details.html" %}
 
-{% block title %}{{ block.super }} - {{ game.name }}{% endblock %}
+{% block page-title %}{{ game.name }}{% endblock %}
 
-{% block content %}
-  <h3>Title</h3>
-  <p>{{ game.name }}</p>
-
-  <h3>Attributes</h3>
-    <p>
-      Number of Players: {{ game.minplayers }}-{{ game.maxplayers }}<br>
-      Game Duration (minutes): {{ game.mingamelength }}-{{ game.maxgamelength }}<br>
-      Genre: {{ game.get_genre_display }}<br>
-      Difficulty: {{ game.get_difficulty_display }}<br>
-      Condition: {{ game.get_condition_display }}
-    </p>
-
-  <h3>Description</h3>
-  {% if game.description != '' %}
-    <p>{{ game.description }}</p>
-  {% else %}
-    <p>No description given</p>
-  {% endif %}
-
-  <h3>Notes</h3>
-  {% if game.notes != '' %}
-
-    <p>{{ game.notes }}</p>
-  {% else %}
-    <p>No notes given</p>
-  {% endif %}
-
-  <h3>Delete</h3>
-  <form action="{% url 'library:remove_game' game.id %}" method="post">
-    <input type="submit" value="!Delete Game!">
-    {% csrf_token %}
-  </form>
+{%block item-img %}<img class="rounded item-img" src="https://dummyimage.com/200x200/d6d6d6.png&text=[INSERT+IMAGE+HERE]"/>{% endblock %}
+{% block item-name %}<h5>{{ game.name }}</h5>{% endblock %}
+<!--  Right column of item page  -->
+{% block misc %}
 {% endblock %}
+
+{% block attributes %}
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Genre:</h5>
+  <h6 class="cat-value">{{ game.get_genre_display }}</h6>
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Condition:</h5>
+  <h6 class="cat-value">{{ game.get_condition_display }}</h6>
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Players:</h5>
+  <h6 class="cat-value">{{ game.minplayers }}-{{ game.maxplayers }} </h6>
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Duration:</h5>
+  <h6 class="cat-value">{{ game.mingamelength }}-{{ game.maxgamelength }}</h6>
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Difficulty:</h5>
+  <h6 class="cat-value">{{ game.get_condition_display }}</h6>
+</div>
+{% endblock %}
+
+{% block item-description %}
+{% if game.description != '' %}
+<p>{{ game.description }}</p>
+{% else %}
+<p>No description given</p>
+{% endif %}
+{% endblock %}
+
+{% block item-notes %}
+{% if game.notes != '' %}
+<p>{{ game.notes }}</p>
+{% else %}
+<p>No notes given</p>
+{% endif %}
+{% endblock %}
+
+{% block item-tags %}
+<div class=" col-12 col-md-2 item-tag">
+  <h5>TAG 1</h5>
+</div>
+<div class=" col-12 col-md-2 item-tag">
+  <h5>TAG 2</h5>
+</div>
+<div class=" col-12 col-md-2 item-tag">
+  <h5>TAG 3</h5>
+</div>
+<div class=" col-12 col-md-2 item-tag">
+  <h5>TAG 4</h5>
+</div>
+{% endblock %}
+
+{% block item-edit %}
+<form action="{% url 'library:game_edit_form' game.id %}" method="post">
+  <input type="submit" value="Edit game">
+  {% csrf_token %}
+</form>
+{% endblock %}
+
+
+{% block delete %}
+<form action="{% url 'library:remove_game' game.id %}" method="post">
+  <button class="btn btn-warning btn-danger btn-sm" id="delete-button" type="submit">DELETE</button>
+  {% csrf_token %}
+</form>
+{% endblock %}
+
