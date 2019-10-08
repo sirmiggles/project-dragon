@@ -23,6 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 envSecretKey = 'DRAGON_SECRET_KEY'
 envDebug = 'DRAGON_DEBUG'
+envHosts = 'DRAGON_ALLOWED_HOSTS'
+envConfig = 'DRAGON_RUN_CONFIG'
 
 
 SECRET_KEY = os.environ.get(envSecretKey)
