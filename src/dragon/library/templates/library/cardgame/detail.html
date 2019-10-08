@@ -9,12 +9,28 @@
 {% endblock %}
 
 {% block attributes %}
-<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
   <h5 class="cat-header">Genre:</h5>
   <h6 class="cat-value">{{ card.get_genre_display }}</h6>
 </div>
-<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Deck Type:</h5>
+  <h6 class="cat-value">{{ card.deck_type }}</h6>
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
   <h5 class="cat-header">Condition:</h5>
+  <h6 class="cat-value">{{ card.get_condition_display }}</h6>
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Players:</h5>
+  <h6 class="cat-value">{{ card.minplayers }}-{{ card.maxplayers }} </h6>
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Duration:</h5>
+  <h6 class="cat-value">{{ card.mingamelength }}-{{ card.maxgamelength }}</h6>
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Difficulty:</h5>
   <h6 class="cat-value">{{ card.get_condition_display }}</h6>
 </div>
 {% endblock %}
