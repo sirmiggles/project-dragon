@@ -155,7 +155,7 @@ def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
     form = BookForm(instance=book)
     if form.is_valid():
         form.save()
-    return render(request, "library/book/create_form.html", {'book': book, 'form': form})
+    return render(request, "library/book/update_form.html", {'book': book, 'form': form})
 
 
 def update_game(request: HttpRequest, game_id: int):
