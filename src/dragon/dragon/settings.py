@@ -26,19 +26,17 @@ envDebug = 'DRAGON_DEBUG'
 envHosts = 'DRAGON_ALLOWED_HOSTS'
 envConfig = 'DRAGON_RUN_CONFIG'
 
-
 SECRET_KEY = os.environ.get(envSecretKey)
 
-if SECRET_KEY == None:
+if SECRET_KEY is None:
     os.environ[envSecretKey] = get_random_secret_key()
     warnings.warn("No secret key found, using public default")
     SECRET_KEY = os.environ[envSecretKey]
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
 debug_var = os.environ.get(envDebug)
 
-if debug_var == None:
+if debug_var is None:
     os.environ[envDebug] = "True"
     debug_var = "True"
 
@@ -96,7 +94,6 @@ WSGI_APPLICATION = 'dragon.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 use_mysql = False
-
 
 DATABASES = {
     'default': {
