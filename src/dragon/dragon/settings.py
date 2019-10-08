@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os, warnings
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,16 +21,26 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = os.environ.get('DRAGON_SECRET_KEY')
+envSecretKey = 'DRAGON_SECRET_KEY'
+envDebug = 'DRAGON_DEBUG'
+
+
+SECRET_KEY = os.environ.get(envSecretKey)
+
 if SECRET_KEY == None:
+    os.environ[envSecretKey] = get_random_secret_key()
     warnings.warn("No secret key found, using public default")
-    SECRET_KEY = '$rbe#s_2)bih1pyp*$bwx%du#!b($(bugv!g@92au9@!hia&e$'
+    SECRET_KEY = os.environ[envSecretKey]
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-debug_var = os.environ.get('DRAGON_DEBUG')
+debug_var = os.environ.get(envDebug)
 
-DEBUG = debug_var == "True" if debug_var is not None else True
+if debug_var == None:
+    os.environ[envDebug] = "True"
+    debug_var = "True"
+
+DEBUG = debug_var == "True"
 
 if DEBUG:
     warnings.warn("Using debug mode")
