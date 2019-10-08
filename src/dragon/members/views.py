@@ -101,6 +101,57 @@ def nonmember_detail(request, nonmember_id):
     return render(request, 'members/nonmember_detail.html', {'nonmember': nonmember})
 
 
+def update_clubmember(request: HttpRequest, clubmember_id: int):
+    clubmember = get_object_or_404(ClubMember, pk=clubmember_id)
+    clubmember.firstName = request.POST['firstName']
+    if clubmember.firstName != '':
+        clubmember.surname = request.POST['surname']
+        clubmember.email = request.POST['email']
+        clubmember.phoneNumber = request.POST['phoneNumber']
+        clubmember.preferredName = request.POST['preferredName']
+        clubmember.preferredPronoun = request.POST['preferredPronoun']
+        clubmember.guildMember = bool(request.POST['guildMember'])
+        clubmember.isStudent = bool(request.POST['isStudent'])
+        clubmember.universityID = request.POST['universityID']
+        clubmember.joinDate = request.POST['joinDate']
+        clubmember.incidents = request.POST['incidents']
+        clubmember.clubRank = request.POST['clubRank']
+        clubmember.save()
+    return HttpResponseRedirect('/members/clubmembers')
+
+
+# Added rendering for clubmember editing, referring to the clubmember id
+def clubmember_edit_form(request: HttpRequest, clubmember_id: int) -> HttpResponse:
+    clubmember = get_object_or_404(ClubMember, pk=clubmember_id)
+    form = ClubMemberForm(instance=clubmember)
+    if form.is_valid():
+        form.save()
+    return render(request, "members/clubmember_edit_form.html", {'clubmember': clubmember, 'form': form})
+
+
+def update_nonmember(request: HttpRequest, nonmember_id: int):
+    nonmember = get_object_or_404(NonMember, pk=nonmember_id)
+    nonmember.firstName = request.POST['firstName']
+    if nonmember.firstName != '':
+        nonmember.surname = request.POST['surname']
+        nonmember.email = request.POST['email']
+        nonmember.phoneNumber = request.POST['phoneNumber']
+        nonmember.organization = request.POST['organization']
+        nonmember.addedDate = request.POST['addedDate']
+        nonmember.incidents = request.POST['incidents']
+        nonmember.save()
+    return HttpResponseRedirect('/members/nonmembers')
+
+
+# Added rendering for nonmember editing, referring to the nonmember id
+def nonmember_edit_form(request: HttpRequest, nonmember_id: int) -> HttpResponse:
+    nonmember = get_object_or_404(NonMember, pk=nonmember_id)
+    form = NonMemberForm(instance=nonmember)
+    if form.is_valid():
+        form.save()
+    return render(request, "members/nonmember_edit_form.html", {'nonmember': nonmember, 'form': form})
+
+
 def remove_clubmember(request: HttpRequest, clubmember_id: int) -> HttpResponse:
     clubmember = get_object_or_404(ClubMember, pk=clubmember_id)
     clubmember.delete()

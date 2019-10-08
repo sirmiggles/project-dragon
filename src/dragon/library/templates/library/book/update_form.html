@@ -5,59 +5,7 @@
 {% block content %}
 <h1>Edit Book</h1>
   <form action="{% url 'library:update_book' book.id %}" method="post">
-
-  <!-- Looking to separate each field and add the previous data on top/front -->
-  <!-- Ref: https://docs.djangoproject.com/en/2.2/topics/forms/ -->
-  
-    <p>Title: {{ book.name }}</p>
-    {{ form.non_field_errors }}
-    <div class="fieldWrapper">
-        {{ form.name.errors }}
-        <label for="{{ form.name.id_for_label }}">Book name:</label>
-        {{ form.name }}
-    </div>
-    <p>ISBN: {{ book.isbn }}</p>
-    <div class="fieldWrapper">
-        {{ form.isbn.errors }}
-        <label for="{{ form.isbn.id_for_label }}">ISBN:</label>
-        {{ form.isbn }}
-    </div>
-    <p>Edition: {{ book.edition }}</p>
-    <div class="fieldWrapper">
-        {{ form.edition.errors }}
-        <label for="{{ form.edition.id_for_label }}">Edition:</label>
-        {{ form.edition }}
-    </div>
-    <p>Year: {{ book.year }}</p>
-    <div class="fieldWrapper">
-        {{ form.year.errors }}
-        <label for="{{ form.year.id_for_label }}">Year:</label>
-        {{ form.year }}
-    </div>
-    <p>Genre: {{ book.genre }}</p>
-    <div class="fieldWrapper">
-        {{ form.genre.errors }}
-        <label for="{{ form.genre.id_for_label }}">Genre:</label>
-        {{ form.genre }}
-    </div>
-    <p>Condition: {{ book.condition }}</p>
-    <div class="fieldWrapper">
-        {{ form.condition.errors }}
-        <label for="{{ form.condition.id_for_label }}">Condition:</label>
-        {{ form.condition }}
-    </div>
-    <p>Description: {{ book.description }}</p>
-    <div class="fieldWrapper">
-        {{ form.description.errors }}
-        <label for="{{ form.description.id_for_label }}">Description:</label>
-        {{ form.description }}
-    </div>
-    <p>Notes: {{ book.notes }}</p>
-    <div class="fieldWrapper">
-        {{ form.notes.errors }}
-        <label for="{{ form.notes.id_for_label }}">Notes:</label>
-        {{ form.notes }}
-    </div>
+    {{ form.as_p }}
     <input type="submit" value="Edit Book">
     {% csrf_token %}
   </form>
