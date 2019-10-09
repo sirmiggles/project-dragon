@@ -53,11 +53,11 @@
 {% endblock %}
 
 {% block item-tags %}
-{%
+{% for tag in tags %}
 <div class=" col-12 col-md-2 item-tag">
-  <h5>TAG 1</h5>
+  <h5>{{ tag }}</h5>
 </div>
-
+{% endfor %}
 {% endblock %}
 
 {% block item-edit %}
