@@ -22,39 +22,44 @@
     </div>
   </div>
   <!--  Right column of item page  -->
-<div class="container-fluid">
-  <div class="container-fluid item-attributes">
-    <h3 class="attr-header">Attributes</h3>
-    <div class="attr-tags-container">
-      {% block misc %}
+  <div class="container-fluid">
+    <div class="container-fluid item-attributes">
+      <h3 class="attr-header">Attributes</h3>
+      <div class="attr-tags-container">
+        {% block misc %}
+        {% endblock %}
+        <div class="d-flex flex-column flex-md-row">
+          {% block attributes %}
+          {% endblock %}
+        </div>
+      </div>
+
+      <h3 class="attr-header">Description</h3>
+      {% block item-description %}
       {% endblock %}
-      <div class="d-flex flex-column flex-md-row">
-        {% block attributes %}
+
+      <h3 class="attr-header">Additional Notes</h3>
+      {% block item-notes %}
+      {% endblock %}
+
+      <h3>Tags:</h3>
+      <div class=" d-flex flex-column flex-md-row">
+        {% block item-tags %}
         {% endblock %}
       </div>
-    </div>
-    
-    <h3 class="attr-header">Description</h3>
-    {% block item-description %}
-    {% endblock %}
-
-    <h3 class="attr-header">Additional Notes</h3>
-    {% block item-notes %}
-    {% endblock %}
-
-    <h3>Tags:</h3>
-    <div class=" d-flex flex-column flex-md-row">
-      {% block item-tags %}
-      {% endblock %}
     </div>
   </div>
 </div>
 
-{% block page-content %}
+<h3>Edit</h3>
+{% block item-edit %}
 {% endblock %}
+
+<div class="text-center text-md-right delete-container">
+  <h6 class="item-delete-message">Click here to delete this</h6>
+  {% block delete %}
+  {% endblock %}
 </div>
-<!--  The delete button  -->
-{% block delete %}
 {% endblock %}
-{% endblock %}
+
 

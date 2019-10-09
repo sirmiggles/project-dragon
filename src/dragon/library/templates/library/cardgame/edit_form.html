@@ -1,0 +1,12 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - Edit Card Game{% endblock %}
+
+{% block content %}
+<h1>Edit Card Game</h1>
+  <form action="{% url 'library:update_card' card.id %}" method="post">
+    {{ form.as_p }}
+    <input type="submit" value="Edit Card Game">
+    {% csrf_token %}
+  </form>
+{% endblock %}
