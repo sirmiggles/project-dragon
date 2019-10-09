@@ -1,6 +1,6 @@
 {% extends "dragon/base.html" %}
 
-{% block title %}{{ block.super }} - Library{% endblock %}
+{% block title %}{{ block.super }} - {% block page-title %}{% endblock %}{% endblock %}
 
 {% load static %}
 {% block page-styles %}
