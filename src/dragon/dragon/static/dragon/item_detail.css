@@ -105,10 +105,6 @@
 /*  Up to 576px wide displays, will be mobile  */
 /*  As per Bootstrap 4's size viewport specifications  */
 @media screen and (max-width: 576px) {
-    * {
-        font-size: 1.05rem;
-    }
-
     .item-img {
         size: auto;
     }
