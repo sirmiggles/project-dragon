@@ -6,7 +6,6 @@
   <h1>Library</h1>
   <h3><a href="{% url 'library:borrowed' %}">Borrowed from Unigames</a></h3>
 
-
   <!-- An "Items" table for displaying every item they have -->
   <h3>Items</h3>
   <table style="width:100%">
@@ -34,13 +33,17 @@
           </a></td>
         {% endif %}
         <td>
-          {{ item.description }}
+          {{ item.description|truncatechars:128 }}
         </td>
         <td>
           {{ item.get_type_display }}
         </td>
         <td>
-          {{ item.is_available }}
+          {% if item.is_available %}
+          <i class="fas fa-check"></i>
+          {% else %}
+          <i class="fas fa-times"></i>
+          {% endif %}
         </td>
       </tr>
     {% endfor %}
