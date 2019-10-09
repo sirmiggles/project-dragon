@@ -3,7 +3,7 @@ import datetime
 from django.db import models
 from django.db.models import Model, CharField, TextField, AutoField, BooleanField, IntegerField, ManyToManyField, \
     DateField
-
+from django.shortcuts import get_object_or_404
 
 # These classes are mapped to database entries,
 # but can also be instantiated in python code.
@@ -73,6 +73,10 @@ class Item(Model):
         lone = Borrow(item_id=self.id, borrow_date=borrow_date, due_date=due_date)
         lone.save()
 
+    def return_item(self):
+        loan = get_object_or_404(Borrow, item_id=self.id)
+        loan.delete()
+
 
 class Book(Item):
     isbn = CharField(max_length=16, blank=True, default='')
@@ -99,6 +103,7 @@ class Book(Item):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.type = 0
+        self.condition = 1
 
 
 class Game(Item):
