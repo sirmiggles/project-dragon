@@ -3,6 +3,16 @@
 {% block title %}{{ block.super }} - Card Games{% endblock %}
 
 {% block content %}
+  <form class="form-inline my-2 my-lg-2">
+    <input class="form-control mr-sm-2"
+           type="search"
+           placeholder="Search"
+           aria-label="Search"
+           name="search"
+           value={{ searchterm }}>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+
   <h1>Card Game Library</h1>
 
   <h3><a href="{% url 'library:borrowed' %}">Borrowed from Unigames</a></h3>

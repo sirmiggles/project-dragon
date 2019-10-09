@@ -4,29 +4,62 @@ from django.shortcuts import render, get_object_or_404
 from .forms import BookForm, GameForm, CardForm
 from .models import Book, Game, Tag, Card, Item, Borrow
 
+from django.db.models import Q
 
 # Viewing the Items table, ordered by the name
 def all_view(request: HttpRequest) -> HttpResponse:
+    
+    searchterm = ''
     items = Item.objects.order_by('name')
-    return render(request, 'library/item/all.html', {'items': items})
+
+    if 'search' in request.GET:
+        searchterm = request.GET['search']
+        itemsfilter = Q(name__icontains=searchterm)
+        items = items.filter(itemsfilter)
+    
+    return render(request, 'library/item/all.html', {'items': items, 'searchterm': searchterm})
 
 
 def book_view(request: HttpRequest) -> HttpResponse:
+    
+    searchterm = ''
     books = Book.objects.order_by('name')
     tags = Tag.objects.order_by('name')
-    return render(request, 'library/book/all.html', {'books': books, 'tags': tags})
+
+    if 'search' in request.GET:
+        searchterm = request.GET['search']
+        booksfilter = Q(name__icontains=searchterm) | Q(isbn__icontains=searchterm)
+        books = books.filter(booksfilter)
+    
+    return render(request, 'library/book/all.html', {'books': books, 'tags': tags, 'searchterm': searchterm})
 
 
 def game_view(request: HttpRequest) -> HttpResponse:
+    
+    searchterm = ''
     games = Game.objects.order_by('name')
     tags = Tag.objects.order_by('name')
-    return render(request, 'library/game/all.html', {'games': games, 'tags': tags})
+
+    if 'search' in request.GET:
+        searchterm = request.GET['search']
+        gamesfilter = Q(name__icontains=searchterm)
+        games = games.filter(gamesfilter)
+
+    return render(request, 'library/game/all.html', {'games': games, 'tags': tags, 'searchterm': searchterm})
 
 
 def cardgame_view(request: HttpRequest) -> HttpResponse:
+    
+    searchterm = ''
     cards = Card.objects.order_by('name')
     tags = Tag.objects.order_by('name')
-    return render(request, 'library/cardgame/all.html', {'cards': cards, 'tags': tags})
+
+    if 'search' in request.GET:
+        searchterm = request.GET['search']
+        cardsfilter = Q(name__icontains=searchterm)
+        cards = cards.filter(cardsfilter)
+
+    return render(request, 'library/cardgame/all.html', {'cards': cards, 'tags': tags, 'searchterm': searchterm})
 
 
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
