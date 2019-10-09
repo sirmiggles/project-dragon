@@ -37,14 +37,12 @@
 
 .table-cell {
   text-align: center;
-  padding: 0.1rem;  
 }
 
 .item-link {
   padding: 0;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
-  margin: 0.1rem;
   width: 100%;
   font-weight: bold;
   color: black;
@@ -63,8 +61,18 @@
   font-style: italic;
 }
 
+.non-key {
+  text-align: center;
+}
+
 .addition-container {
   margin: 0;
   margin-bottom: 1rem;
   text-align: center;
+}
+
+@media screen and (max-width: 576px) {
+  * {
+    font-size: 0.9rem;
+  }
 }
