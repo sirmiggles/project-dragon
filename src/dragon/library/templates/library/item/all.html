@@ -17,17 +17,17 @@
 {% for item in items %}
 <tr>
   {% if item.type == 0 %}
-    <td class="table-cell"><a class="btn item-link" href="{% url 'library:book_detail' item.id %}">
-      {{ item.name }}
-    </a></td>
+  <td class="table-cell"><a class="btn item-link" href="{% url 'library:book_detail' item.id %}">
+    {{ item.name|truncatechars:64 }}
+  </a></td>
   {% elif item.type == 1 %}
-    <td class="table-cell"><a class="btn item-link" href="{% url 'library:game_detail' item.id %}">
-      {{ item.name }}
-    </a></td>
+  <td class="table-cell"><a class="btn item-link" href="{% url 'library:game_detail' item.id %}">
+    {{ item.name|truncatechars:64 }}
+  </a></td>
   {% elif item.type == 2 %}
-    <td class="table-cell"><a class="btn item-link" href="{% url 'library:card_detail' item.id %}">
-      {{ item.name }}
-    </a></td>
+  <td class="table-cell"><a class="btn item-link" href="{% url 'library:card_detail' item.id %}">
+    {{ item.name|truncatechars:64 }}
+  </a></td>
   {% endif %}
   <td class="table-cell">
     {{ item.get_type_display }}

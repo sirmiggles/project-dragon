@@ -7,21 +7,28 @@
 {% block table-col-header %}
 <tr>
   <th>Name</th>
-  <th>Players</th>
-  <th>Difficulty</th>
+  <th class="d-none d-md-table-cell">Players</th>
+  <th class="d-md-none">Play.</th>
+  <th class="d-none d-md-table-cell">Difficulty</th>
+  <th class="d-md-none">Diff.</th>
   <th>Genre</th>
   <th class="d-none d-md-table-cell">Deck Type</th>
   <th class="d-none d-md-table-cell">Duration (mins.)</th>
-  <th>Availability</th>
+  <th>Available?</th>
 </tr>
 {% endblock %}
 
 {% block table-contents %}
 {% for card in cards %}
   <tr>
-    <td class="table-cell">
+    <td class="table-cell d-md-none">
       <a class="btn item-link" href="{% url 'library:card_detail' card.id %}">
-        {{ card.name }}
+        {{ card.name|truncatechars:20 }}
+      </a>
+    </td>
+    <td class="d-none d-md-table-cell">
+      <a class="btn item-link" href="{% url 'library:card_detail' card.id %}">
+        {{ card.name|truncatechars:64 }}
       </a>
     </td>
     <td class="table-cell">

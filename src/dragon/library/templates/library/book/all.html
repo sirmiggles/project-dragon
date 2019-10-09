@@ -11,16 +11,23 @@
   <th>Edition</th>
   <th>Year</th>
   <th>Genre</th>
-  <th>Availability</th>
+  <th>Available?</th>
 </tr>
 {% endblock %}
 
 {% block table-contents %}
 {% for book in books %}
   <tr>
-    <td class="table-cell"><a class="btn item-link" href="{% url 'library:book_detail' book.id %}">
-      {{ book.name }}
-    </a></td>
+    <td class="table-cell d-md-none">
+      <a class="btn item-link" href="{% url 'library:book_detail' book.id %}">
+        {{ book.name|truncatechars:20 }}
+      </a>
+    </td>
+    <td class="d-none d-md-table-cell">
+      <a class="btn item-link" href="{% url 'library:book_detail' book.id %}">
+        {{ book.name|truncatechars:64 }}
+      </a>
+    </td>
     <td class="d-none d-md-table-cell">
       {{ book.isbn }}
     </td>
