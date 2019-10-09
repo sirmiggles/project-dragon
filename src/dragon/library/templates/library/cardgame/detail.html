@@ -60,7 +60,7 @@
 {% endblock %}
 
 {% block item-edit %}
-<form action="{% url 'library:card_edit_form' card.id %}" method="post">
+<form action="{% url 'library:card_edit_form' card.id %}" method="get">
   <button class="btn btn-sm" id="edit-button" type="submit">EDIT</button>
   {% csrf_token %}
 </form>

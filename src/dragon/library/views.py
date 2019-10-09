@@ -124,29 +124,19 @@ def game_edit_form(request: HttpRequest, game_id: int) -> HttpResponse:
     return render(request, "library/game/edit_form.html", {'game': game, 'form': form})
 
 
-def update_card(request: HttpRequest, card_id: int):
-    card = get_object_or_404(Card, pk=card_id)
-    card.name = request.POST['name']
-    if card.name != '':
-        card.description = request.POST['description']
-        card.notes = request.POST['notes']
-        card.condition = request.POST['condition']
-        card.minplayers = request.POST['minplayers']
-        card.maxplayers = request.POST['maxplayers']
-        card.mingamelength = request.POST['mingamelength']
-        card.maxgamelength = request.POST['maxgamelength']
-        card.difficulty = request.POST['difficulty']
-        card.deck_type = request.POST['deck_type']
-        card.save()
-    return HttpResponseRedirect('/library/cardgames')
-
-
-# Added rendering for game editing, referring to the game id
+# Added rendering for card game editing, referring to the card game id
 def card_edit_form(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
-    form = CardForm(instance=card)
-    if form.is_valid():
-        form.save()
+    if request.method == 'POST':
+        form = CardForm(request.POST, instance=card)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            form.save_m2m()
+            return HttpResponseRedirect('/library/cardgames/')
+    else:
+        form = CardForm(instance=card)
+
     return render(request, "library/cardgame/edit_form.html", {'card': card, 'form': form})
 
 

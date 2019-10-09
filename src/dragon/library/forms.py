@@ -78,7 +78,8 @@ class CardForm(forms.ModelForm):
             'difficulty',
             'genre',
             'condition',
-            'deck_type'
+            'deck_type',
+            'tags'
         ]
         labels = {
             'name': 'Name',
@@ -90,5 +91,6 @@ class CardForm(forms.ModelForm):
             'maxgamelength': 'Max. Game Length (minutes)',
             'difficulty': 'Difficulty',
             'condition': 'Condition',
-            'deck_type': 'Deck Type'
+            'deck_type': 'Deck Type',
+            'tags': 'Tags'
         }
