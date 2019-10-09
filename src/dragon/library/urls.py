@@ -1,15 +1,15 @@
 from django.urls import path
 from . import views
+from . import views_library
 
 app_name = 'library'
 
 # the urls to access library pages
-# todo: this has gotten rather long, maybe we could split them up semantically then concat them together
 
 urlpatterns = [
 
     # Urls for items library page
-    path('ALL/', views.all_view, name='ALL'),
+    path('ALL/', views_library.ItemList.as_view(), name='ALL'),
 
     # Urls for book library page
     path('books/', views.book_view, name='books'),
