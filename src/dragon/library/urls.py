@@ -25,6 +25,8 @@ urlpatterns = [
     path('game/<int:game_id>/', views.game_detail, name='game_detail'),
     path('add_game/', views.add_game, name='add_game'),
     path('game_form/', views.game_form, name='game_form'),
+    path('game_edit_form/<int:game_id>/', views.game_edit_form, name='game_edit_form'),
+    path('update_game/<int:game_id>/', views.update_game, name='update_game'),
     path('remove_game/<int:game_id>/', views.remove_game, name='remove_game'),
 
     # Urls for card game library page
@@ -32,6 +34,8 @@ urlpatterns = [
     path('card/<int:card_id>/', views.card_detail, name='card_detail'),
     path('add_card/', views.add_card, name='add_card'),
     path('card_form/', views.card_form, name='card_form'),
+    path('card_edit_form/<int:card_id>/', views.card_edit_form, name='card_edit_form'),
+    path('update_card/<int:card_id>/', views.update_card, name='update_card'),
     path('remove_card/<int:card_id>/', views.remove_card, name='remove_card'),
 
     path('tag_form', views.tag_form, name='tag_form'),

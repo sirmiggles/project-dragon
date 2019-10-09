@@ -1,0 +1,12 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - Edit Club Member{% endblock %}
+
+{% block content %}
+<h1>Edit Club Member</h1>
+  <form action="{% url 'members:update_clubmember' clubmember.id %}" method="post">
+    {{ form.as_p }}
+    <input type="submit" value="Edit Club Member">
+    {% csrf_token %}
+  </form>
+{% endblock %}

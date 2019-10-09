@@ -11,7 +11,11 @@
   <table style="width:100%">
     <tr>
       <th>Name</th>
+      <th>Players</th>
       <th>Deck Type</th>
+      <th>Game Duration (minutes)</th>
+      <th>Genre</th>
+      <th>Difficulty</th>
       <th>Availability</th>
     </tr>
     {% for card in cards %}
@@ -20,10 +24,22 @@
           {{ card.name }}
         </a></td>
         <td>
-          {{card.deck_type}}
+          {{ card.minplayers }}-{{ card.maxplayers }}
         </td>
         <td>
-          {{card.is_available}}
+          {{ card.deck_type }}
+        </td>
+        <td>
+          {{ card.mingamelength }}-{{ card.maxgamelength }}
+        </td>
+        <td>
+          {{ card.get_genre_display }}
+        </td>
+        <td>
+          {{ card.get_difficulty_display }}
+        </td>
+        <td>
+          {{ card.is_available}}
         </td>
       </tr>
     {% endfor %}
