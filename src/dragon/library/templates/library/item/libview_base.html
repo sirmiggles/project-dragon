@@ -4,15 +4,17 @@
 
 {% load static %}
 {% block page-styles %}
-<link rel="stylesheet" type="text/css" href="{% static 'dragon/lib-style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dragon/lib_style.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="library-container">
   <!-- An "Items" table for displaying every item they have -->
-  <h3 class="table-title">{% block lib-name %}{% endblock %}</h3>
-  <div class="table-container">
-    <table class="table-bordered table-hover" id="lib-table">
+  <div class="jumbotron table-title">
+    <h3>{% block lib-name %}{% endblock %}</h3>
+  </div>
+  <div class="table-container table-responsive">
+    <table class="table table-bordered table-hover" id="lib-table">
       <thead class="table-col-header">
         {% block table-col-header %}
         {% endblock %}

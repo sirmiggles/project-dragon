@@ -6,7 +6,7 @@
 <tr>
   <th>Name</th>
   <th>Type</th>
-  <th>Description</th>
+  <th class="d-none d-md-table-cell">Description</th>
   <th>Availability</th>
 </tr>
 {% endblock %}
@@ -15,23 +15,23 @@
 {% for item in items %}
 <tr>
   {% if item.type == 0 %}
-    <td class="table-cell"><a class="item-link" href="{% url 'library:book_detail' item.id %}">
+    <td class="table-cell"><a class="btn item-link" href="{% url 'library:book_detail' item.id %}">
       {{ item.name }}
     </a></td>
   {% elif item.type == 1 %}
-    <td class="table-cell"><a class="item-link" href="{% url 'library:game_detail' item.id %}">
+    <td class="table-cell"><a class="btn item-link" href="{% url 'library:game_detail' item.id %}">
       {{ item.name }}
     </a></td>
   {% elif item.type == 2 %}
-    <td class="table-cell"><a class="item-link" href="{% url 'library:card_detail' item.id %}">
+    <td class="table-cell"><a class="btn item-link" href="{% url 'library:card_detail' item.id %}">
       {{ item.name }}
     </a></td>
   {% endif %}
   <td class="table-cell">
     {{ item.get_type_display }}
   </td>
-  <td class="table-cell" id="description">
-    {{ item.description|truncatechars:100 }}
+  <td class="d-none d-md-table-cell" id="description">
+    {{ item.description|truncatechars:128 }}
   </td>
   <td class="table-cell">
     {{ item.is_available }}
@@ -57,10 +57,13 @@
 {% endblock %}
 
 {% block item-add %}
-<a href="{% url 'library:book_form' %}">Add Book</a><br>
-<a href="{% url 'library:game_form' %}">Add Game</a><br>
-<a href="{% url 'library:card_form' %}">Add Card Game</a><br>
-<a href="{% url 'library:tag_form' %}">Add Tags</a>
+<div class="col-12 addition-container">
+  <h5>Want to add something to this library?</h5>
+  <div class="btn-group">
+    <a class="btn btn-dark" href="{% url 'library:book_form' %}">Add Book</a><br>
+    <a class="btn btn-dark" href="{% url 'library:game_form' %}">Add Game</a><br>
+    <a class="btn btn-dark" href="{% url 'library:card_form' %}">Add Card Game</a><br>
+    <a class="btn btn-dark" href="{% url 'library:tag_form' %}">Add Tags</a>
+  </div>
+</div>
 {% endblock %}
-
-
