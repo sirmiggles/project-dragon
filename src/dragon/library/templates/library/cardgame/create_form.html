@@ -4,7 +4,7 @@
 
 {% block content %}
   <h1>Add Card Game</h1>
-  <form action="{% url 'library:add_card' %}" method="post">
+  <form action="" method="post">
     {{ form.as_p }}
     <input type="submit" value="Add Card Game">
     {% csrf_token %}

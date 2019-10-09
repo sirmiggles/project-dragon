@@ -31,7 +31,8 @@ def cardgame_view(request: HttpRequest) -> HttpResponse:
 
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
-    return render(request, 'library/book/detail.html', {'book': book})
+    tags = book.tags.all()
+    return render(request, 'library/book/detail.html', {'book': book, 'tags': tags})
 
 
 def game_detail(request: HttpRequest, game_id: int) -> HttpResponse:
@@ -47,7 +48,10 @@ def card_detail(request: HttpRequest, card_id: int) -> HttpResponse:
 def book_form(request):
     form = BookForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        book = form.save(commit=False)
+        book.save()
+        form.save_m2m()
+        return HttpResponseRedirect('/library/books/')
 
     return render(request, "library/book/create_form.html", {'form': form})
 
@@ -55,7 +59,10 @@ def book_form(request):
 def game_form(request):
     form = GameForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        game = form.save(commit=False)
+        game.save()
+        form.save_m2m()
+        return HttpResponseRedirect('/library/games/')
 
     return render(request, "library/game/create_form.html", {'form': form})
 
@@ -63,67 +70,16 @@ def game_form(request):
 def card_form(request: HttpRequest) -> HttpResponse:
     form = CardForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        card = form.save(commit=False)
+        card.save()
+        form.save_m2m()
+        return HttpResponseRedirect('/library/cardgames/')
 
     return render(request, "library/cardgame/create_form.html", {'form': form})
 
 
 def tag_form(request: HttpRequest):
     return render(request, 'library/tag_form.html')
-
-
-def add_book(request: HttpRequest) -> HttpResponse:
-    name = request.POST['name']
-    if name != '':
-        description = request.POST['description']
-        notes = request.POST['notes']
-        condition = request.POST['condition']
-        isbn = request.POST['isbn']
-        edition = request.POST['edition']
-        year = request.POST['year']
-        genre = request.POST['genre']
-        book = Book(name=name, description=description, notes=notes, condition=condition, isbn=isbn, year=year,
-                    edition=edition, genre=genre)
-        book.save()
-    return HttpResponseRedirect('/library/books')
-
-
-def add_game(request: HttpRequest):
-    name = request.POST['name']
-    if name != '':
-        description = request.POST['description']
-        notes = request.POST['notes']
-        minplayers = int(request.POST["minplayers"])
-        maxplayers = int(request.POST["maxplayers"])
-        mingamelength = request.POST["mingamelength"]
-        maxgamelength = request.POST["maxgamelength"]
-        difficulty = request.POST['difficulty']
-        genre = request.POST['genre']
-        condition = request.POST['condition']
-        game = Game(name=name, maxplayers=maxplayers, minplayers=minplayers, condition=condition,
-                    mingamelength=mingamelength, maxgamelength=maxgamelength, difficulty=difficulty, genre=genre,
-                    description=description, notes=notes)
-        game.save()
-    return HttpResponseRedirect('/library/games')
-
-
-def add_card(request: HttpRequest):
-    name = request.POST['name']
-    if name != '':
-        deck_type = request.POST['deck_type']
-        description = request.POST['description']
-        notes = request.POST['notes']
-        minplayers = int(request.POST["minplayers"])
-        maxplayers = int(request.POST["maxplayers"])
-        mingamelength = request.POST["mingamelength"]
-        maxgamelength = request.POST["maxgamelength"]
-        difficulty = request.POST['difficulty']
-        condition = request.POST['condition']
-        card = Card(name=name, deck_type=deck_type, description=description, condition=condition, notes=notes,
-                    maxplayers=maxplayers, minplayers=minplayers, mingamelength=mingamelength,
-                    maxgamelength=maxgamelength, difficulty= difficulty)
-        card.save()
-    return HttpResponseRedirect('/library/cardgames')
 
 
 def add_tag(request: HttpRequest):
