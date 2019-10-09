@@ -64,7 +64,7 @@
 
 {% block item-edit %}
 <form action="{% url 'library:game_edit_form' game.id %}" method="post">
-  <input type="submit" value="Edit game">
+  <button class="btn btn-sm" id="edit-button" type="submit">EDIT</button>
   {% csrf_token %}
 </form>
 {% endblock %}
