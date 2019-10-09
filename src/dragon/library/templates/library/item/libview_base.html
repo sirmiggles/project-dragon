@@ -1,0 +1,39 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - Library{% endblock %}
+
+{% load static %}
+{% block page-styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'dragon/lib-style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="library-container">
+  <!-- An "Items" table for displaying every item they have -->
+  <h3 class="table-title">{% block lib-name %}{% endblock %}</h3>
+  <div class="table-container">
+    <table class="table-bordered table-hover" id="lib-table">
+      <thead class="table-col-header">
+        {% block table-col-header %}
+        {% endblock %}
+      </thead>
+      <!-- Trying to refer to book/game/card.id to link to their detail page -->
+      <tbody class="table-content">
+        {% block table-contents %}
+        {% endblock %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- A list of tags created -->
+<div class="library-container">
+  {% block tag-list %}
+  {% endblock %}
+</div>
+
+{% block item-add %}
+{% endblock %}
+
+{% endblock %}
+
