@@ -3,6 +3,7 @@
 :root {
     --main-theme-color: #370aa8;
     --main-theme-color-dark: #270875;
+    font-family: 'Segoe UI Mono', 'Segoe UI', Verdana, Tahoma;
 }
 
 /*  The CSS for the main body  */
