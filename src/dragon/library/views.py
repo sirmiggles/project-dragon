@@ -90,27 +90,19 @@ def add_tag(request: HttpRequest):
     return HttpResponseRedirect('/library/books')
 
 
-def update_book(request: HttpRequest, book_id: int):
-    book = get_object_or_404(Book, pk=book_id)
-    book.name = request.POST['name']
-    if book.name != '':
-        book.description = request.POST['description']
-        book.notes = request.POST['notes']
-        book.condition = request.POST['condition']
-        book.isbn = request.POST['isbn']
-        book.edition = request.POST['edition']
-        book.year = request.POST['year']
-        book.genre = request.POST['genre']
-        book.save()
-    return HttpResponseRedirect('/library/books')
-
-
 # Added rendering for book editing, referring to the book id
 def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
-    form = BookForm(instance=book)
-    if form.is_valid():
-        form.save()
+    if request.method == 'POST':
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            form.save_m2m()
+            return HttpResponseRedirect('/library/books/')
+    else:
+        form = BookForm(instance=book)
+
     return render(request, "library/book/update_form.html", {'book': book, 'form': form})
 
 
