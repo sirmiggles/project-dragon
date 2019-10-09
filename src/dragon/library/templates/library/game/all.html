@@ -8,9 +8,9 @@
 <tr>
   <th>Name</th>
   <th>Players</th>
-  <th>Duration (mins.)</th>
-  <th>Genre</th>
   <th>Difficulty</th>
+  <th>Genre</th>
+  <th class="d-none d-md-table-cell">Duration (mins.)</th>
   <th>Availability</th>
 </tr>
 {% endblock %}
@@ -18,21 +18,29 @@
 {% block table-contents %}
 {% for game in games %}
   <tr>
-    <td class="table-cell"><a class="btn item-link" href="{% url 'library:game_detail' game.id %}">
-      {{ game.name }}
-    </a></td>
+    <td class="table-cell d-md-none">
+      <a class="btn item-link" href="{% url 'library:game_detail' game.id %}">
+        {{ game.name|truncatechars:20 }}
+      </a>
+    </td>
+    <td class="d-none d-md-table-cell">
+      <a class="btn item-link" href="{% url 'library:game_detail' game.id %}">
+        {{ game.name|truncatechars:64 }}
+      </a>
+    </td>
     <td class="table-cell">
       {{ game.minplayers }}-{{ game.maxplayers }}
     </td>
     <td class="table-cell">
-      {{ game.mingamelength }}-{{ game.maxgamelength }}
+      {{ game.get_difficulty_display }}
     </td>
     <td class="table-cell">
       {{ game.get_genre_display }}
     </td>
-    <td class="table-cell">
-      {{ game.get_difficulty_display }}
+    <td class="d-none d-md-table-cell non-key">
+      {{ game.mingamelength }}-{{ game.maxgamelength }}
     </td>
+    
     <td class="table-cell">
       {{ game.is_available}}
     </td>

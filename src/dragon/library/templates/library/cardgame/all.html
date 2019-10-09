@@ -8,10 +8,10 @@
 <tr>
   <th>Name</th>
   <th>Players</th>
-  <th>Deck Type</th>
-  <th>Duration (mins.)</th>
-  <th>Genre</th>
   <th>Difficulty</th>
+  <th>Genre</th>
+  <th class="d-none d-md-table-cell">Deck Type</th>
+  <th class="d-none d-md-table-cell">Duration (mins.)</th>
   <th>Availability</th>
 </tr>
 {% endblock %}
@@ -19,23 +19,25 @@
 {% block table-contents %}
 {% for card in cards %}
   <tr>
-    <td class="table-cell"><a class="btn item-link" href="{% url 'library:card_detail' card.id %}">
-      {{ card.name }}
-    </a></td>
+    <td class="table-cell">
+      <a class="btn item-link" href="{% url 'library:card_detail' card.id %}">
+        {{ card.name }}
+      </a>
+    </td>
     <td class="table-cell">
       {{ card.minplayers }}-{{ card.maxplayers }}
     </td>
     <td class="table-cell">
-      {{ card.deck_type }}
-    </td>
-    <td class="table-cell">
-      {{ card.mingamelength }}-{{ card.maxgamelength }}
+      {{ card.get_difficulty_display }}
     </td>
     <td class="table-cell">
       {{ card.get_genre_display }}
     </td>
-    <td class="table-cell">
-      {{ card.get_difficulty_display }}
+    <td class="d-none d-md-table-cell non-key">
+      {{ card.deck_type }}
+    </td>
+    <td class="d-none d-md-table-cell non-key">
+      {{ card.mingamelength }}-{{ card.maxgamelength }}
     </td>
     <td class="table-cell">
       {{ card.is_available}}
