@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get(envSecretKey)
 
 if SECRET_KEY is None:
     os.environ[envSecretKey] = get_random_secret_key()
-    warnings.warn("No secret key found, using public default")
+    warnings.warn("No secret key found, generating one")
     SECRET_KEY = os.environ[envSecretKey]
 
 # SECURITY WARNING: don't run with debug turned on in production!
