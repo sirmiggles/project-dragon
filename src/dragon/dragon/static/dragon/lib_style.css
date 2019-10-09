@@ -54,6 +54,10 @@
   border: none;
 }
 
+.item-link:focus {
+  border: none;
+}
+
 #description {
   color: #636363;
   font-style: italic;
