@@ -105,32 +105,22 @@ def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
     else:
         form = BookForm(instance=book)
 
-    return render(request, "library/book/update_form.html", {'book': book, 'form': form})
-
-
-def update_game(request: HttpRequest, game_id: int):
-    game = get_object_or_404(Game, pk=game_id)
-    game.name = request.POST['name']
-    if game.name != '':
-        game.description = request.POST['description']
-        game.notes = request.POST['notes']
-        game.condition = request.POST['condition']
-        game.minplayers = request.POST['minplayers']
-        game.maxplayers = request.POST['maxplayers']
-        game.mingamelength = request.POST['mingamelength']
-        game.maxgamelength = request.POST['maxgamelength']
-        game.difficulty = request.POST['difficulty']
-        game.genre = request.POST['genre']
-        game.save()
-    return HttpResponseRedirect('/library/games')
+    return render(request, "library/book/edit_form.html", {'book': book, 'form': form})
 
 
 # Added rendering for game editing, referring to the game id
 def game_edit_form(request: HttpRequest, game_id: int) -> HttpResponse:
     game = get_object_or_404(Game, pk=game_id)
-    form = GameForm(instance=game)
-    if form.is_valid():
-        form.save()
+    if request.method == 'POST':
+        form = GameForm(request.POST, instance=game)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            form.save_m2m()
+            return HttpResponseRedirect('/library/games/')
+    else:
+        form = GameForm(instance=game)
+
     return render(request, "library/game/edit_form.html", {'game': game, 'form': form})
 
 

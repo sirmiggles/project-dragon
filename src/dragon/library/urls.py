@@ -23,7 +23,6 @@ urlpatterns = [
     path('game/<int:game_id>/', views.game_detail, name='game_detail'),
     path('game_form/', views.game_form, name='game_form'),
     path('game_edit_form/<int:game_id>/', views.game_edit_form, name='game_edit_form'),
-    path('update_game/<int:game_id>/', views.update_game, name='update_game'),
     path('remove_game/<int:game_id>/', views.remove_game, name='remove_game'),
 
     # Urls for card game library page
