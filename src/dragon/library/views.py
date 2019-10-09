@@ -37,12 +37,14 @@ def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
 
 def game_detail(request: HttpRequest, game_id: int) -> HttpResponse:
     game = get_object_or_404(Game, pk=game_id)
-    return render(request, 'library/game/detail.html', {'game': game})
+    tags = game.tags.all()
+    return render(request, 'library/game/detail.html', {'game': game, 'tags': tags})
 
 
 def card_detail(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
-    return render(request, 'library/cardgame/detail.html', {'card': card})
+    tags = card.tags.all()
+    return render(request, 'library/cardgame/detail.html', {'card': card, 'tags': tags})
 
 
 def book_form(request):
