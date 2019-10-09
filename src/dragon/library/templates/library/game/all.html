@@ -1,53 +1,78 @@
-{% extends "library/base.html" %}
+{% extends "library/item/libview_base.html" %}
 
-{% block title %}{{ block.super }} - Games{% endblock %}
+{% block page-title %}Games{% endblock %}
 
-{% block content %}
-  <h1>Game Library</h1>
+{% block lib-name %}Games{% endblock %}
 
-  <h3><a href="{% url 'library:borrowed' %}">Borrowed from Unigames</a></h3>
+{% block table-col-header %}
+<tr>
+  <th>Name</th>
+  <th class="d-none d-md-table-cell">Players</th>
+  <th class="d-md-none">Play.</th>
+  <th class="d-none d-md-table-cell">Difficulty</th>
+  <th class="d-md-none">Diff.</th>
+  <th>Genre</th>
+  <th class="d-none d-md-table-cell">Duration (mins.)</th>
+  <th>Available?</th>
+</tr>
+{% endblock %}
 
-  <h3>Games</h3>
-  <table style="width:100%">
+{% block table-contents %}
+{% for game in games %}
+  <tr>
+    <td class="table-cell d-md-none">
+      <a class="btn item-link" href="{% url 'library:game_detail' game.id %}">
+        {{ game.name|truncatechars:20 }}
+      </a>
+    </td>
+    <td class="d-none d-md-table-cell">
+      <a class="btn item-link" href="{% url 'library:game_detail' game.id %}">
+        {{ game.name|truncatechars:64 }}
+      </a>
+    </td>
+    <td class="table-cell">
+      {{ game.minplayers }}-{{ game.maxplayers }}
+    </td>
+    <td class="table-cell">
+      {{ game.get_difficulty_display }}
+    </td>
+    <td class="table-cell">
+      {{ game.get_genre_display }}
+    </td>
+    <td class="d-none d-md-table-cell non-key">
+      {{ game.mingamelength }}-{{ game.maxgamelength }}
+    </td>
+    
+    <td class="table-cell">
+      {{ game.is_available}}
+    </td>
+  </tr>
+{% endfor %}
+{% endblock %}
+
+{% block tag-list %}
+<h3>List of Tags</h3>
+<table>
+  <tr>
+    <th>Tag Name</th>
+  </tr>
+  {% for tag in tags %}
     <tr>
-      <th>Name</th>
-      <th>Players</th>
-      <th>Game Duration (minutes)</th>
-      <th>Genre</th>
-      <th>Difficulty</th>
-      <th>Availability</th>
+      <td>
+        {{ tag.name }}
+      </td>
     </tr>
-    {% for game in games %}
-      <tr>
-        <td><a href="{% url 'library:game_detail' game.id %}">
-          {{ game.name }}
-        </a></td>
-        <td>
-          {{ game.minplayers }}-{{ game.maxplayers }}
-        </td>
-        <td>
-          {{ game.mingamelength }}-{{ game.maxgamelength }}
-        </td>
-        <td>
-          {{ game.get_genre_display }}
-        </td>
-        <td>
-          {{ game.get_difficulty_display }}
-        </td>
-        <td>
-          {{ game.is_available}}
-        </td>
-      </tr>
-    {% endfor %}
+  {% endfor %}
+</table>
+{% endblock %}
 
-  </table>
-
-
-  <h1>Add Items</h1>
-
-  <a href="{% url 'library:game_form' %}">Add Game</a><br>
-  <a href="{% url 'library:tag_form' %}">Manage Tags</a>
-
-
+{% block item-add %}
+<div class="col-12 addition-container">
+  <h5>Want to add something to this library?</h5>
+  <div class="btn-group">
+    <a class="btn btn-dark" href="{% url 'library:game_form' %}">Add Game</a><br>
+    <a class="btn btn-dark" href="{% url 'library:tag_form' %}">Manage Tags</a>
+   </div>
+</div> 
 {% endblock %}
 

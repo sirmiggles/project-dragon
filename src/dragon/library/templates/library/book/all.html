@@ -1,65 +1,72 @@
-{% extends "library/base.html" %}
+{% extends "library/item/libview_base.html" %}
 
-{% block title %}{{ block.super }} - Books{% endblock %}
+{% block page-title %}Books{% endblock %}
 
-{% block content %}
-  <h1>Book Library</h1>
+{% block lib-name %}Books{% endblock %}
 
-  <h3><a href="{% url 'library:borrowed' %}">Borrowed from Unigames</a></h3>
-  <h3>Books</h3>
-  <table style="width:100%">
-    <tr>
-      <th>Name</th>
-      <th>ISBN</th>
-      <th>Edition</th>
-      <th>Year</th>
-      <th>Genre</th>
-      <th>Availability</th>
-    </tr>
-    {% for book in books %}
-      <tr>
-        <td><a href="{% url 'library:book_detail' book.id %}">
-          {{ book.name }}
-        </a></td>
-        <td>
-          {{ book.isbn }}
-        </td>
-        <td>
-          {{ book.edition }}
-        </td>
-        <td>
-          {{ book.year }}
-        </td>
-        <td>
-          {{ book.get_genre_display }}
-        </td>
-        <td>
-          {{ book.is_available }}
-        </td>
-      </tr>
-    {% endfor %}
-
-  </table>
-
-  <h3>List of Tags</h3>
-    <table>
-      <tr>
-        <th>Tag Name</th>
-      </tr>
-      {% for tag in tags %}
-        <tr>
-          <td>
-            {{ tag.name }}
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
-
-  <h1>Add Items</h1>
-
-  <a href="{% url 'library:book_form' %}">Add Book</a><br>
-  <a href="{% url 'library:tag_form' %}">Manage Tags</a>
-
-
+{% block table-col-header %}
+<tr>
+  <th>Name</th>
+  <th class="d-none d-md-table-cell">ISBN</th>
+  <th>Edition</th>
+  <th>Year</th>
+  <th>Genre</th>
+  <th>Available?</th>
+</tr>
 {% endblock %}
 
+{% block table-contents %}
+{% for book in books %}
+  <tr>
+    <td class="table-cell d-md-none">
+      <a class="btn item-link" href="{% url 'library:book_detail' book.id %}">
+        {{ book.name|truncatechars:20 }}
+      </a>
+    </td>
+    <td class="d-none d-md-table-cell">
+      <a class="btn item-link" href="{% url 'library:book_detail' book.id %}">
+        {{ book.name|truncatechars:64 }}
+      </a>
+    </td>
+    <td class="d-none d-md-table-cell">
+      {{ book.isbn }}
+    </td>
+    <td class="table-cell">
+      {{ book.edition }}
+    </td>
+    <td class="table-cell">
+      {{ book.year }}
+    </td>
+    <td class="table-cell">
+      {{ book.get_genre_display }}
+    </td>
+    <td class="table-cell">
+      {{ book.is_available }}
+    </td>
+  </tr>
+{% endfor %}
+{% endblock %}
+
+{% block tag-list %}
+<table>
+  <tr>
+    <th>Tag Name</th>
+  </tr>
+  {% for tag in tags %}
+    <tr>
+      <td>
+        {{ tag.name }}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}
+
+{% block item-add %}
+<div class="col-12 addition-container">
+  <h5>Something missing in this library?</h5>
+  <div class="btn-group">
+    <a class="btn btn-dark"  href="{% url 'library:book_form' %}">Add Book</a><br>
+    <a class="btn btn-dark"  href="{% url 'library:tag_form' %}">Manage Tags</a>
+  </div>
+{% endblock %}
