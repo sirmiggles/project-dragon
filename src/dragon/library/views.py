@@ -249,7 +249,7 @@ def borrow_detail(request: HttpRequest, card_id: int) -> HttpResponse:
     return render(request, 'library/borrow_detail.html', {'card': card})
 
 
-def returned(request: HttpRequest, card_id: int) -> HttpResponse:
-    loan = get_object_or_404(Borrow, item_id=card_id)
+def returned(request: HttpRequest, item_id: int) -> HttpResponse:
+    loan = get_object_or_404(Borrow, item_id=item_id)
     loan.delete()
-    return HttpResponseRedirect('/library/card/' + str(card_id))
+    return HttpResponseRedirect('/library/card/' + str(item_id))
