@@ -33,7 +33,7 @@
           {% endblock %}
         </div>
       </div>
-      
+
       <h3 class="attr-header">Description</h3>
       {% block item-description %}
       {% endblock %}
@@ -51,14 +51,17 @@
   </div>
 </div>
 
-<h3>Edit</h3>
-{% block item-edit %}
-{% endblock %}
-
-<div class="text-center text-md-right delete-container">
-  <h6 class="item-delete-message">Click here to delete this</h6>
-  {% block delete %}
-  {% endblock %}
+<div class="d-flex flex-column flex-md-row" id="alter-section">
+  <div class="col-12 col-md-6 text-center text-md-left alter-container">
+    <h6 class="item-alter-message" id="edit-text">Click here to edit this item</h6>
+    {% block item-edit %}
+    {% endblock %}
+  </div>
+  <div class="col-12 col-md-6 text-center text-md-right alter-container">
+    <h6 class="item-alter-message" id="delete-text">Click here to delete this</h6>
+    {% block delete %}
+    {% endblock %}
+  </div>
 </div>
 {% endblock %}
 

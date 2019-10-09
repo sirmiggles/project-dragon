@@ -1,4 +1,4 @@
-{% extends "library/item_details.html" %}
+{% extends "library/item/details.html" %}
 
 {% block page-title %}{{ book.name }}{% endblock %}
 
@@ -69,7 +69,7 @@
 
 {% block item-edit %}
 <form action="{% url 'library:book_edit_form' book.id %}" method="post">
-  <input type="submit" value="Edit book">
+  <button class="btn btn-sm" id="edit-button" type="submit">EDIT</button>
   {% csrf_token %}
 </form>
 {% endblock %}
@@ -77,7 +77,7 @@
 
 {% block delete %}
 <form action="{% url 'library:remove_book' book.id %}" method="post">
-  <button class="btn btn-warning btn-danger btn-sm" id="delete-button" type="submit">DELETE</button>
+  <button class="btn btn-danger btn-sm" id="delete-button" type="submit">DELETE</button>
   {% csrf_token %}
 </form>
 {% endblock %}

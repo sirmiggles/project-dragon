@@ -44,6 +44,7 @@
 
 .cat-header {
     font-size: 1rem;
+    text-align: center;
     padding-top: 0.5rem;
     padding-bottom: 0.1rem;
 }
@@ -54,15 +55,35 @@
     text-align: center;
 }
 
-.delete-container {
-    margin: 1rem;
-    padding: 0;
+#alter-section {
+    margin: 0;
+    padding: 0.5rem;
 }
 
-.item-delete-message {
+.alter-container {
+    margin-bottom: 0.5rem;
+}
+
+.item-alter-message {
     font-size: 0.75rem;
     font-weight: normal;
     color: grey;
+    margin-bottom: 0.25rem;
+}
+
+#edit-text {
+    color: grey;
+}
+
+#delete-text {
+    color: red;
+}
+
+#edit-button {
+    background-color: grey;
+    color: whitesmoke;
+    font-size: 0.75rem;
+    width: 10%
 }
 
 #delete-button {
@@ -97,12 +118,25 @@
         border: none;
     }
 
+    .cat-header {
+        text-align: left;
+    }
+
     .cat-value {
         text-align: left;
     }
 
+    .item-alter-message {
+        font-size: 0.9rem;
+    }
+
     #delete-button {
-        font-size: 0.5rem;
+        font-size: 0.8rem;
+        width: 66.7%;
+    }
+
+    #edit-button {
+        font-size: 0.8rem;
         width: 66.7%;
     }
 
