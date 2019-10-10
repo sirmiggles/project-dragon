@@ -17,7 +17,8 @@ class BookForm(forms.ModelForm):
             'edition',
             'year',
             'genre',
-            'condition'
+            'condition',
+            'tags'
         ]
         labels = {
             'name': 'Name',
@@ -27,7 +28,8 @@ class BookForm(forms.ModelForm):
             'edition': 'Edition',
             'year': 'Year',
             'genre': 'Genre',
-            'condition': 'Condition'
+            'condition': 'Condition',
+            'tags': 'Tags'
         }
 
 
@@ -44,7 +46,8 @@ class GameForm(forms.ModelForm):
             'maxgamelength',
             'difficulty',
             'genre',
-            'condition'
+            'condition',
+            'tags'
         ]
         labels = {
             'name': 'Name',
@@ -56,7 +59,8 @@ class GameForm(forms.ModelForm):
             'maxgamelength': 'Max. Game Length (minutes)',
             'difficulty': 'Difficulty',
             'genre': 'Genre',
-            'condition': 'Condition'
+            'condition': 'Condition',
+            'tags': 'Tags'
         }
 
 
@@ -74,7 +78,8 @@ class CardForm(forms.ModelForm):
             'difficulty',
             'genre',
             'condition',
-            'deck_type'
+            'deck_type',
+            'tags'
         ]
         labels = {
             'name': 'Name',
@@ -86,5 +91,6 @@ class CardForm(forms.ModelForm):
             'maxgamelength': 'Max. Game Length (minutes)',
             'difficulty': 'Difficulty',
             'condition': 'Condition',
-            'deck_type': 'Deck Type'
+            'deck_type': 'Deck Type',
+            'tags': 'Tags'
         }

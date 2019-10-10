@@ -53,22 +53,15 @@
 {% endblock %}
 
 {% block item-tags %}
+{% for tag in tags %}
 <div class=" col-12 col-md-2 item-tag">
-  <h5>TAG 1</h5>
+  <h5>{{ tag }}</h5>
 </div>
-<div class=" col-12 col-md-2 item-tag">
-  <h5>TAG 2</h5>
-</div>
-<div class=" col-12 col-md-2 item-tag">
-  <h5>TAG 3</h5>
-</div>
-<div class=" col-12 col-md-2 item-tag">
-  <h5>TAG 4</h5>
-</div>
+{% endfor %}
 {% endblock %}
 
 {% block item-edit %}
-<form action="{% url 'library:book_edit_form' book.id %}" method="post">
+<form action="{% url 'library:book_edit_form' book.id %}" method="get">
   <button class="btn btn-sm" id="edit-button" type="submit">EDIT</button>
   {% csrf_token %}
 </form>

@@ -31,23 +31,29 @@ def cardgame_view(request: HttpRequest) -> HttpResponse:
 
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
-    return render(request, 'library/book/detail.html', {'book': book})
+    tags = book.tags.all()
+    return render(request, 'library/book/detail.html', {'book': book, 'tags': tags})
 
 
 def game_detail(request: HttpRequest, game_id: int) -> HttpResponse:
     game = get_object_or_404(Game, pk=game_id)
-    return render(request, 'library/game/detail.html', {'game': game})
+    tags = game.tags.all()
+    return render(request, 'library/game/detail.html', {'game': game, 'tags': tags})
 
 
 def card_detail(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
-    return render(request, 'library/cardgame/detail.html', {'card': card})
+    tags = card.tags.all()
+    return render(request, 'library/cardgame/detail.html', {'card': card, 'tags': tags})
 
 
 def book_form(request):
     form = BookForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        book = form.save(commit=False)
+        book.save()
+        form.save_m2m()
+        return HttpResponseRedirect('/library/books/')
 
     return render(request, "library/book/create_form.html", {'form': form})
 
@@ -55,7 +61,10 @@ def book_form(request):
 def game_form(request):
     form = GameForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        game = form.save(commit=False)
+        game.save()
+        form.save_m2m()
+        return HttpResponseRedirect('/library/games/')
 
     return render(request, "library/game/create_form.html", {'form': form})
 
@@ -63,67 +72,16 @@ def game_form(request):
 def card_form(request: HttpRequest) -> HttpResponse:
     form = CardForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        card = form.save(commit=False)
+        card.save()
+        form.save_m2m()
+        return HttpResponseRedirect('/library/cardgames/')
 
     return render(request, "library/cardgame/create_form.html", {'form': form})
 
 
 def tag_form(request: HttpRequest):
     return render(request, 'library/tag_form.html')
-
-
-def add_book(request: HttpRequest) -> HttpResponse:
-    name = request.POST['name']
-    if name != '':
-        description = request.POST['description']
-        notes = request.POST['notes']
-        condition = request.POST['condition']
-        isbn = request.POST['isbn']
-        edition = request.POST['edition']
-        year = request.POST['year']
-        genre = request.POST['genre']
-        book = Book(name=name, description=description, notes=notes, condition=condition, isbn=isbn, year=year,
-                    edition=edition, genre=genre)
-        book.save()
-    return HttpResponseRedirect('/library/books')
-
-
-def add_game(request: HttpRequest):
-    name = request.POST['name']
-    if name != '':
-        description = request.POST['description']
-        notes = request.POST['notes']
-        minplayers = int(request.POST["minplayers"])
-        maxplayers = int(request.POST["maxplayers"])
-        mingamelength = request.POST["mingamelength"]
-        maxgamelength = request.POST["maxgamelength"]
-        difficulty = request.POST['difficulty']
-        genre = request.POST['genre']
-        condition = request.POST['condition']
-        game = Game(name=name, maxplayers=maxplayers, minplayers=minplayers, condition=condition,
-                    mingamelength=mingamelength, maxgamelength=maxgamelength, difficulty=difficulty, genre=genre,
-                    description=description, notes=notes)
-        game.save()
-    return HttpResponseRedirect('/library/games')
-
-
-def add_card(request: HttpRequest):
-    name = request.POST['name']
-    if name != '':
-        deck_type = request.POST['deck_type']
-        description = request.POST['description']
-        notes = request.POST['notes']
-        minplayers = int(request.POST["minplayers"])
-        maxplayers = int(request.POST["maxplayers"])
-        mingamelength = request.POST["mingamelength"]
-        maxgamelength = request.POST["maxgamelength"]
-        difficulty = request.POST['difficulty']
-        condition = request.POST['condition']
-        card = Card(name=name, deck_type=deck_type, description=description, condition=condition, notes=notes,
-                    maxplayers=maxplayers, minplayers=minplayers, mingamelength=mingamelength,
-                    maxgamelength=maxgamelength, difficulty= difficulty)
-        card.save()
-    return HttpResponseRedirect('/library/cardgames')
 
 
 def add_tag(request: HttpRequest):
@@ -134,79 +92,51 @@ def add_tag(request: HttpRequest):
     return HttpResponseRedirect('/library/books')
 
 
-def update_book(request: HttpRequest, book_id: int):
-    book = get_object_or_404(Book, pk=book_id)
-    book.name = request.POST['name']
-    if book.name != '':
-        book.description = request.POST['description']
-        book.notes = request.POST['notes']
-        book.condition = request.POST['condition']
-        book.isbn = request.POST['isbn']
-        book.edition = request.POST['edition']
-        book.year = request.POST['year']
-        book.genre = request.POST['genre']
-        book.save()
-    return HttpResponseRedirect('/library/books')
-
-
 # Added rendering for book editing, referring to the book id
 def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
-    form = BookForm(instance=book)
-    if form.is_valid():
-        form.save()
-    return render(request, "library/book/update_form.html", {'book': book, 'form': form})
+    if request.method == 'POST':
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            form.save_m2m()
+            return HttpResponseRedirect('/library/books/')
+    else:
+        form = BookForm(instance=book)
 
-
-def update_game(request: HttpRequest, game_id: int):
-    game = get_object_or_404(Game, pk=game_id)
-    game.name = request.POST['name']
-    if game.name != '':
-        game.description = request.POST['description']
-        game.notes = request.POST['notes']
-        game.condition = request.POST['condition']
-        game.minplayers = request.POST['minplayers']
-        game.maxplayers = request.POST['maxplayers']
-        game.mingamelength = request.POST['mingamelength']
-        game.maxgamelength = request.POST['maxgamelength']
-        game.difficulty = request.POST['difficulty']
-        game.genre = request.POST['genre']
-        game.save()
-    return HttpResponseRedirect('/library/games')
+    return render(request, "library/book/edit_form.html", {'book': book, 'form': form})
 
 
 # Added rendering for game editing, referring to the game id
 def game_edit_form(request: HttpRequest, game_id: int) -> HttpResponse:
     game = get_object_or_404(Game, pk=game_id)
-    form = GameForm(instance=game)
-    if form.is_valid():
-        form.save()
+    if request.method == 'POST':
+        form = GameForm(request.POST, instance=game)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            form.save_m2m()
+            return HttpResponseRedirect('/library/games/')
+    else:
+        form = GameForm(instance=game)
+
     return render(request, "library/game/edit_form.html", {'game': game, 'form': form})
 
 
-def update_card(request: HttpRequest, card_id: int):
-    card = get_object_or_404(Card, pk=card_id)
-    card.name = request.POST['name']
-    if card.name != '':
-        card.description = request.POST['description']
-        card.notes = request.POST['notes']
-        card.condition = request.POST['condition']
-        card.minplayers = request.POST['minplayers']
-        card.maxplayers = request.POST['maxplayers']
-        card.mingamelength = request.POST['mingamelength']
-        card.maxgamelength = request.POST['maxgamelength']
-        card.difficulty = request.POST['difficulty']
-        card.deck_type = request.POST['deck_type']
-        card.save()
-    return HttpResponseRedirect('/library/cardgames')
-
-
-# Added rendering for game editing, referring to the game id
+# Added rendering for card game editing, referring to the card game id
 def card_edit_form(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
-    form = CardForm(instance=card)
-    if form.is_valid():
-        form.save()
+    if request.method == 'POST':
+        form = CardForm(request.POST, instance=card)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            form.save_m2m()
+            return HttpResponseRedirect('/library/cardgames/')
+    else:
+        form = CardForm(instance=card)
+
     return render(request, "library/cardgame/edit_form.html", {'card': card, 'form': form})
 
 
