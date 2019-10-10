@@ -91,21 +91,19 @@ def card_form(request):
 def tag_form(request):
     form = TagForm(request.POST or None)
     if form.is_valid():
-        tag = form.save(commit=False)
-        tag.save()
+        form.save()
         return HttpResponseRedirect('/library/ALL/')
 
-    return render(request, 'library/tag/create_form.html', {'form: form'})
+    return render(request, 'library/tag/create_form.html', {'form': form})
 
 
 def genre_form(request):
     form = GenreForm(request.POST or None)
     if form.is_valid():
-        genre = form.save(commit=False)
-        genre.save()
+        form.save()
         return HttpResponseRedirect('/library/ALL/')
 
-    return render(request, 'library/genre/create_form.html', {'form: form'})
+    return render(request, 'library/genre/create_form.html', {'form': form})
 
 
 # Added rendering for book editing, referring to the book id
