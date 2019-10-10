@@ -10,14 +10,14 @@ from django.db.models import Q
 def all_view(request: HttpRequest) -> HttpResponse:
     searchterm = ''
     items = Item.objects.order_by('name')
+    tags = Tag.objects.order_by('name')
+    genres = Genre.objects.order_by('name')
     
     if 'search' in request.GET:
         searchterm = request.GET['search']
         itemsfilter = Q(name__icontains=searchterm)
         items = items.filter(itemsfilter)
         
-    tags = Tag.objects.order_by('name')
-    genres = Genre.objects.order_by('name')
     return render(request, 'library/item/all.html', {'items': items, 'tags': tags, 'genres': genres, 'searchterm': searchterm})
 
   
@@ -25,13 +25,13 @@ def book_view(request: HttpRequest) -> HttpResponse:
     searchterm = ''
     books = Book.objects.order_by('name')
     tags = Tag.objects.order_by('name')
+    genres = Genre.objects.order_by('name')
     
     if 'search' in request.GET:
         searchterm = request.GET['search']
         booksfilter = Q(name__icontains=searchterm) | Q(isbn__icontains=searchterm)
         books = books.filter(booksfilter)
 
-    genres = Genre.objects.order_by('name')
     return render(request, 'library/book/all.html', {'books': books, 'tags': tags, 'genres': genres, 'searchterm': searchterm})
 
   
@@ -39,13 +39,13 @@ def game_view(request: HttpRequest) -> HttpResponse:
     searchterm = ''
     games = Game.objects.order_by('name')
     tags = Tag.objects.order_by('name')
+    genres = Genre.objects.order_by('name')
 
     if 'search' in request.GET:
         searchterm = request.GET['search']
         gamesfilter = Q(name__icontains=searchterm)
         games = games.filter(gamesfilter)
 
-    genres = Genre.objects.order_by('name')
     return render(request, 'library/game/all.html', {'games': games, 'tags': tags, 'genres': genres, 'searchterm': searchterm})
 
 
@@ -53,13 +53,13 @@ def cardgame_view(request: HttpRequest) -> HttpResponse:
     searchterm = ''
     cards = Card.objects.order_by('name')
     tags = Tag.objects.order_by('name')
+    genres = Genre.objects.order_by('name')
     
     if 'search' in request.GET:
         searchterm = request.GET['search']
         cardsfilter = Q(name__icontains=searchterm)
         cards = cards.filter(cardsfilter)
 
-    genres = Genre.objects.order_by('name')
     return render(request, 'library/cardgame/all.html', {'cards': cards, 'tags': tags, 'genres': genres, 'searchterm': searchterm})
 
   
