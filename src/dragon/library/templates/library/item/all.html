@@ -9,6 +9,8 @@
   <th>Name</th>
   <th>Type</th>
   <th class="d-none d-md-table-cell">Description</th>
+  <th>Genre</th>
+  <th>Tags</th>
   <th>Availability</th>
 </tr>
 {% endblock %}
@@ -33,7 +35,25 @@
     {{ item.get_type_display }}
   </td>
   <td class="d-none d-md-table-cell" id="description">
-    {{ item.description|truncatechars:128 }}
+    {% if item.description != '' %}
+      {{ item.description|truncatechars:128 }}
+    {% else %}
+      N/A
+    {% endif %}
+  </td>
+  <td class="table-cell">
+    {% if item.genres.all %}
+      {{ item.genres.all|join:", "}}
+    {% else %}
+      -
+    {% endif %}
+  </td>
+  <td class="table-cell">
+    {% if item.tags.all %}
+      {{ item.tags.all|join:", "}}
+    {% else %}
+      -
+    {% endif %}
   </td>
   <td class="table-cell">
     {{ item.is_available }}
@@ -58,6 +78,22 @@
 </table>
 {% endblock %}
 
+{% block genre-list %}
+<h3>List of Genres</h3>
+<table>
+  <tr>
+    <th>Genre Name</th>
+  </tr>
+  {% for genre in genres %}
+    <tr>
+      <td>
+        {{ genre.name }}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}
+
 {% block item-add %}
 <div class="col-12 addition-container">
   <h5>Want to add something to this library?</h5>
@@ -65,7 +101,8 @@
     <a class="btn btn-dark" href="{% url 'library:book_form' %}">Book</a><br>
     <a class="btn btn-dark" href="{% url 'library:game_form' %}">Game</a><br>
     <a class="btn btn-dark" href="{% url 'library:card_form' %}">Card Game</a><br>
-    <a class="btn btn-dark" href="{% url 'library:tag_form' %}">Tags</a>
+    <a class="btn btn-dark" href="{% url 'library:tag_form' %}">Tags</a><br>
+    <a class="btn btn-dark" href="{% url 'library:genre_form' %}">Genres</a>
   </div>
 </div>
 {% endblock %}

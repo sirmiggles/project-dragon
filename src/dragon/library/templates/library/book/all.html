@@ -7,10 +7,11 @@
 {% block table-col-header %}
 <tr>
   <th>Name</th>
-  <th class="d-none d-md-table-cell">ISBN</th>
   <th>Edition</th>
   <th>Year</th>
-  <th>Genre</th>
+  <th class="d-none d-md-table-cell">ISBN</th>
+  <th>Genres</th>
+  <th>Tags</th>
   <th>Available?</th>
 </tr>
 {% endblock %}
@@ -28,18 +29,29 @@
         {{ book.name|truncatechars:64 }}
       </a>
     </td>
-    <td class="d-none d-md-table-cell">
-      {{ book.isbn }}
-    </td>
     <td class="table-cell">
       {{ book.edition }}
     </td>
     <td class="table-cell">
       {{ book.year }}
     </td>
-    <td class="table-cell">
-      {{ book.get_genre_display }}
+    <td class="d-none d-md-table-cell">
+      {{ book.isbn }}
     </td>
+    <td class="table-cell">
+    {% if book.genres.all %}
+      {{ book.genres.all|join:", "}}
+    {% else %}
+      -
+    {% endif %}
+  </td>
+  <td class="table-cell">
+    {% if book.tags.all %}
+      {{ book.tags.all|join:", "}}
+    {% else %}
+      -
+    {% endif %}
+  </td>
     <td class="table-cell">
       {{ book.is_available }}
     </td>
@@ -48,14 +60,31 @@
 {% endblock %}
 
 {% block tag-list %}
+<h3>List of Tags</h3>
 <table>
   <tr>
     <th>Tag Name</th>
   </tr>
   {% for tag in tags %}
+  <tr>
+    <td>
+      {{ tag.name }}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
+
+{% block genre-list %}
+<h3>List of Genres</h3>
+<table>
+  <tr>
+    <th>Genre Name</th>
+  </tr>
+  {% for genre in genres %}
     <tr>
       <td>
-        {{ tag.name }}
+        {{ genre.name }}
       </td>
     </tr>
   {% endfor %}
@@ -68,5 +97,6 @@
   <div class="btn-group">
     <a class="btn btn-dark"  href="{% url 'library:book_form' %}">Add Book</a><br>
     <a class="btn btn-dark"  href="{% url 'library:tag_form' %}">Manage Tags</a>
+    <a class="btn btn-dark"  href="{% url 'library:genre_form' %}">Manage Genres</a>
   </div>
 {% endblock %}

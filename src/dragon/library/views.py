@@ -1,50 +1,58 @@
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
-from .forms import BookForm, GameForm, CardForm
-from .models import Book, Game, Tag, Card, Item, Borrow
+from .forms import BookForm, GameForm, CardForm, TagForm, GenreForm
+from .models import Book, Game, Tag, Card, Item, Borrow, Genre
 
 
 # Viewing the Items table, ordered by the name
 def all_view(request: HttpRequest) -> HttpResponse:
     items = Item.objects.order_by('name')
-    return render(request, 'library/item/all.html', {'items': items})
+    tags = Tag.objects.order_by('name')
+    genres = Genre.objects.order_by('name')
+    return render(request, 'library/item/all.html', {'items': items, 'tags': tags, 'genres': genres})
 
 
 def book_view(request: HttpRequest) -> HttpResponse:
     books = Book.objects.order_by('name')
     tags = Tag.objects.order_by('name')
-    return render(request, 'library/book/all.html', {'books': books, 'tags': tags})
+    genres = Genre.objects.order_by('name')
+    return render(request, 'library/book/all.html', {'books': books, 'tags': tags, 'genres': genres})
 
 
 def game_view(request: HttpRequest) -> HttpResponse:
     games = Game.objects.order_by('name')
     tags = Tag.objects.order_by('name')
-    return render(request, 'library/game/all.html', {'games': games, 'tags': tags})
+    genres = Genre.objects.order_by('name')
+    return render(request, 'library/game/all.html', {'games': games, 'tags': tags, 'genres': genres})
 
 
 def cardgame_view(request: HttpRequest) -> HttpResponse:
     cards = Card.objects.order_by('name')
     tags = Tag.objects.order_by('name')
-    return render(request, 'library/cardgame/all.html', {'cards': cards, 'tags': tags})
+    genres = Genre.objects.order_by('name')
+    return render(request, 'library/cardgame/all.html', {'cards': cards, 'tags': tags, 'genres': genres})
 
 
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
     tags = book.tags.all()
-    return render(request, 'library/book/detail.html', {'book': book, 'tags': tags})
+    genres = book.genres.all()
+    return render(request, 'library/book/detail.html', {'book': book, 'tags': tags, 'genres': genres})
 
 
 def game_detail(request: HttpRequest, game_id: int) -> HttpResponse:
     game = get_object_or_404(Game, pk=game_id)
     tags = game.tags.all()
-    return render(request, 'library/game/detail.html', {'game': game, 'tags': tags})
+    genres = game.genres.all()
+    return render(request, 'library/game/detail.html', {'game': game, 'tags': tags, 'genres': genres})
 
 
 def card_detail(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     tags = card.tags.all()
-    return render(request, 'library/cardgame/detail.html', {'card': card, 'tags': tags})
+    genres = card.genres.all()
+    return render(request, 'library/cardgame/detail.html', {'card': card, 'tags': tags, 'genres': genres})
 
 
 def book_form(request):
@@ -69,7 +77,7 @@ def game_form(request):
     return render(request, "library/game/create_form.html", {'form': form})
 
 
-def card_form(request: HttpRequest) -> HttpResponse:
+def card_form(request):
     form = CardForm(request.POST or None)
     if form.is_valid():
         card = form.save(commit=False)
@@ -80,16 +88,22 @@ def card_form(request: HttpRequest) -> HttpResponse:
     return render(request, "library/cardgame/create_form.html", {'form': form})
 
 
-def tag_form(request: HttpRequest):
-    return render(request, 'library/tag_form.html')
+def tag_form(request):
+    form = TagForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect('/library/ALL/')
+
+    return render(request, 'library/tag/create_form.html', {'form': form})
 
 
-def add_tag(request: HttpRequest):
-    name = request.POST['name']
-    if name != '':
-        tag = Tag(name=name)
-        tag.save()
-    return HttpResponseRedirect('/library/books')
+def genre_form(request):
+    form = GenreForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect('/library/ALL/')
+
+    return render(request, 'library/genre/create_form.html', {'form': form})
 
 
 # Added rendering for book editing, referring to the book id

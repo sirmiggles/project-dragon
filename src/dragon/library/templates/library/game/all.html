@@ -11,8 +11,9 @@
   <th class="d-md-none">Play.</th>
   <th class="d-none d-md-table-cell">Difficulty</th>
   <th class="d-md-none">Diff.</th>
-  <th>Genre</th>
   <th class="d-none d-md-table-cell">Duration (mins.)</th>
+  <th>Genres</th>
+  <th>Tags</th>
   <th>Available?</th>
 </tr>
 {% endblock %}
@@ -36,13 +37,15 @@
     <td class="table-cell">
       {{ game.get_difficulty_display }}
     </td>
-    <td class="table-cell">
-      {{ game.get_genre_display }}
-    </td>
     <td class="d-none d-md-table-cell non-key">
       {{ game.mingamelength }}-{{ game.maxgamelength }}
     </td>
-    
+    <td class="table-cell">
+      {{ game.genres.all|join:", "}}
+    </td>
+    <td class="table-cell">
+      {{ game.tags.all|join:", " }}
+    </td>
     <td class="table-cell">
       {{ game.is_available}}
     </td>
@@ -66,12 +69,29 @@
 </table>
 {% endblock %}
 
+{% block genre-list %}
+<h3>List of Genres</h3>
+<table>
+  <tr>
+    <th>Genre Name</th>
+  </tr>
+  {% for genre in genres %}
+    <tr>
+      <td>
+        {{ genre.name }}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}
+
 {% block item-add %}
 <div class="col-12 addition-container">
   <h5>Want to add something to this library?</h5>
   <div class="btn-group">
     <a class="btn btn-dark" href="{% url 'library:game_form' %}">Add Game</a><br>
     <a class="btn btn-dark" href="{% url 'library:tag_form' %}">Manage Tags</a>
+    <a class="btn btn-dark" href="{% url 'library:genre_form' %}">Manage Genres</a>
    </div>
 </div> 
 {% endblock %}
