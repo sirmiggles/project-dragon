@@ -2,7 +2,7 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
 from .forms import BookForm, GameForm, CardForm
-from .models import Book, Game, Tag, Card, Item, Borrow
+from .models import Book, Game, Tag, Card, Item, Borrow, Genre
 
 
 # Viewing the Items table, ordered by the name
@@ -14,37 +14,43 @@ def all_view(request: HttpRequest) -> HttpResponse:
 def book_view(request: HttpRequest) -> HttpResponse:
     books = Book.objects.order_by('name')
     tags = Tag.objects.order_by('name')
-    return render(request, 'library/book/all.html', {'books': books, 'tags': tags})
+    genres = Genre.objects.order_by('name')
+    return render(request, 'library/book/all.html', {'books': books, 'tags': tags, 'genres': genres})
 
 
 def game_view(request: HttpRequest) -> HttpResponse:
     games = Game.objects.order_by('name')
     tags = Tag.objects.order_by('name')
-    return render(request, 'library/game/all.html', {'games': games, 'tags': tags})
+    genres = Genre.objects.order_by('name')
+    return render(request, 'library/game/all.html', {'games': games, 'tags': tags, 'genres': genres})
 
 
 def cardgame_view(request: HttpRequest) -> HttpResponse:
     cards = Card.objects.order_by('name')
     tags = Tag.objects.order_by('name')
-    return render(request, 'library/cardgame/all.html', {'cards': cards, 'tags': tags})
+    genres = Genre.objects.order_by('name')
+    return render(request, 'library/cardgame/all.html', {'cards': cards, 'tags': tags, 'genres': genres})
 
 
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
     tags = book.tags.all()
-    return render(request, 'library/book/detail.html', {'book': book, 'tags': tags})
+    genres = book.genres.all()
+    return render(request, 'library/book/detail.html', {'book': book, 'tags': tags, 'genres': genres})
 
 
 def game_detail(request: HttpRequest, game_id: int) -> HttpResponse:
     game = get_object_or_404(Game, pk=game_id)
     tags = game.tags.all()
-    return render(request, 'library/game/detail.html', {'game': game, 'tags': tags})
+    genres = game.genres.all()
+    return render(request, 'library/game/detail.html', {'game': game, 'tags': tags, 'genres': genres})
 
 
 def card_detail(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     tags = card.tags.all()
-    return render(request, 'library/cardgame/detail.html', {'card': card, 'tags': tags})
+    genres = card.genres.all()
+    return render(request, 'library/cardgame/detail.html', {'card': card, 'tags': tags, 'genres': genres})
 
 
 def book_form(request):
@@ -84,12 +90,24 @@ def tag_form(request: HttpRequest):
     return render(request, 'library/tag_form.html')
 
 
+def genre_form(request: HttpRequest):
+    return render(request, 'library/genre_form.html')
+
+
 def add_tag(request: HttpRequest):
     name = request.POST['name']
     if name != '':
         tag = Tag(name=name)
         tag.save()
-    return HttpResponseRedirect('/library/books')
+    return HttpResponseRedirect('/library/ALL')
+
+
+def add_genre(request: HttpRequest):
+    name = request.POST['name']
+    if name != '':
+        genre = Genre(name=name)
+        genre.save()
+    return HttpResponseRedirect('/library/ALL')
 
 
 # Added rendering for book editing, referring to the book id
