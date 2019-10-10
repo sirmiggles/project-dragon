@@ -1,8 +1,8 @@
-{% extends "dragon/base.html" %}
+{% extends "library/item/libview_base.html" %}
 
-{% block title %}{{ block.super }} - Library{% endblock %}
+{% block page-title %}Library{% endblock %}
 
-{% block content %}
+{% block search-form %}
   <form class="form-inline my-2 my-lg-2">
     <input class="form-control mr-sm-2"
            type="search"
@@ -12,74 +12,109 @@
            value={{ searchterm }}>
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
   </form>
-  <h1>Library</h1>
-  <h3><a href="{% url 'library:borrowed' %}">Borrowed from Unigames</a></h3>
-
-
-  <!-- An "Items" table for displaying every item they have -->
-  <h3>Items</h3>
-  <table style="width:100%">
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Type</th>
-      <th>Availability</th>
-    </tr>
-
-    <!-- Trying to refer to book/game/card.id to link to their detail page -->
-    {% for item in items %}
-      <tr>
-        {% if item.type == 0 %}
-          <td><a href="{% url 'library:book_detail' item.id %}">
-            {{ item.name }}
-          </a></td>
-        {% elif item.type == 1 %}
-          <td><a href="{% url 'library:game_detail' item.id %}">
-            {{ item.name }}
-          </a></td>
-        {% elif item.type == 2 %}
-          <td><a href="{% url 'library:card_detail' item.id %}">
-            {{ item.name }}
-          </a></td>
-        {% endif %}
-        <td>
-          {{ item.description }}
-        </td>
-        <td>
-          {{ item.get_type_display }}
-        </td>
-        <td>
-          {{ item.is_available }}
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
-
-  <!-- A list of tags created -->
-  <h3>List of Tags</h3>
-  <table>
-    <tr>
-      <th>Tag Name</th>
-    </tr>
-    {% for tag in tags %}
-      <tr>
-        <td>
-          {{ tag.name }}
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
-
-
-
-
-  <h1>Add Items</h1>
-
-  <a href="{% url 'library:book_form' %}">Add Book</a><br>
-  <a href="{% url 'library:game_form' %}">Add Game</a><br>
-  <a href="{% url 'library:card_form' %}">Add Card Game</a><br>
-  <a href="{% url 'library:tag_form' %}">Add Tags</a>
-
-
 {% endblock %}
 
+{% block lib-name %}All Items{% endblock %}
+
+{% block table-col-header %}
+<tr>
+  <th>Name</th>
+  <th>Type</th>
+  <th class="d-none d-md-table-cell">Description</th>
+  <th>Genre</th>
+  <th>Tags</th>
+  <th>Availability</th>
+</tr>
+{% endblock %}
+
+{% block table-contents %}
+{% for item in items %}
+<tr>
+  {% if item.type == 0 %}
+  <td class="table-cell"><a class="btn item-link" href="{% url 'library:book_detail' item.id %}">
+    {{ item.name|truncatechars:64 }}
+  </a></td>
+  {% elif item.type == 1 %}
+  <td class="table-cell"><a class="btn item-link" href="{% url 'library:game_detail' item.id %}">
+    {{ item.name|truncatechars:64 }}
+  </a></td>
+  {% elif item.type == 2 %}
+  <td class="table-cell"><a class="btn item-link" href="{% url 'library:card_detail' item.id %}">
+    {{ item.name|truncatechars:64 }}
+  </a></td>
+  {% endif %}
+  <td class="table-cell">
+    {{ item.get_type_display }}
+  </td>
+  <td class="d-none d-md-table-cell" id="description">
+    {% if item.description != '' %}
+      {{ item.description|truncatechars:128 }}
+    {% else %}
+      N/A
+    {% endif %}
+  </td>
+  <td class="table-cell">
+    {% if item.genres.all %}
+      {{ item.genres.all|join:", "}}
+    {% else %}
+      -
+    {% endif %}
+  </td>
+  <td class="table-cell">
+    {% if item.tags.all %}
+      {{ item.tags.all|join:", "}}
+    {% else %}
+      -
+    {% endif %}
+  </td>
+  <td class="table-cell">
+    {{ item.is_available }}
+  </td>
+</tr>
+{% endfor %}
+{% endblock %}
+
+{% block tag-list %}
+<h3>List of Tags</h3>
+<table>
+  <tr>
+    <th>Tag Name</th>
+  </tr>
+  {% for tag in tags %}
+    <tr>
+      <td>
+        {{ tag.name }}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}
+
+{% block genre-list %}
+<h3>List of Genres</h3>
+<table>
+  <tr>
+    <th>Genre Name</th>
+  </tr>
+  {% for genre in genres %}
+    <tr>
+      <td>
+        {{ genre.name }}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}
+
+{% block item-add %}
+<div class="col-12 addition-container">
+  <h5>Want to add something to this library?</h5>
+  <div class="btn-group">
+    <a class="btn btn-dark" href="{% url 'library:book_form' %}">Book</a><br>
+    <a class="btn btn-dark" href="{% url 'library:game_form' %}">Game</a><br>
+    <a class="btn btn-dark" href="{% url 'library:card_form' %}">Card Game</a><br>
+    <a class="btn btn-dark" href="{% url 'library:tag_form' %}">Tags</a><br>
+    <a class="btn btn-dark" href="{% url 'library:genre_form' %}">Genres</a>
+  </div>
+</div>
+{% endblock %}

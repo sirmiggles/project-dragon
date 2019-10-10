@@ -9,25 +9,21 @@
 {% endblock %}
 
 {% block attributes %}
-<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
-  <h5 class="cat-header">Genre:</h5>
-  <h6 class="cat-value">{{ game.get_genre_display }}</h6>
-</div>
-<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
   <h5 class="cat-header">Condition:</h5>
   <h6 class="cat-value">{{ game.get_condition_display }}</h6>
 </div>
-<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
   <h5 class="cat-header">Players:</h5>
   <h6 class="cat-value">{{ game.minplayers }}-{{ game.maxplayers }} </h6>
 </div>
-<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
   <h5 class="cat-header">Duration:</h5>
   <h6 class="cat-value">{{ game.mingamelength }}-{{ game.maxgamelength }}</h6>
 </div>
-<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
   <h5 class="cat-header">Difficulty:</h5>
-  <h6 class="cat-value">{{ game.get_condition_display }}</h6>
+  <h6 class="cat-value">{{ game.get_difficulty_display }}</h6>
 </div>
 {% endblock %}
 
@@ -48,23 +44,32 @@
 {% endblock %}
 
 {% block item-tags %}
+{% for tag in tags %}
 <div class=" col-12 col-md-2 item-tag">
-  <h5>TAG 1</h5>
+  <h6>{{ tag }}</h6>
 </div>
-<div class=" col-12 col-md-2 item-tag">
-  <h5>TAG 2</h5>
+{% empty %}
+<p>
+  No tags specified
+</p>
+{% endfor %}
+{% endblock %}
+
+{% block item-genres %}
+{% for genre in genres %}
+<div class=" col-12 col-md-2 item-genre">
+  <h6>{{ genre }}</h6>
 </div>
-<div class=" col-12 col-md-2 item-tag">
-  <h5>TAG 3</h5>
-</div>
-<div class=" col-12 col-md-2 item-tag">
-  <h5>TAG 4</h5>
-</div>
+{% empty %}
+<p>
+  No genres specified
+</p>
+{% endfor %}
 {% endblock %}
 
 {% block item-edit %}
-<form action="{% url 'library:game_edit_form' game.id %}" method="post">
-  <input type="submit" value="Edit game">
+<form action="{% url 'library:game_edit_form' game.id %}" method="get">
+  <button class="btn btn-sm" id="edit-button" type="submit">EDIT</button>
   {% csrf_token %}
 </form>
 {% endblock %}

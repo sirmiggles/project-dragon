@@ -1,9 +1,8 @@
 import datetime
 
 from django.db import models
-from django.db.models import Model, CharField, TextField, AutoField, BooleanField, IntegerField, ManyToManyField, \
-    DateField
-
+from django.db.models import Model, CharField, TextField, AutoField, IntegerField, ManyToManyField
+from django.shortcuts import get_object_or_404
 
 # These classes are mapped to database entries,
 # but can also be instantiated in python code.
@@ -14,17 +13,24 @@ from django.db.models import Model, CharField, TextField, AutoField, BooleanFiel
 # is a strongly recommended way of accessing objects
 
 
-class Tag(models.Model):
-    name = CharField(max_length=200)
+def return_date():
+    """the default due date is 2 weeks from borrow"""
+    now = datetime.date.today()
+    return now + datetime.timedelta(days=14)
+
+
+class Genre(models.Model):
+    name = CharField(max_length=200, unique=True)
 
     def __str__(self):
         return self.name
 
 
-def return_date():
-    """the default due date is 2 weeks from borrow"""
-    now = datetime.date.today()
-    return now + datetime.timedelta(days=14)
+class Tag(models.Model):
+    name = CharField(max_length=200, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 # todo: semantically it makes sense for the library items to be mostly static data
@@ -38,12 +44,8 @@ class Item(Model):
     name = CharField(max_length=200)
     description = TextField(max_length=1000, blank=True, default='')
     notes = TextField(max_length=1000, blank=True, default='')
-    # todo: this should be an inferred property from a borrowed item table
-
-    tags = ManyToManyField(Tag)
-    # todo: refactor this into borrowed item table
-    # ??? (Kieran) I believe this will set the default due date for all items as 2 weeks from
-    # ???          when the database applies this migration, which doesn't make any sense to me
+    tags = ManyToManyField(Tag, blank=True)
+    genres = ManyToManyField(Genre, blank=True)
 
     type_choices = ((0, 'Book'), (1, 'Game'), (2, 'Card'))
     type = IntegerField(choices=type_choices)
@@ -73,25 +75,15 @@ class Item(Model):
         lone = Borrow(item_id=self.id, borrow_date=borrow_date, due_date=due_date)
         lone.save()
 
+    def return_item(self):
+        loan = get_object_or_404(Borrow, item_id=self.id)
+        loan.delete()
+
 
 class Book(Item):
     isbn = CharField(max_length=16, blank=True, default='')
     edition = IntegerField(blank=True, default=1)
     year = IntegerField(blank=True, default=2000)
-
-    # todo: make genre list editable rather than hard coded.
-    genre_choices = (
-        (0, 'Fantasy'),
-        (1, 'Romance'),
-        (2, 'Sci-Fi'),
-        (3, 'Western'),
-        (4, 'Thriller'),
-        (5, 'Mystery'),
-        (6, 'Detective'),
-        (7, 'Dystopia'),
-        (8, 'Other')
-    )
-    genre = IntegerField(choices=genre_choices, default=8)
 
     def __str__(self):
         return self.name
@@ -110,20 +102,6 @@ class Game(Item):
     difficulty_choices = ((0, 'Easy'), (1, 'Medium'), (2, 'Hard'))
     difficulty = IntegerField(choices=difficulty_choices, default=0)
 
-    genre_choices = (
-        (0, 'Wargames'),
-        (1, 'Roll & Move games'),
-        (2, 'Worker Placement games'),
-        (3, 'Cooperative games'),
-        (4, 'Area Control games'),
-        (5, 'Secret Identity games'),
-        (6, 'Legacy games'),
-        (7, 'Combat games'),
-        (8, 'Party games'),
-        (9, 'Other')
-    )
-    genre = IntegerField(choices=genre_choices, default=0)
-
     def __str__(self):
         return self.name
 
@@ -141,20 +119,6 @@ class Card(Item):
 
     difficulty_choices = ((0, 'Easy'), (1, 'Medium'), (2, 'Hard'))
     difficulty = IntegerField(choices=difficulty_choices, default=0)
-
-    genre_choices = (
-        (0, 'Wargames'),
-        (1, 'Roll & Move games'),
-        (2, 'Worker Placement games'),
-        (3, 'Cooperative games'),
-        (4, 'Area Control games'),
-        (5, 'Secret Identity games'),
-        (6, 'Legacy games'),
-        (7, 'Combat games'),
-        (8, 'Party games'),
-        (9, 'Other')
-    )
-    genre = IntegerField(choices=genre_choices, default=0)
 
     # due_date = DateField(default=return_date)
 

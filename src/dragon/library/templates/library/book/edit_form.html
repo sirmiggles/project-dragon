@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>Edit Book</h1>
-  <form action="{% url 'library:update_book' book.id %}" method="post">
+  <form action="" method="post">
     {{ form.as_p }}
     <input type="submit" value="Edit Book">
     {% csrf_token %}

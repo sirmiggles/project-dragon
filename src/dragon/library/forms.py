@@ -1,5 +1,5 @@
 from django import forms
-from .models import Book, Game, Card
+from .models import Book, Game, Card, Tag, Genre
 
 # These classes produce a standard format to create a form
 # they can be instantiated in `views.py` and added to the
@@ -16,8 +16,9 @@ class BookForm(forms.ModelForm):
             'isbn',
             'edition',
             'year',
-            'genre',
-            'condition'
+            'condition',
+            'genres',
+            'tags'
         ]
         labels = {
             'name': 'Name',
@@ -26,8 +27,9 @@ class BookForm(forms.ModelForm):
             'isbn': 'ISBN',
             'edition': 'Edition',
             'year': 'Year',
-            'genre': 'Genre',
-            'condition': 'Condition'
+            'condition': 'Condition',
+            'genres': 'Genres',
+            'tags': 'Tags'
         }
 
 
@@ -43,8 +45,9 @@ class GameForm(forms.ModelForm):
             'mingamelength',
             'maxgamelength',
             'difficulty',
-            'genre',
-            'condition'
+            'condition',
+            'genres',
+            'tags'
         ]
         labels = {
             'name': 'Name',
@@ -55,8 +58,9 @@ class GameForm(forms.ModelForm):
             'mingamelength': 'Min. Game Length (minutes)',
             'maxgamelength': 'Max. Game Length (minutes)',
             'difficulty': 'Difficulty',
-            'genre': 'Genre',
-            'condition': 'Condition'
+            'condition': 'Condition',
+            'genres': 'Genres',
+            'tags': 'Tags'
         }
 
 
@@ -72,9 +76,10 @@ class CardForm(forms.ModelForm):
             'mingamelength',
             'maxgamelength',
             'difficulty',
-            'genre',
             'condition',
-            'deck_type'
+            'deck_type',
+            'genres',
+            'tags'
         ]
         labels = {
             'name': 'Name',
@@ -86,5 +91,29 @@ class CardForm(forms.ModelForm):
             'maxgamelength': 'Max. Game Length (minutes)',
             'difficulty': 'Difficulty',
             'condition': 'Condition',
-            'deck_type': 'Deck Type'
+            'deck_type': 'Deck Type',
+            'genres': 'Genres',
+            'tags': 'Tags'
+        }
+
+
+class TagForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        fields = [
+            'name'
+        ]
+        labels = {
+            'name': 'Tag Name'
+        }
+
+
+class GenreForm(forms.ModelForm):
+    class Meta:
+        model = Genre
+        fields = [
+            'name'
+        ]
+        labels = {
+            'name': 'Genre Name'
         }
