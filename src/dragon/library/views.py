@@ -95,7 +95,7 @@ def tag_form(request):
         tag.save()
         return HttpResponseRedirect('/library/ALL/')
 
-    return render(request, 'library/tag/tag_form.html', {'form: form'})
+    return render(request, 'library/tag/create_form.html', {'form: form'})
 
 
 def genre_form(request):
@@ -105,7 +105,7 @@ def genre_form(request):
         genre.save()
         return HttpResponseRedirect('/library/ALL/')
 
-    return render(request, 'library/genre/genre_form.html', {'form: form'})
+    return render(request, 'library/genre/create_form.html', {'form: form'})
 
 
 # Added rendering for book editing, referring to the book id
