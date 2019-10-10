@@ -9,6 +9,8 @@
 
 {% block content %}
 <div class="library-container">
+  {% block search-form %}
+  {% endblock %}
   <!-- An "Items" table for displaying every item they have -->
   <div class="jumbotron table-title">
     <h3>{% block lib-name %}{% endblock %}</h3>
