@@ -3,12 +3,10 @@
 {% block title %}{{ block.super }} - Add Tag{% endblock %}
 
 {% block content %}
-  <h1>Add Tag</h1>
-  <form action="{% url 'library:add_tag' %}" method="post">
-    <label for="name">Name:</label>
-    <input type="text" name="name" id="name"><br>
-
-    <input type="submit" value="Add Tag">
-    {% csrf_token %}
-  </form>
+<h1>Add Tag</h1>
+<form action="" method="post">
+  {{ form.as_p }}
+  <input type="submit" value="Add Tag">
+  {% csrf_token %}
+</form>
 {% endblock %}

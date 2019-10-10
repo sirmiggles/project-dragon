@@ -1,7 +1,7 @@
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
-from .forms import BookForm, GameForm, CardForm
+from .forms import BookForm, GameForm, CardForm, TagForm, GenreForm
 from .models import Book, Game, Tag, Card, Item, Borrow, Genre
 
 

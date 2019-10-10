@@ -32,9 +32,11 @@ urlpatterns = [
     path('card_edit_form/<int:card_id>/', views.card_edit_form, name='card_edit_form'),
     path('remove_card/<int:card_id>/', views.remove_card, name='remove_card'),
 
+    # Urls for tags and genres
     path('tag_form/', views.tag_form, name='tag_form'),
     path('genre_form/', views.genre_form, name='genre_form'),
 
+    # Urls for borrowing
     path('borrow_card/<int:card_id>/', views.borrow_card, name='borrow_card'),
     path('returned/<int:card_id>/', views.returned, name='returned'),
     path('borrow_detail/<int:card_id>/', views.borrow_detail, name='borrow_detail'),
