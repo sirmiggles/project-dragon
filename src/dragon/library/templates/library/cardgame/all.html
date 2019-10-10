@@ -45,11 +45,19 @@
       {{ card.mingamelength }}-{{ card.maxgamelength }}
     </td>
     <td class="table-cell">
+    {% if card.genres.all %}
       {{ card.genres.all|join:", "}}
-    </td>
-    <td class="table-cell">
-      {{ card.tags.all|join:", " }}
-    </td>
+    {% else %}
+      -
+    {% endif %}
+  </td>
+  <td class="table-cell">
+    {% if card.tags.all %}
+      {{ card.tags.all|join:", "}}
+    {% else %}
+      -
+    {% endif %}
+  </td>
     <td class="table-cell">
       {{ card.is_available}}
     </td>

@@ -39,11 +39,19 @@
       {{ book.isbn }}
     </td>
     <td class="table-cell">
+    {% if book.genres.all %}
       {{ book.genres.all|join:", "}}
-    </td>
-    <td class="table-cell">
-      {{ book.tags.all|join:", " }}
-    </td>
+    {% else %}
+      -
+    {% endif %}
+  </td>
+  <td class="table-cell">
+    {% if book.tags.all %}
+      {{ book.tags.all|join:", "}}
+    {% else %}
+      -
+    {% endif %}
+  </td>
     <td class="table-cell">
       {{ book.is_available }}
     </td>
