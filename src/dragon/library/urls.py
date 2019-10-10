@@ -9,7 +9,7 @@ app_name = 'library'
 urlpatterns = [
 
     # Urls for items library page
-    path('ALL/', views_library.ItemList.as_view(), name='ALL'),
+    path('ALL/', views.all_view, name='ALL'),
 
     # Urls for book library page
     path('books/', views.book_view, name='books'),
