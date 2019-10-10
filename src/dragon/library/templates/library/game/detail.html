@@ -48,6 +48,10 @@
 <div class=" col-12 col-md-2 item-tag">
   <h6>{{ tag }}</h6>
 </div>
+{% empty %}
+<p>
+  No tags specified
+</p>
 {% endfor %}
 {% endblock %}
 
@@ -56,6 +60,10 @@
 <div class=" col-12 col-md-2 item-genre">
   <h6>{{ genre }}</h6>
 </div>
+{% empty %}
+<p>
+  No genres specified
+</p>
 {% endfor %}
 {% endblock %}
 

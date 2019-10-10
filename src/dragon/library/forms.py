@@ -115,5 +115,5 @@ class GenreForm(forms.ModelForm):
             'name'
         ]
         labels = {
-            'name': 'Tag Name'
+            'name': 'Genre Name'
         }

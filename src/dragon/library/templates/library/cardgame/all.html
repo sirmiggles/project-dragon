@@ -11,9 +11,10 @@
   <th class="d-md-none">Play.</th>
   <th class="d-none d-md-table-cell">Difficulty</th>
   <th class="d-md-none">Diff.</th>
-  <th>Genre</th>
   <th class="d-none d-md-table-cell">Deck Type</th>
   <th class="d-none d-md-table-cell">Duration (mins.)</th>
+  <th>Genres</th>
+  <th>Tags</th>
   <th>Available?</th>
 </tr>
 {% endblock %}
@@ -37,14 +38,17 @@
     <td class="table-cell">
       {{ card.get_difficulty_display }}
     </td>
-    <td class="table-cell">
-      {{ card.get_genre_display }}
-    </td>
     <td class="d-none d-md-table-cell non-key">
       {{ card.deck_type }}
     </td>
     <td class="d-none d-md-table-cell non-key">
       {{ card.mingamelength }}-{{ card.maxgamelength }}
+    </td>
+    <td class="table-cell">
+      {{ card.genres.all|join:", "}}
+    </td>
+    <td class="table-cell">
+      {{ card.tags.all|join:", " }}
     </td>
     <td class="table-cell">
       {{ card.is_available}}

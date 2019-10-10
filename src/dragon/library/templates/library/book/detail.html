@@ -5,19 +5,12 @@
 {%block item-img %}<img class="rounded item-img" src="https://dummyimage.com/200x200/d6d6d6.png&text=[INSERT+IMAGE+HERE]"/>{% endblock %}
 {% block item-name %}<h5>{{ book.name }}</h5>{% endblock %}
 <!--  Right column of item page  -->
-{% block misc %}
-<!--  Book ISBN  -->
-<div class="d-flex flex-column flex-md-row" id="isbn-details">
-  <div class="p-0 col-3 text-md-center attr-cell">
-    <h5 class="cat-header">ISBN:</h5>
-  </div>
-  <div class="p-0 col-9 text-md-center attr-cell">
-    <h6 class="cat-value" id="book-isbn">{{ book.isbn }}</h6>
-  </div>
-</div>
-{% endblock %}
 
 {% block attributes %}
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+  <h5 class="cat-header">Condition:</h5>
+  <h6 class="cat-value">{{ book.get_condition_display }}</h6>
+</div>
 <div class="p-0 col-12 col-md-3 text-md-center attr-cell">
   <h5 class="cat-header">Edition:</h5>
   <h6 class="cat-value">{{ book.edition }}</h6>
@@ -27,8 +20,8 @@
   <h6 class="cat-value">{{ book.year }}</h6>
 </div>
 <div class="p-0 col-12 col-md-3 text-md-center attr-cell">
-  <h5 class="cat-header">Condition:</h5>
-  <h6 class="cat-value">{{ book.get_condition_display }}</h6>
+  <h5 class="cat-header">ISBN:</h5>
+  <h6 class="cat-value">{{ book.isbn }}</h6>
 </div>
 {% endblock %}
 
@@ -53,6 +46,10 @@
 <div class=" col-12 col-md-2 item-tag">
   <h6>{{ tag }}</h6>
 </div>
+{% empty %}
+<p>
+  No tags specified
+</p>
 {% endfor %}
 {% endblock %}
 
@@ -61,6 +58,10 @@
 <div class=" col-12 col-md-2 item-genre">
   <h6>{{ genre }}</h6>
 </div>
+{% empty %}
+<p>
+  No genres specified
+</p>
 {% endfor %}
 {% endblock %}
 

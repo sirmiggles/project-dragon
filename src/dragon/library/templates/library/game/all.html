@@ -11,8 +11,9 @@
   <th class="d-md-none">Play.</th>
   <th class="d-none d-md-table-cell">Difficulty</th>
   <th class="d-md-none">Diff.</th>
-  <th>Genre</th>
   <th class="d-none d-md-table-cell">Duration (mins.)</th>
+  <th>Genres</th>
+  <th>Tags</th>
   <th>Available?</th>
 </tr>
 {% endblock %}
@@ -36,13 +37,15 @@
     <td class="table-cell">
       {{ game.get_difficulty_display }}
     </td>
-    <td class="table-cell">
-      {{ game.get_genre_display }}
-    </td>
     <td class="d-none d-md-table-cell non-key">
       {{ game.mingamelength }}-{{ game.maxgamelength }}
     </td>
-    
+    <td class="table-cell">
+      {{ game.genres.all|join:", "}}
+    </td>
+    <td class="table-cell">
+      {{ game.tags.all|join:", " }}
+    </td>
     <td class="table-cell">
       {{ game.is_available}}
     </td>
