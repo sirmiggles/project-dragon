@@ -9,25 +9,21 @@
 {% endblock %}
 
 {% block attributes %}
-<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
-  <h5 class="cat-header">Genre:</h5>
-  <h6 class="cat-value">{{ game.get_genre_display }}</h6>
-</div>
-<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
   <h5 class="cat-header">Condition:</h5>
   <h6 class="cat-value">{{ game.get_condition_display }}</h6>
 </div>
-<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
   <h5 class="cat-header">Players:</h5>
   <h6 class="cat-value">{{ game.minplayers }}-{{ game.maxplayers }} </h6>
 </div>
-<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
   <h5 class="cat-header">Duration:</h5>
   <h6 class="cat-value">{{ game.mingamelength }}-{{ game.maxgamelength }}</h6>
 </div>
-<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
   <h5 class="cat-header">Difficulty:</h5>
-  <h6 class="cat-value">{{ game.get_condition_display }}</h6>
+  <h6 class="cat-value">{{ game.get_difficulty_display }}</h6>
 </div>
 {% endblock %}
 
@@ -51,6 +47,14 @@
 {% for tag in tags %}
 <div class=" col-12 col-md-2 item-tag">
   <h5>{{ tag }}</h5>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block item-genres %}
+{% for genre in genres %}
+<div class=" col-12 col-md-2 item-genre">
+  <h5>{{ genre }}</h5>
 </div>
 {% endfor %}
 {% endblock %}

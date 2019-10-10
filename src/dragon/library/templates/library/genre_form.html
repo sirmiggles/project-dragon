@@ -1,0 +1,14 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - Add Genre{% endblock %}
+
+{% block content %}
+  <h1>Add Genre</h1>
+  <form action="{% url 'library:add_genre' %}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" name="name" id="name"><br>
+
+    <input type="submit" value="Add Genre">
+    {% csrf_token %}
+  </form>
+{% endblock %}

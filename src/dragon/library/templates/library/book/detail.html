@@ -27,10 +27,6 @@
   <h6 class="cat-value">{{ book.year }}</h6>
 </div>
 <div class="p-0 col-12 col-md-3 text-md-center attr-cell">
-  <h5 class="cat-header">Genre:</h5>
-  <h6 class="cat-value">{{ book.get_genre_display }}</h6>
-</div>
-<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
   <h5 class="cat-header">Condition:</h5>
   <h6 class="cat-value">{{ book.get_condition_display }}</h6>
 </div>
@@ -56,6 +52,14 @@
 {% for tag in tags %}
 <div class=" col-12 col-md-2 item-tag">
   <h5>{{ tag }}</h5>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block item-genres %}
+{% for genre in genres %}
+<div class=" col-12 col-md-2 item-genre">
+  <h5>{{ genre }}</h5>
 </div>
 {% endfor %}
 {% endblock %}

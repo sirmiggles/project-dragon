@@ -8,7 +8,9 @@ from .models import Book, Game, Tag, Card, Item, Borrow, Genre
 # Viewing the Items table, ordered by the name
 def all_view(request: HttpRequest) -> HttpResponse:
     items = Item.objects.order_by('name')
-    return render(request, 'library/item/all.html', {'items': items})
+    tags = Tag.objects.order_by('name')
+    genres = Genre.objects.order_by('name')
+    return render(request, 'library/item/all.html', {'items': items, 'tags': tags, 'genres': genres})
 
 
 def book_view(request: HttpRequest) -> HttpResponse:
