@@ -32,10 +32,8 @@ urlpatterns = [
     path('card_edit_form/<int:card_id>/', views.card_edit_form, name='card_edit_form'),
     path('remove_card/<int:card_id>/', views.remove_card, name='remove_card'),
 
-    path('tag_form', views.tag_form, name='tag_form'),
-    path('add_tag', views.add_tag, name='add_tag'),
-    path('genre_form', views.genre_form, name='genre_form'),
-    path('add_genre', views.add_genre, name='add_genre'),
+    path('tag_form/', views.tag_form, name='tag_form'),
+    path('genre_form/', views.genre_form, name='genre_form'),
 
     path('borrow_card/<int:card_id>/', views.borrow_card, name='borrow_card'),
     path('returned/<int:card_id>/', views.returned, name='returned'),
