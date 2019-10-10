@@ -40,7 +40,7 @@ class Item(Model):
     notes = TextField(max_length=1000, blank=True, default='')
     # todo: this should be an inferred property from a borrowed item table
 
-    tags = ManyToManyField(Tag)
+    tags = ManyToManyField(Tag, blank=True)
     # todo: refactor this into borrowed item table
     # ??? (Kieran) I believe this will set the default due date for all items as 2 weeks from
     # ???          when the database applies this migration, which doesn't make any sense to me
