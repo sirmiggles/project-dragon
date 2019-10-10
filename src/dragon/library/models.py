@@ -20,14 +20,14 @@ def return_date():
 
 
 class Genre(models.Model):
-    name = CharField(max_length=200)
+    name = CharField(max_length=200, unique=True)
 
     def __str__(self):
         return self.name
 
 
 class Tag(models.Model):
-    name = CharField(max_length=200)
+    name = CharField(max_length=200, unique=True)
 
     def __str__(self):
         return self.name

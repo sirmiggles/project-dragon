@@ -77,7 +77,7 @@ def game_form(request):
     return render(request, "library/game/create_form.html", {'form': form})
 
 
-def card_form(request: HttpRequest) -> HttpResponse:
+def card_form(request):
     form = CardForm(request.POST or None)
     if form.is_valid():
         card = form.save(commit=False)
@@ -88,28 +88,24 @@ def card_form(request: HttpRequest) -> HttpResponse:
     return render(request, "library/cardgame/create_form.html", {'form': form})
 
 
-def tag_form(request: HttpRequest):
-    return render(request, 'library/tag_form.html')
-
-
-def genre_form(request: HttpRequest):
-    return render(request, 'library/genre_form.html')
-
-
-def add_tag(request: HttpRequest):
-    name = request.POST['name']
-    if name != '':
-        tag = Tag(name=name)
+def tag_form(request):
+    form = TagForm(request.POST or None)
+    if form.is_valid():
+        tag = form.save(commit=False)
         tag.save()
-    return HttpResponseRedirect('/library/ALL')
+        return HttpResponseRedirect('/library/ALL/')
+
+    return render(request, 'library/tag/tag_form.html', {'form: form'})
 
 
-def add_genre(request: HttpRequest):
-    name = request.POST['name']
-    if name != '':
-        genre = Genre(name=name)
+def genre_form(request):
+    form = GenreForm(request.POST or None)
+    if form.is_valid():
+        genre = form.save(commit=False)
         genre.save()
-    return HttpResponseRedirect('/library/ALL')
+        return HttpResponseRedirect('/library/ALL/')
+
+    return render(request, 'library/genre/genre_form.html', {'form: form'})
 
 
 # Added rendering for book editing, referring to the book id
