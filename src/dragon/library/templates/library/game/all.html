@@ -1,5 +1,5 @@
 {% extends "library/item/libview_base.html" %}
-
+{% load templatefilters %}
 {% block page-title %}Games{% endblock %}
 
 {% block search-form %}
@@ -53,10 +53,18 @@
       {{ game.mingamelength }}-{{ game.maxgamelength }}
     </td>
     <td class="table-cell">
-      {{ game.genres.all|join:", "}}
+    {% if game.genres.all %}
+      {{ game.genres.all|trimlist:32 }}
+    {% else %}
+      -
+    {% endif %}
     </td>
     <td class="table-cell">
-      {{ game.tags.all|join:", " }}
+      {% if game.tags.all %}
+        {{ game.tags.all|trimlist:32 }}
+      {% else %}
+        -
+      {% endif %}
     </td>
     <td class="table-cell">
       {{ game.is_available}}
