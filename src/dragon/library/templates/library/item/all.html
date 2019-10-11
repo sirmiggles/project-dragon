@@ -17,6 +17,7 @@
 {% block lib-name %}All Items{% endblock %}
 
 {% block table-col-header %}
+{% if items|length > 0 %}
 <tr>
   <th>Name</th>
   <th>Type</th>
@@ -25,9 +26,11 @@
   <th>Tags</th>
   <th>Availability</th>
 </tr>
+{% endif %}
 {% endblock %}
 
 {% block table-contents %}
+{% if items|length > 0 %}
 {% for item in items %}
 <tr>
   {% if item.type == 0 %}
@@ -72,6 +75,13 @@
   </td>
 </tr>
 {% endfor %}
+{% else %}
+<tr>
+  <td>
+    <h4 class="no-result">No results found.</h4>
+  </td>
+</tr>
+{% endif %}
 {% endblock %}
 
 {% block tag-list %}
