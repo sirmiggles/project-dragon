@@ -6,6 +6,7 @@ from .models import Book, Game, Tag, Card, Item, Borrow, Genre
 
 from django.db.models import Q
 
+
 # Viewing the Items table, ordered by the name
 def all_view(request: HttpRequest) -> HttpResponse:
     searchterm = ''
@@ -18,7 +19,8 @@ def all_view(request: HttpRequest) -> HttpResponse:
         itemsfilter = Q(name__icontains=searchterm)
         items = items.filter(itemsfilter)
         
-    return render(request, 'library/item/all.html', {'items': items, 'tags': tags, 'genres': genres, 'searchterm': searchterm})
+    return render(request, 'library/item/all.html', {'items': items, 'tags': tags, 'genres': genres,
+                                                     'searchterm': searchterm})
 
   
 def book_view(request: HttpRequest) -> HttpResponse:
