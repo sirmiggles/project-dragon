@@ -1,17 +1,43 @@
-from typing import List
-
 from django.urls import path
-
 from . import views
 
 app_name = 'library'
 
-urlpatterns: List[path] = [
-    path('', views.library, name='dragon'),
+# the urls to access library pages
+
+urlpatterns = [
+
+    # Urls for items library page
+    path('ALL/', views.all_view, name='ALL'),
+
+    # Urls for book library page
+    path('books/', views.book_view, name='books'),
     path('book/<int:book_id>/', views.book_detail, name='book_detail'),
-    path('add_book/', views.add_book, name='add_book'),
-    path('remove_book/<int:book_id>', views.remove_book, name='remove_book'),
     path('book_form/', views.book_form, name='book_form'),
-    path('game_form/',views.game_form, name = 'game_form'),
-    path('add_game/', views.add_game, name='add_game')
+    path('book_edit_form/<int:book_id>/', views.book_edit_form, name='book_edit_form'),
+    path('remove_book/<int:book_id>/', views.remove_book, name='remove_book'),
+
+    # Urls for game library page
+    path('games/', views.game_view, name='games'),
+    path('game/<int:game_id>/', views.game_detail, name='game_detail'),
+    path('game_form/', views.game_form, name='game_form'),
+    path('game_edit_form/<int:game_id>/', views.game_edit_form, name='game_edit_form'),
+    path('remove_game/<int:game_id>/', views.remove_game, name='remove_game'),
+
+    # Urls for card game library page
+    path('cardgames/', views.cardgame_view, name='cardgames'),
+    path('card/<int:card_id>/', views.card_detail, name='card_detail'),
+    path('card_form/', views.card_form, name='card_form'),
+    path('card_edit_form/<int:card_id>/', views.card_edit_form, name='card_edit_form'),
+    path('remove_card/<int:card_id>/', views.remove_card, name='remove_card'),
+
+    # Urls for tags and genres
+    path('tag_form/', views.tag_form, name='tag_form'),
+    path('genre_form/', views.genre_form, name='genre_form'),
+
+    # Urls for borrowing
+    path('borrow_card/<int:card_id>/', views.borrow_card, name='borrow_card'),
+    path('returned/<int:card_id>/', views.returned, name='returned'),
+    path('borrow_detail/<int:card_id>/', views.borrow_detail, name='borrow_detail'),
+    path('borrowed/', views.borrowed, name='borrowed')
 ]

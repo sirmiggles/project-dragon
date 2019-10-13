@@ -1,0 +1,12 @@
+{% extends "library/base.html" %}
+
+{% block title %}{{ block.super }} - Edit Game{% endblock %}
+
+{% block content %}
+<h1>Edit Game</h1>
+  <form action="" method="post">
+    {{ form.as_p }}
+    <input type="submit" value="Edit Game">
+    {% csrf_token %}
+  </form>
+{% endblock %}

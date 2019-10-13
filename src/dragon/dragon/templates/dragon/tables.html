@@ -1,0 +1,51 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }}{% endblock %}
+
+{% block content %}
+
+<h1>Library</h1>
+
+<h3>Book</h3>
+<table border = 1>
+    <tr>
+        <th>Title</th>
+        <th>ISBN</th>
+        <th>Edition</th>
+        <th>Version</th>
+        <th>Year</th>
+        <th>Genre</th>
+    </tr>
+
+    <tr>
+        <td>How to Pikachu Meme</td>
+        <td>123456</td>
+        <td>7th</td>
+        <td>2nd</td>
+        <td>2018</td>
+        <td>Meme</td>
+    </tr>
+</table>
+
+<h3>Games</h3>
+<table border = 1>
+    <tr>
+        <th>Name</th>
+        <th>Genre</th>
+        <th>Difficulty</th>
+        <th>Players</th>
+        <th>Duration</th>
+        <th>Tags</th>
+    </tr>
+
+    <tr>
+        <td>Snakes & Ladders</td>
+        <td>Adventurous</td>
+        <td>Very Easy</td>
+        <td>How many friends do you have?</td>
+        <td>As short as it can take, as long as it can go</td>
+        <td>Fun, family, snakes</td>
+    </tr>
+</table>
+
+{% endblock %}

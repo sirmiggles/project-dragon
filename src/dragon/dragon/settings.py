@@ -10,7 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-import os
+import os, warnings
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,10 +20,30 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$rbe#s_2)bih1pyp*$bwx%du#!b($(bugv!g@92au9@!hia&e$'
+
+envSecretKey = 'DRAGON_SECRET_KEY'
+envDebug = 'DRAGON_DEBUG'
+envHosts = 'DRAGON_ALLOWED_HOSTS'
+envConfig = 'DRAGON_RUN_CONFIG'
+
+SECRET_KEY = os.environ.get(envSecretKey)
+
+if SECRET_KEY is None:
+    os.environ[envSecretKey] = get_random_secret_key()
+    warnings.warn("No secret key found, generating one")
+    SECRET_KEY = os.environ[envSecretKey]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+debug_var = os.environ.get(envDebug)
+
+if debug_var is None:
+    os.environ[envDebug] = "True"
+    debug_var = "True"
+
+DEBUG = debug_var == "True"
+
+if DEBUG:
+    warnings.warn("Using debug mode")
 
 ALLOWED_HOSTS = []
 
@@ -30,6 +51,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'library.apps.LibraryConfig',
+    'members.apps.MembersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,7 +76,7 @@ ROOT_URLCONF = 'dragon.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'dragon/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,7 +95,6 @@ WSGI_APPLICATION = 'dragon.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 use_mysql = False
-
 
 DATABASES = {
     'default': {
@@ -121,8 +142,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/dragon/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'dragon/static')
 ]

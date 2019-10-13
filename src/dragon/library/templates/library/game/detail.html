@@ -1,0 +1,84 @@
+{% extends "library/item/details.html" %}
+
+{% block page-title %}{{ game.name }}{% endblock %}
+
+{%block item-img %}<img class="rounded item-img" src="https://dummyimage.com/200x200/d6d6d6.png&text=[INSERT+IMAGE+HERE]"/>{% endblock %}
+{% block item-name %}<h5>{{ game.name }}</h5>{% endblock %}
+<!--  Right column of item page  -->
+{% block misc %}
+{% endblock %}
+
+{% block attributes %}
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+  <h5 class="cat-header">Condition:</h5>
+  <h6 class="cat-value">{{ game.get_condition_display }}</h6>
+</div>
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+  <h5 class="cat-header">Players:</h5>
+  <h6 class="cat-value">{{ game.minplayers }}-{{ game.maxplayers }} </h6>
+</div>
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+  <h5 class="cat-header">Duration:</h5>
+  <h6 class="cat-value">{{ game.mingamelength }}-{{ game.maxgamelength }}</h6>
+</div>
+<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+  <h5 class="cat-header">Difficulty:</h5>
+  <h6 class="cat-value">{{ game.get_difficulty_display }}</h6>
+</div>
+{% endblock %}
+
+{% block item-description %}
+{% if game.description != '' %}
+<p>{{ game.description }}</p>
+{% else %}
+<p>No description given</p>
+{% endif %}
+{% endblock %}
+
+{% block item-notes %}
+{% if game.notes != '' %}
+<p>{{ game.notes }}</p>
+{% else %}
+<p>No notes given</p>
+{% endif %}
+{% endblock %}
+
+{% block item-tags %}
+{% for tag in tags %}
+<div class=" col-12 col-md-2 item-tag">
+  <h6>{{ tag }}</h6>
+</div>
+{% empty %}
+<p>
+  No tags specified
+</p>
+{% endfor %}
+{% endblock %}
+
+{% block item-genres %}
+{% for genre in genres %}
+<div class=" col-12 col-md-2 item-genre">
+  <h6>{{ genre }}</h6>
+</div>
+{% empty %}
+<p>
+  No genres specified
+</p>
+{% endfor %}
+{% endblock %}
+
+{% block item-edit %}
+<form action="{% url 'library:game_edit_form' game.id %}" method="get">
+  <button class="btn btn-sm" id="edit-button" type="submit">EDIT</button>
+  {% csrf_token %}
+</form>
+{% endblock %}
+
+
+{% block delete %}
+<form action="{% url 'library:remove_game' game.id %}" method="post">
+  <button class="btn btn-warning btn-danger btn-sm" id="delete-button" type="submit">DELETE</button>
+  {% csrf_token %}
+</form>
+{% endblock %}
+

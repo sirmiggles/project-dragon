@@ -1,0 +1,12 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - Edit Book{% endblock %}
+
+{% block content %}
+<h1>Edit Book</h1>
+  <form action="" method="post">
+    {{ form.as_p }}
+    <input type="submit" value="Edit Book">
+    {% csrf_token %}
+  </form>
+{% endblock %}

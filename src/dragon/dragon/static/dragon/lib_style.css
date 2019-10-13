@@ -1,0 +1,72 @@
+/*
+    Styling for library views
+*/
+
+/*  Import the styles outlines in the base  */
+@import url("base_style.css");
+
+.library-container {
+  margin: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid silver;
+  border-radius: 0.5rem;
+}
+
+.table-title {
+  padding: 0;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin: 0;
+  text-align: center;
+}
+
+.table-container {
+  border: 1px solid silver;
+  border-radius: 0.5rem;
+}
+
+#lib-table {
+  border-radius: 1rem;
+}
+
+.table-col-header {
+  background-color: var(--main-theme-color);
+  color: whitesmoke;
+  text-align: center;
+}
+
+.table-cell {
+  text-align: center;
+}
+
+.item-link {
+  padding: 0;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  width: 100%;
+  font-weight: bold;
+  color: black;
+}
+
+.item-link:active {
+  border: none;
+}
+
+.item-link:focus {
+  border: none;
+}
+
+#description {
+  color: #636363;
+  font-style: italic;
+}
+
+.non-key {
+  text-align: center;
+}
+
+.addition-container {
+  margin: 0;
+  margin-bottom: 1rem;
+  text-align: center;
+}

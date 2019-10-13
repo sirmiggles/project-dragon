@@ -1,0 +1,120 @@
+{% extends "library/item/libview_base.html" %}
+{% load templatefilters %}
+{% block page-title %}Library{% endblock %}
+
+{% block search-form %}
+  <form class="form-inline my-2 my-lg-2">
+    <input class="form-control mr-sm-2"
+           type="search"
+           placeholder="Search"
+           aria-label="Search"
+           name="search"
+           value={{ searchterm }}>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+{% endblock %}
+
+{% block lib-name %}All Items{% endblock %}
+
+{% block table-col-header %}
+<tr>
+  <th>Name</th>
+  <th>Type</th>
+  <th class="d-none d-md-table-cell">Description</th>
+  <th>Genre</th>
+  <th>Tags</th>
+  <th>Availability</th>
+</tr>
+{% endblock %}
+
+{% block table-contents %}
+{% for item in items %}
+<tr>
+  {% if item.type == 0 %}
+  <td class="table-cell"><a class="btn item-link" href="{% url 'library:book_detail' item.id %}">
+    {{ item.name|truncatechars:64 }}
+  </a></td>
+  {% elif item.type == 1 %}
+  <td class="table-cell"><a class="btn item-link" href="{% url 'library:game_detail' item.id %}">
+    {{ item.name|truncatechars:64 }}
+  </a></td>
+  {% elif item.type == 2 %}
+  <td class="table-cell"><a class="btn item-link" href="{% url 'library:card_detail' item.id %}">
+    {{ item.name|truncatechars:64 }}
+  </a></td>
+  {% endif %}
+  <td class="table-cell">
+    {{ item.get_type_display }}
+  </td>
+  <td class="d-none d-md-table-cell" id="description">
+    {% if item.description != '' %}
+      {{ item.description|truncatechars:128 }}
+    {% else %}
+      N/A
+    {% endif %}
+  </td>
+  <td class="table-cell">
+    {% if item.genres.all %}
+      {{ item.genres.all|trimlist:32 }}
+    {% else %}
+      -
+    {% endif %}
+  </td>
+  <td class="table-cell">
+    {% if item.tags.all %}
+      {{ item.tags.all|trimlist:32 }}
+    {% else %}
+      -
+    {% endif %}
+  </td>
+  <td class="table-cell">
+    {{ item.is_available }}
+  </td>
+</tr>
+{% endfor %}
+{% endblock %}
+
+{% block tag-list %}
+<h3>List of Tags</h3>
+<table>
+  <tr>
+    <th>Tag Name</th>
+  </tr>
+  {% for tag in tags %}
+    <tr>
+      <td>
+        {{ tag.name }}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}
+
+{% block genre-list %}
+<h3>List of Genres</h3>
+<table>
+  <tr>
+    <th>Genre Name</th>
+  </tr>
+  {% for genre in genres %}
+    <tr>
+      <td>
+        {{ genre.name }}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}
+
+{% block item-add %}
+<div class="col-12 addition-container">
+  <h5>Want to add something to this library?</h5>
+  <div class="btn-group">
+    <a class="btn btn-dark" href="{% url 'library:book_form' %}">Book</a><br>
+    <a class="btn btn-dark" href="{% url 'library:game_form' %}">Game</a><br>
+    <a class="btn btn-dark" href="{% url 'library:card_form' %}">Card Game</a><br>
+    <a class="btn btn-dark" href="{% url 'library:tag_form' %}">Tags</a><br>
+    <a class="btn btn-dark" href="{% url 'library:genre_form' %}">Genres</a>
+  </div>
+</div>
+{% endblock %}

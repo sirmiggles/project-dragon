@@ -1,0 +1,151 @@
+.item-details {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    border: 1px solid silver;
+    border-radius: 0.5rem;
+}
+
+.left-column {
+    border-right: 1px solid silver;
+}
+
+.item-img-container {
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid silver;
+}
+
+.item-img {
+    display: block;
+    margin: auto;
+    margin-bottom: 2rem;
+    width: 65%;
+}
+
+.item-title-container {
+    margin-top: 1rem;
+}
+
+#item-title {
+    font-size: 1.5rem;
+}
+
+.attr-header {
+    font-size: 1.25rem;
+}
+
+.attr-tags-container {
+    border: 1px solid silver;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.cat-header {
+    font-size: 1rem;
+    text-align: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.1rem;
+}
+
+.cat-value {
+    font-weight: normal;
+    font-size: 1rem;
+    text-align: center;
+}
+
+#alter-section {
+    margin: 0;
+    padding: 0.5rem;
+}
+
+.alter-container {
+    margin-bottom: 0.5rem;
+}
+
+.item-alter-message {
+    font-size: 0.75rem;
+    font-weight: normal;
+    color: grey;
+    margin-bottom: 0.25rem;
+}
+
+#edit-text {
+    color: grey;
+}
+
+#delete-text {
+    color: red;
+}
+
+#edit-button {
+    background-color: grey;
+    color: whitesmoke;
+    font-size: 0.75rem;
+    width: 10%
+}
+
+#delete-button {
+    font-size: 0.75rem;
+    width: 10%;
+}
+
+/*  Book specific styling  */
+#isbn-details {
+    border-bottom: 1px solid silver;
+}
+
+#book-isbn {
+    padding-top: 0.5rem;
+}
+
+
+/*  Media queries for mobile display  */
+/*  Up to 576px wide displays, will be mobile  */
+/*  As per Bootstrap 4's size viewport specifications  */
+@media screen and (max-width: 576px) {
+    .item-img {
+        size: auto;
+    }
+
+    .attr-tags-container {
+        border: none;
+        margin-bottom: 1rem;
+    }
+
+    .attr-cell {
+        border: none;
+    }
+
+    .cat-header {
+        text-align: left;
+    }
+
+    .cat-value {
+        text-align: left;
+    }
+
+    .item-alter-message {
+        font-size: 0.9rem;
+    }
+
+    #delete-button {
+        font-size: 0.8rem;
+        width: 66.7%;
+    }
+
+    #edit-button {
+        font-size: 0.8rem;
+        width: 66.7%;
+    }
+
+    #isbn-details {
+        border: none;
+    }
+
+    #book-isbn {
+        padding-top: 0;
+    }
+}
+

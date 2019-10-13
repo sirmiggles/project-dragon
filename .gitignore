@@ -1,2 +1,7 @@
 *.sqlite3
 venv/
+**/migrations/
+**/.idea/
+**/__pycache__/
+.DS_store
+.vscode/

@@ -1,0 +1,22 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - {{ card.name }}{% endblock %}
+
+{% block content %}
+  <h3>Title</h3>
+  <p>{{ card.name }}</p>
+
+  <h3>Description</h3>
+  {% if card.description != '' %}
+    <p>{{ card.description }}</p>
+  {% else %}
+    <p>No description given</p>
+  {% endif %}
+    <p>This item is due on {{ card.get_due_date }}</p>
+{#    want part on, this item is due on...#}
+  <form action="{% url 'library:returned' card.id %}" method="post">
+    <input type="submit" value="Item returned">
+    {% csrf_token %}
+  </form>
+
+{% endblock %}

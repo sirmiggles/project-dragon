@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=New+Rocker&display=swap');
+
+:root {
+    --main-theme-color: #370aa8;
+    --main-theme-color-dark: #270875;
+    font-family: 'Segoe UI Mono', 'Segoe UI', Verdana, Tahoma;
+}
+
+/*  The CSS for the main body  */
+body {
+    background-color: whitesmoke;
+}
+
+/*  Styling for main header of base page  */
+#page-header {
+    margin: 0;
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
+}
+
+#header-text {
+    font-family: "New Rocker";
+    font-size: 4rem;
+}
+
+/*  Styling for the main navigation bar  */
+nav.bg-custom {
+    background-color: var(--main-theme-color);
+}
+
+.navbar-toggler.custom-toggler {
+    border-color: whitesmoke;
+}
+
+.fas.fa-bars {
+    color: whitesmoke;
+}
+
+.nav-item {
+    font-family: "New Rocker";
+    color: whitesmoke;
+    transition: 0.75s;
+    margin-left: 0.8rem;
+}
+
+.nav-item:hover {
+    background-color: var(--main-theme-color-dark);
+    transition: 0.75s;
+}
+
+a.nav-link {
+    color: whitesmoke;
+}
+
