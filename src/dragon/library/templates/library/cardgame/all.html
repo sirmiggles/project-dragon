@@ -1,5 +1,5 @@
 {% extends "library/item/libview_base.html" %}
-
+{% load templatefilters %}
 {% block page-title %}Card Games{% endblock %}
 
 {% block search-form %}
@@ -61,18 +61,18 @@
     </td>
     <td class="table-cell">
     {% if card.genres.all %}
-      {{ card.genres.all|join:", "}}
+      {{ card.genres.all|trimlist:32 }}
     {% else %}
       -
     {% endif %}
-  </td>
-  <td class="table-cell">
-    {% if card.tags.all %}
-      {{ card.tags.all|join:", "}}
-    {% else %}
-      -
-    {% endif %}
-  </td>
+    </td>
+    <td class="table-cell">
+      {% if card.tags.all %}
+        {{ card.tags.all|trimlist:32 }}
+      {% else %}
+        -
+      {% endif %}
+    </td>
     <td class="table-cell">
       {{ card.is_available}}
     </td>

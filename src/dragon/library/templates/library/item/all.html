@@ -1,5 +1,5 @@
 {% extends "library/item/libview_base.html" %}
-
+{% load templatefilters %}
 {% block page-title %}Library{% endblock %}
 
 {% block search-form %}
@@ -58,14 +58,14 @@
   </td>
   <td class="table-cell">
     {% if item.genres.all %}
-      {{ item.genres.all|join:", "}}
+      {{ item.genres.all|trimlist:32 }}
     {% else %}
       -
     {% endif %}
   </td>
   <td class="table-cell">
     {% if item.tags.all %}
-      {{ item.tags.all|join:", "}}
+      {{ item.tags.all|trimlist:32 }}
     {% else %}
       -
     {% endif %}

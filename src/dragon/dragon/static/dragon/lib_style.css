@@ -3,7 +3,7 @@
 */
 
 /*  Import the styles outlines in the base  */
-@import url("style.css");
+@import url("base_style.css");
 
 .library-container {
   margin: 0.5rem;
