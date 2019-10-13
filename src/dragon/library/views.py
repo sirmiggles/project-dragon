@@ -2,7 +2,20 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
 from .forms import BookForm, GameForm, CardForm, TagForm, GenreForm
-from .models import Book, Game, Tag, Card, Borrow
+from .models import Item, Book, Game, Tag, Card, Borrow
+from .views_library import ItemList
+
+all_view = ItemList.as_view(
+    model=Item, context_object_name="items", template_name="library/item/all.html")
+
+book_view = ItemList.as_view(
+    model=Book, context_object_name="books", template_name="library/book/all.html")
+
+game_view = ItemList.as_view(
+    model=Game, context_object_name="games", template_name="library/game/all.html")
+
+cardgame_view = ItemList.as_view(
+    model=Card, context_object_name="cards", template_name="library/cardgame/all.html")
 
 
 def book_detail(request: HttpRequest, book_id: int) -> HttpResponse:

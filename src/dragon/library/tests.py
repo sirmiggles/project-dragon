@@ -3,7 +3,7 @@ from django.test.client import RequestFactory
 
 # Create your tests here.
 
-from . import views_library
+from . import views
 from .models import Book, Item, Game, Card
 
 
@@ -44,21 +44,17 @@ class RenderingViewTests(TestCase):
             self.fail()
 
     def test_render_library(self):
-        view = views_library.ItemList.as_view(model=Item, context_object_name="items",
-                                              template_name="library/item/all.html")
+        view = views.all_view
         self.assertViewWorks(view, 'library/')
 
     def test_render_books(self):
-        view = views_library.ItemList.as_view(model=Book, context_object_name="books",
-                                              template_name="library/book/all.html")
+        view = views.book_view
         self.assertViewWorks(view, 'library/')
 
     def test_render_game_view(self):
-        view = views_library.ItemList.as_view(model=Game, context_object_name="games",
-                                              template_name="library/game/all.html")
+        view = views.game_view
         self.assertViewWorks(view, 'library/')
 
     def test_render_cardgame(self):
-        view = views_library.ItemList.as_view(model=Card, context_object_name="cards",
-                                              template_name="library/cardgame/all.html")
+        view = views.cardgame_view
         self.assertViewWorks(view, 'library/')
