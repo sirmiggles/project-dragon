@@ -22,6 +22,6 @@ from . import views
 urlpatterns: List[path] = [
     path('library/', include('library.urls')),
     path('', views.index, name='index'),  # '' = homepage
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin'),
     path('members/', include('members.urls'))
 ]
