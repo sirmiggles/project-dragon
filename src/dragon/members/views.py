@@ -22,6 +22,7 @@ def group_required(*group_names):
    return user_passes_test(in_groups)
 
 @login_required
+@group_required("Committee")
 def clubmembers(request):
 
     searchterm = ''
@@ -50,7 +51,6 @@ def nonmembers(request):
     return render(request, 'members/nonmembers.html', {'nonmembers': nonmembers, 'searchterm': searchterm})
 
 @login_required
-@group_required("Committee")
 def clubmember_form(request):
     form = ClubMemberForm(request.POST or None)
     if form.is_valid():
@@ -59,7 +59,6 @@ def clubmember_form(request):
     return render(request, "members/clubmember_form.html", {'form': form})
 
 @login_required
-@group_required("Committee")
 def nonmember_form(request):
     form = NonMemberForm(request.POST or None)
     if form.is_valid():
@@ -169,6 +168,7 @@ def update_nonmember(request: HttpRequest, nonmember_id: int):
 
 # Added rendering for nonmember editing, referring to the nonmember id
 @login_required
+@group_required("Committee")
 def nonmember_edit_form(request: HttpRequest, nonmember_id: int) -> HttpResponse:
     nonmember = get_object_or_404(NonMember, pk=nonmember_id)
     form = NonMemberForm(instance=nonmember)
@@ -177,6 +177,7 @@ def nonmember_edit_form(request: HttpRequest, nonmember_id: int) -> HttpResponse
     return render(request, "members/nonmember_edit_form.html", {'nonmember': nonmember, 'form': form})
 
 @login_required
+@group_required("Committee")
 def remove_clubmember(request: HttpRequest, clubmember_id: int) -> HttpResponse:
     clubmember = get_object_or_404(ClubMember, pk=clubmember_id)
     clubmember.delete()

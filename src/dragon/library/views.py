@@ -6,6 +6,7 @@ from .models import Item, Book, Game, Tag, Card, Borrow
 from .views_library import ItemList
 from django.contrib.auth.decorators import login_required,user_passes_test
 
+
 def group_required(*group_names):
    """Requires user membership in at least one of the groups passed in."""
 
@@ -175,17 +176,12 @@ def remove_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card.delete()
     return HttpResponseRedirect('/library/cardgames')
 
-
 # Borrowing-related views
-@login_required
-@group_required("Committee")
 def borrow_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     card.borrow_item()
     return HttpResponseRedirect('/library/cardgames')
 
-@login_required
-@group_required("Committee")
 def borrowed(request: HttpRequest):
     books = Book.objects.order_by('name')
     games = Game.objects.order_by('name')

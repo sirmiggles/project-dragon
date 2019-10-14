@@ -40,6 +40,7 @@
               <a class="dropdown-item text-center text-md-left" href="{% url 'library:cardgames' %}">Card Games</a>
             </div>
           </li>
+        {% if user.is_authenticated %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-center text-md-left" href="#" id="memberDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               MEMBERS
@@ -61,7 +62,6 @@
       </div>
       <div class="collapse navbar-collapse dual-collapse2">
         <ul class="navbar-nav ml-auto">  
-        {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="text-center text-md-left nav-link" href="/">{{user.firstName}}</a>
             </li>

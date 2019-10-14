@@ -1,3 +1,6 @@
+from django import forms
+from .models import ClubMember, NonMember
+
 class ClubMemberForm(forms.ModelForm):
     class Meta:
         model = ClubMember
@@ -52,4 +55,3 @@ class NonMemberForm(forms.ModelForm):
             'incidents': 'Previous Incidents',
             'addedDate': 'Date added:'
         }
-        
