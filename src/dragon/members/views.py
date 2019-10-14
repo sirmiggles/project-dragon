@@ -37,58 +37,23 @@ def nonmembers(request):
 def clubmember_form(request):
     form = ClubMemberForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        member = form.save(commit=False)
+        member.save()
+        form.save_m2m()
+        return HttpResponseRedirect('/members/clubmembers/')
 
-    return render(request, "members/clubmember_form.html", {'form': form})
+    return render(request, "members/clubmembers/create_form.html", {'form': form})
 
 
 def nonmember_form(request):
     form = NonMemberForm(request.POST or None)
     if form.is_valid():
-        form.save()
-
-    return render(request, "members/nonmember_form.html", {'form': form})
-
-
-def add_clubmember(request):
-    firstName = request.POST['firstName']
-    surname = request.POST['surname']
-    preferredName = request.POST['preferredName']
-    preferredPronoun = request.POST['preferredPronoun']
-    guildMember = bool(request.POST['guildMember'])
-    isStudent = bool(request.POST['isStudent'])
-    universityID = request.POST['universityID']
-    clubRank = request.POST['clubRank']
-    email = request.POST['email']
-    phoneNumber = request.POST['phoneNumber']
-    joinDate = request.POST['joinDate']
-    incidents = request.POST['incidents']
-
-    if firstName != '':
-        clubmember = ClubMember(firstName=firstName, surname=surname, preferredName=preferredName,
-                                preferredPronoun=preferredPronoun, guildMember=guildMember, isStudent=isStudent,
-                                universityID=universityID, clubRank=clubRank, email=email, phoneNumber=phoneNumber,
-                                joinDate=joinDate, incidents=incidents
-                                )
-        clubmember.save()
-    return HttpResponseRedirect('/members/clubmembers/')
-
-
-def add_nonmember(request):
-    firstName = request.POST['firstName']
-    surname = request.POST['surname']
-    email = request.POST['email']
-    organization = request.POST['organization']
-    phoneNumber= request.POST['phoneNumber']
-    addedDate = request.POST['addedDate']
-    incidents = request.POST['incidents']
-
-    if firstName != '':
-        nonmember = NonMember(firstName=firstName, surname=surname, email=email, phoneNumber=phoneNumber,
-                              addedDate=addedDate, incidents=incidents, organization=organization
-                              )
+        nonmember = form.save(commit=False)
         nonmember.save()
-    return HttpResponseRedirect('/members/nonmembers/')
+        form.save_m2m()
+        return HttpResponseRedirect('/members/nonmembers/')
+
+    return render(request, "members/nonmembers/create_form.html", {'form': form})
 
 
 def clubmember_detail(request, clubmember_id):
