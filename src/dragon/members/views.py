@@ -18,7 +18,7 @@ def clubmembers(request):
                   Q(preferredName__icontains=searchterm)
         clubmembers = clubmembers.filter(clubmemberfilters)
 
-    return render(request, 'members/all.html', {'clubmembers': clubmembers, 'searchterm': searchterm})
+    return render(request, 'members/clubmembers/all.html', {'clubmembers': clubmembers, 'searchterm': searchterm})
 
 
 def nonmembers(request):
@@ -31,7 +31,7 @@ def nonmembers(request):
         nonmemberfilters = Q(firstName__icontains=searchterm) | Q(surname__icontains=searchterm)
         nonmembers = nonmembers.filter(nonmemberfilters)
 
-    return render(request, 'members/all.html', {'nonmembers': nonmembers, 'searchterm': searchterm})
+    return render(request, 'members/nonmembers/all.html', {'nonmembers': nonmembers, 'searchterm': searchterm})
 
 
 def clubmember_form(request):
@@ -58,12 +58,12 @@ def nonmember_form(request):
 
 def clubmember_detail(request, clubmember_id):
     clubmember = get_object_or_404(ClubMember, pk=clubmember_id)
-    return render(request, 'members/detail.html', {'clubmember': clubmember})
+    return render(request, 'members/clubmembers/detail.html', {'clubmember': clubmember})
 
 
 def nonmember_detail(request, nonmember_id):
     nonmember = get_object_or_404(NonMember, pk=nonmember_id)
-    return render(request, 'members/detail.html', {'nonmember': nonmember})
+    return render(request, 'members/nonmembers/detail.html', {'nonmember': nonmember})
 
 
 # Added rendering for clubmember editing, referring to the clubmember id

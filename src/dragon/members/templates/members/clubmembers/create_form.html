@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>Add ClubMember</h1>
-<form action="{% url 'members:add_clubmember' %}" method="post">
+<form action="" method="post">
   {{ form.as_p }}
   <input type="submit" value="Add Club Member">
   {% csrf_token %}
