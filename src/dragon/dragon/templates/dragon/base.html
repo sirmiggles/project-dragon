@@ -47,6 +47,8 @@
             <div class="dropdown-menu" aria-labelledby="memberDropdown">
               <a class="dropdown-item text-center text-md-left" href="{% url 'members:clubmembers' %}">Club Members</a>
               <a class="dropdown-item text-center text-md-left" href="{% url 'members:nonmembers' %}">Non-Members</a>
+              <a class="dropdown-item text-center text-md-left" href="/members/clubmember_form/">Add Members</a>
+              <a class="dropdown-item text-center text-md-left" href="/members/nonmember_form/">Add Non-Members</a>
             </div>
           </li>
           <li class="nav-item">
@@ -57,6 +59,22 @@
           </li>
         </ul>
       </div>
+      <div class="collapse navbar-collapse dual-collapse2">
+        <ul class="navbar-nav ml-auto">  
+        {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="text-center text-md-left nav-link" href="/">{{user.firstName}}</a>
+            </li>
+            <li class="nav-item">
+                <a class="text-center text-md-left nav-link" href="/">LOGOUT</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="text-center text-md-left nav-link" href="/members/signin">SIGNIN</a>
+            </li>
+        {% endif %}
+        </ul>
+    </div>
     </nav>
     {% block content %}
     {% endblock %}
