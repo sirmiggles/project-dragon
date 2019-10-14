@@ -21,7 +21,7 @@ def group_required(*group_names):
        return False
    return user_passes_test(in_groups)
 
-@login_required
+@login_required(login_url='/')
 @group_required("Committee")
 def clubmembers(request):
 

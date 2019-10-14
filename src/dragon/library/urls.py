@@ -39,5 +39,5 @@ urlpatterns = [
     path('borrow_card/<int:card_id>/', views.borrow_card, name='borrow_card'),
     path('returned/<int:card_id>/', views.returned, name='returned'),
     path('borrow_detail/<int:card_id>/', views.borrow_detail, name='borrow_detail'),
-    path('borrowed/', views.borrowed, name='borrowed')
+    path('borrowed/', views.borrowed, name='borrowed'),
 ]

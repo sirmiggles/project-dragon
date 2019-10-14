@@ -103,7 +103,7 @@ def genre_form(request):
 
 
 # Added rendering for book editing, referring to the book id
-@login_required
+@login_required(login_url='/')
 @group_required("Committee")
 def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
