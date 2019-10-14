@@ -14,5 +14,8 @@ urlpatterns = [
     path('nonmember_form/', views.nonmember_form, name='nonmember_form'),
     path('nonmember/<int:nonmember_id>/', views.nonmember_detail, name='nonmember_detail'),
     path('nonmember_edit_form/<int:nonmember_id>/', views.nonmember_edit_form, name='nonmember_edit_form'),
+    path('update_nonmember/<int:nonmember_id>/', views.update_nonmember, name='update_nonmember'),
+    path('signin/',views.signin,name='signin'),
+    path('logout/',views.logout,name='logout'),
     path('remove_nonmember/<int:nonmember_id>/', views.remove_nonmember, name='remove_nonmember'),
 ]

@@ -4,6 +4,17 @@ from django.shortcuts import render, get_object_or_404
 from .forms import BookForm, GameForm, CardForm, TagForm, GenreForm
 from .models import Item, Book, Game, Tag, Card, Borrow
 from .views_library import ItemList
+from django.contrib.auth.decorators import login_required,user_passes_test
+
+def group_required(*group_names):
+   """Requires user membership in at least one of the groups passed in."""
+
+   def in_groups(user):
+       if user.is_authenticated:
+           if bool(user.groups.filter(name__in=group_names)) | user.is_superuser:
+               return True
+       return False
+   return user_passes_test(in_groups)
 
 all_view = ItemList.as_view(
     model=Item, context_object_name="items", template_name="library/item/all.html")
@@ -91,6 +102,8 @@ def genre_form(request):
 
 
 # Added rendering for book editing, referring to the book id
+@login_required
+@group_required("Committee")
 def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
     if request.method == 'POST':
@@ -107,6 +120,8 @@ def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
 
 
 # Added rendering for game editing, referring to the game id
+@login_required
+@group_required("Committee")
 def game_edit_form(request: HttpRequest, game_id: int) -> HttpResponse:
     game = get_object_or_404(Game, pk=game_id)
     if request.method == 'POST':
@@ -123,6 +138,8 @@ def game_edit_form(request: HttpRequest, game_id: int) -> HttpResponse:
 
 
 # Added rendering for card game editing, referring to the card game id
+@login_required
+@group_required("Committee")
 def card_edit_form(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     if request.method == 'POST':
@@ -137,19 +154,22 @@ def card_edit_form(request: HttpRequest, card_id: int) -> HttpResponse:
 
     return render(request, "library/cardgame/edit_form.html", {'card': card, 'form': form})
 
-
+@login_required
+@group_required("Committee")
 def remove_book(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
     book.delete()
     return HttpResponseRedirect('/library/books')
 
-
+@login_required
+@group_required("Committee")
 def remove_game(request: HttpRequest, game_id: int) -> HttpResponse:
     game = get_object_or_404(Game, pk=game_id)
     game.delete()
     return HttpResponseRedirect('/library/games')
 
-
+@login_required
+@group_required("Committee")
 def remove_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     card.delete()
@@ -157,13 +177,15 @@ def remove_card(request: HttpRequest, card_id: int) -> HttpResponse:
 
 
 # Borrowing-related views
-
+@login_required
+@group_required("Committee")
 def borrow_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     card.borrow_item()
     return HttpResponseRedirect('/library/cardgames')
 
-
+@login_required
+@group_required("Committee")
 def borrowed(request: HttpRequest):
     books = Book.objects.order_by('name')
     games = Game.objects.order_by('name')
