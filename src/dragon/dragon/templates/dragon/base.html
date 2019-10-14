@@ -40,33 +40,35 @@
               <a class="dropdown-item text-center text-md-left" href="{% url 'library:cardgames' %}">Card Games</a>
             </div>
           </li>
+        {% load templatefilters %}
         {% if user.is_authenticated %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-center text-md-left" href="#" id="memberDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               MEMBERS
             </a>
             <div class="dropdown-menu" aria-labelledby="memberDropdown">
+              {% if request.user|has_group:"Committee" %} 
               <a class="dropdown-item text-center text-md-left" href="{% url 'members:clubmembers' %}">Club Members</a>
               <a class="dropdown-item text-center text-md-left" href="{% url 'members:nonmembers' %}">Non-Members</a>
+              {% endif %}
               <a class="dropdown-item text-center text-md-left" href="/members/clubmember_form/">Add Members</a>
               <a class="dropdown-item text-center text-md-left" href="/members/nonmember_form/">Add Non-Members</a>
             </div>
           </li>
+          {% if request.user|has_group:"Committee" %} 
           <li class="nav-item">
             <a class="text-center text-md-left nav-link" href="/admin">ADMIN</a>
           </li>
           <li class="nav-item">
             <a class="text-center text-md-left nav-link" href="http://webcam.ucc.asn.au/">SPY ON US HERE</a>
           </li>
+          {% endif %}
         </ul>
       </div>
       <div class="collapse navbar-collapse dual-collapse2">
         <ul class="navbar-nav ml-auto">  
             <li class="nav-item">
-                <a class="text-center text-md-left nav-link" href="/">{{user.firstName}}</a>
-            </li>
-            <li class="nav-item">
-                <a class="text-center text-md-left nav-link" href="/">LOGOUT</a>
+                <a class="text-center text-md-left nav-link" href="/members/signout">SIGNOUT</a>
             </li>
         {% else %}
             <li class="nav-item">

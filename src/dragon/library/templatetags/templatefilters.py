@@ -3,7 +3,6 @@ from django.contrib.auth.models import Group
 
 register = template.Library()
 
-
 @register.filter
 def trimlist(value, arg):
     result = ""

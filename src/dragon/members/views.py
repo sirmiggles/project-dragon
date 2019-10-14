@@ -209,10 +209,9 @@ def signin(request):
         return render(request, 'members/signin.html')
 
 @login_required
-def logout(request):
+def signout(request):
     logout(request)
-    #authenticate.logout(request)
-    return redirect('/')
+    return HttpResponseRedirect('/')
 
 def operate_group(request):
     group = group.objects.create(name='Gatekeeper')
