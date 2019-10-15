@@ -25,6 +25,14 @@ class ClubMember(User):
     universityID = CharField(max_length=8, default='')
     joinDate = DateField(default=django.utils.timezone.now)
     incidents = TextField(max_length=400, default='N/A')
+    
+    rankChoices = [
+        ('MEM', 'Member'), 
+        ('GK', 'Gate Keeper'), 
+        ('OCM', 'Ordinary Committee'), 
+        ('EXEC', 'Club Executive')]
+    clubRank = TextField(choices=rankChoices, default='MEM')
+
 
     def __str__(self):
         return self.id
