@@ -1,7 +1,17 @@
 from django.views.generic import ListView
 from django.db.models import Q
 from .models import Borrow
+from django.contrib.auth.decorators import login_required,user_passes_test
 
+def group_required(*group_names):
+   """Requires user membership in at least one of the groups passed in."""
+
+   def in_groups(user):
+       if user.is_authenticated:
+           if bool(user.groups.filter(name__in=group_names)) | user.is_superuser:
+               return True
+       return False
+   return user_passes_test(in_groups)
 
 # this isn't been used, @dan switched it back, so I (@kieran) can experiment
 class ItemList(ListView):

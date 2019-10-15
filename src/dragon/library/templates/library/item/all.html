@@ -117,14 +117,16 @@
 {% endblock %}
 
 {% block item-add %}
-<div class="col-12 addition-container">
-  <h5>Want to add something to this library?</h5>
-  <div class="btn-group">
-    <a class="btn btn-dark" href="{% url 'library:book_form' %}">Book</a><br>
-    <a class="btn btn-dark" href="{% url 'library:game_form' %}">Game</a><br>
-    <a class="btn btn-dark" href="{% url 'library:card_form' %}">Card Game</a><br>
-    <a class="btn btn-dark" href="{% url 'library:tag_form' %}">Tags</a><br>
-    <a class="btn btn-dark" href="{% url 'library:genre_form' %}">Genres</a>
-  </div>
-</div>
+  {% if request.user|has_group:"Committee" %} 
+    <div class="col-12 addition-container">
+      <h5>Want to add something to this library?</h5>
+      <div class="btn-group">
+        <a class="btn btn-dark" href="{% url 'library:book_form' %}">Book</a><br>
+        <a class="btn btn-dark" href="{% url 'library:game_form' %}">Game</a><br>
+        <a class="btn btn-dark" href="{% url 'library:card_form' %}">Card Game</a><br>
+        <a class="btn btn-dark" href="{% url 'library:tag_form' %}">Tags</a><br>
+        <a class="btn btn-dark" href="{% url 'library:genre_form' %}">Genres</a>
+      </div>
+    </div>
+  {% endif %}
 {% endblock %}

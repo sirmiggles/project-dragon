@@ -1,11 +1,12 @@
 {% extends "dragon/base.html" %}
 
-{% block title %}{{ block.super }} - Club Member: {{ clubmember.firstname }}{% endblock %}
+{% block title %}{{ block.super }} - Club Member: {{ clubmember.firstName }}{% endblock %}
 
 {% block content %}
   <h3>Name</h3>
-  <p>First Name: {{ clubmember.firstName }}<br>
-     Surname: {{ clubmember.surname }}
+  <p>First Name: {{ clubmember.username }}<br>
+     Surname: {{ clubmember.surname }}<br>
+     password: {{ clubmember.password}}
   </p>
   <h3>Personal Details</h3>
   <p>
