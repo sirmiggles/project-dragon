@@ -47,7 +47,7 @@
               MEMBERS
             </a>
             <div class="dropdown-menu" aria-labelledby="memberDropdown">
-              {% if request.user|has_group:"Committee" %} 
+              {% if request.user|has_group:"Committee" or user.is_staff %} 
               <a class="dropdown-item text-center text-md-left" href="{% url 'members:clubmembers' %}">Club Members</a>
               <a class="dropdown-item text-center text-md-left" href="{% url 'members:nonmembers' %}">Non-Members</a>
               {% endif %}
@@ -55,7 +55,7 @@
               <a class="dropdown-item text-center text-md-left" href="/members/nonmember_form/">Add Non-Members</a>
             </div>
           </li>
-          {% if request.user|has_group:"Committee" %} 
+          {% if request.user|has_group:"Committee" or user.is_staff %} 
           <li class="nav-item">
             <a class="text-center text-md-left nav-link" href="/admin">ADMIN</a>
           </li>

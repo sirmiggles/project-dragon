@@ -26,11 +26,11 @@ def group_required(*group_names):
 def clubmembers(request):
 
     searchterm = ''
-    clubmembers = ClubMember.objects.order_by('username')
+    clubmembers = ClubMember.objects.order_by('FirstName')
 
     if 'search' in request.GET:
         searchterm = request.GET['search']
-        clubmemberfilters = Q(username__icontains=searchterm) | Q(surname__icontains=searchterm) | \
+        clubmemberfilters = Q(FirstName__icontains=searchterm) | Q(surname__icontains=searchterm) | \
                   Q(preferredName__icontains=searchterm)
         clubmembers = clubmembers.filter(clubmemberfilters)
 
@@ -41,11 +41,11 @@ def clubmembers(request):
 def nonmembers(request):
 
     searchterm = ''
-    nonmembers = NonMember.objects.order_by('username')
+    nonmembers = NonMember.objects.order_by('FirstName')
 
     if 'search' in request.GET:
         searchterm = request.GET['search']
-        nonmemberfilters = Q(username__icontains=searchterm) | Q(surname__icontains=searchterm)
+        nonmemberfilters = Q(FirstName__icontains=searchterm) | Q(surname__icontains=searchterm)
         nonmembers = nonmembers.filter(nonmemberfilters)
 
     return render(request, 'members/nonmembers.html', {'nonmembers': nonmembers, 'searchterm': searchterm})
@@ -68,7 +68,7 @@ def nonmember_form(request):
 
 @login_required
 def add_clubmember(request):
-    username= request.POST['username']
+    FirstName= request.POST['FirstName']
     surname = request.POST['surname']
     password = request.POST['password']
     preferredName = request.POST['preferredName']
@@ -81,8 +81,8 @@ def add_clubmember(request):
     joinDate = request.POST['joinDate']
     incidents = request.POST['incidents']
 
-    if username != '':
-        clubmember = ClubMember(username=username, surname=surname, password=password, preferredName=preferredName,
+    if FirstName != '':
+        clubmember = ClubMember(FirstName=FirstName, surname=surname, password=password, preferredName=preferredName,
                                 preferredPronoun=preferredPronoun, guildMember=guildMember, isStudent=isStudent,
                                 universityID=universityID, email=email, phoneNumber=phoneNumber,
                                 joinDate=joinDate, incidents=incidents
@@ -92,7 +92,7 @@ def add_clubmember(request):
 
 @login_required
 def add_nonmember(request):
-    username = request.POST['username']
+    FirstName = request.POST['FirstName']
     surname = request.POST['surname']
     email = request.POST['email']
     organization = request.POST['organization']
@@ -100,8 +100,8 @@ def add_nonmember(request):
     addedDate = request.POST['addedDate']
     incidents = request.POST['incidents']
 
-    if username != '':
-        nonmember = NonMember(username=username, surname=surname, email=email, phoneNumber=phoneNumber,
+    if FirstName != '':
+        nonmember = NonMember(FirstName=FirstName, surname=surname, email=email, phoneNumber=phoneNumber,
                               addedDate=addedDate, incidents=incidents, organization=organization
                               )
         nonmember.save()
@@ -123,8 +123,8 @@ def nonmember_detail(request, nonmember_id):
 @group_required("Committee")
 def update_clubmember(request: HttpRequest, clubmember_id: int):
     clubmember = get_object_or_404(ClubMember, pk=clubmember_id)
-    clubmember.username = request.POST['username']
-    if clubmember.username != '':
+    clubmember.FirstName = request.POST['FirstName']
+    if clubmember.FirstName != '':
         clubmember.surname = request.POST['surname']
         clubmember.email = request.POST['email']
         clubmember.phoneNumber = request.POST['phoneNumber']
@@ -154,8 +154,8 @@ def clubmember_edit_form(request: HttpRequest, clubmember_id: int) -> HttpRespon
 @group_required("Committee")
 def update_nonmember(request: HttpRequest, nonmember_id: int):
     nonmember = get_object_or_404(NonMember, pk=nonmember_id)
-    nonmember.username = request.POST['username']
-    if nonmember.username != '':
+    nonmember.FirstName = request.POST['FirstName']
+    if nonmember.FirstName != '':
         nonmember.surname = request.POST['surname']
         nonmember.email = request.POST['email']
         nonmember.phoneNumber = request.POST['phoneNumber']
@@ -193,7 +193,7 @@ def remove_nonmember(request: HttpRequest, nonmember_id: int) -> HttpResponse:
 
 def signin(request):
     if request.method =='POST':
-        username= request.POST['username']
+        username= request.POST['FirstName']
         password = request.POST['password']
         
         user = auth.authenticate(username=username,password=password)
