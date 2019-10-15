@@ -39,6 +39,12 @@
   text-align: center;
 }
 
+.no-result {
+  text-align: center;
+  color: grey;
+  font-size: 1.1rem;
+}
+
 .item-link {
   padding: 0;
   padding-top: 0.25rem;

@@ -16,6 +16,7 @@ class ClubMemberForm(forms.ModelForm):
             'universityID',
             'joinDate',
             'incidents',
+            'clubRank',
         ]
         labels= {
             'firstName': 'First Name',
@@ -29,6 +30,7 @@ class ClubMemberForm(forms.ModelForm):
             'universityID': 'University/Student ID',
             'joinDate': 'Join Date',
             'incidents': 'Previous Incidents',
+            'clubRank' : 'Rank',
         }
 
 

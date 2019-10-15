@@ -17,6 +17,7 @@
 {% block lib-name %}Games{% endblock %}
 
 {% block table-col-header %}
+{% if games|length > 0 %}
 <tr>
   <th>Name</th>
   <th class="d-none d-md-table-cell">Players</th>
@@ -28,9 +29,11 @@
   <th>Tags</th>
   <th>Available?</th>
 </tr>
+{% endif %}
 {% endblock %}
 
 {% block table-contents %}
+{% if games|length > 0 %}
 {% for game in games %}
   <tr>
     <td class="table-cell d-md-none">
@@ -71,6 +74,13 @@
     </td>
   </tr>
 {% endfor %}
+{% else %}
+<tr>
+  <td>
+    <h4 class="no-result">No results found.</h4>
+  </td>
+</tr>
+{% endif %}
 {% endblock %}
 
 {% block tag-list %}

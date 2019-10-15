@@ -17,6 +17,7 @@
 {% block lib-name %}Books{% endblock %}
 
 {% block table-col-header %}
+{% if books|length > 0 %}
 <tr>
   <th>Name</th>
   <th>Edition</th>
@@ -26,9 +27,11 @@
   <th>Tags</th>
   <th>Available?</th>
 </tr>
+{% endif %}
 {% endblock %}
 
 {% block table-contents %}
+{% if books|length > 0 %}
 {% for book in books %}
   <tr>
     <td class="table-cell d-md-none">
@@ -69,6 +72,13 @@
     </td>
   </tr>
 {% endfor %}
+{% else %}
+<tr>
+  <td>
+    <h4 class="no-result">No results found.</h4>
+  </td>
+</tr>
+{% endif %}
 {% endblock %}
 
 {% block tag-list %}
