@@ -102,7 +102,7 @@ def genre_form(request):
 
 
 # Added rendering for book editing, referring to the book id
-@login_required
+@login_required(login_url='/')
 @group_required("Committee")
 def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
@@ -175,17 +175,12 @@ def remove_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card.delete()
     return HttpResponseRedirect('/library/cardgames')
 
-
 # Borrowing-related views
-@login_required
-@group_required("Committee")
 def borrow_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     card.borrow_item()
     return HttpResponseRedirect('/library/cardgames')
 
-@login_required
-@group_required("Committee")
 def borrowed(request: HttpRequest):
     books = Book.objects.order_by('name')
     games = Game.objects.order_by('name')

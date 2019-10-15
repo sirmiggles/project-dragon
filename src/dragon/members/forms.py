@@ -55,4 +55,3 @@ class NonMemberForm(forms.ModelForm):
             'incidents': 'Previous Incidents',
             'addedDate': 'Date added:'
         }
-        
