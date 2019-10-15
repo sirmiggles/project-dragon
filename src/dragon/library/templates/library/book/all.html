@@ -104,11 +104,13 @@
 {% endblock %}
 
 {% block item-add %}
-<div class="col-12 addition-container">
-  <h5>Something missing in this library?</h5>
-  <div class="btn-group">
-    <a class="btn btn-dark"  href="{% url 'library:book_form' %}">Add Book</a><br>
-    <a class="btn btn-dark"  href="{% url 'library:tag_form' %}">Manage Tags</a>
-    <a class="btn btn-dark"  href="{% url 'library:genre_form' %}">Manage Genres</a>
-  </div>
+  {% if request.user|has_group:"Committee" %} 
+    <div class="col-12 addition-container">
+      <h5>Something missing in this library?</h5>
+      <div class="btn-group">
+        <a class="btn btn-dark"  href="{% url 'library:book_form' %}">Add Book</a><br>
+        <a class="btn btn-dark"  href="{% url 'library:tag_form' %}">Manage Tags</a>
+        <a class="btn btn-dark"  href="{% url 'library:genre_form' %}">Manage Genres</a>
+      </div>
+  {% endif %}
 {% endblock %}

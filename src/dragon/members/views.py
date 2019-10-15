@@ -23,7 +23,8 @@ def group_required(*group_names):
     return user_passes_test(in_groups)
 
 
-@login_required
+@login_required(login_url='/')
+@group_required("Committee")
 def clubmembers(request):
 
     searchterm = ''
@@ -54,7 +55,6 @@ def nonmembers(request):
 
 
 @login_required
-@group_required("Committee")
 def clubmember_form(request):
     form = ClubMemberForm(request.POST or None)
     if form.is_valid():
@@ -67,7 +67,6 @@ def clubmember_form(request):
 
 
 @login_required
-@group_required("Committee")
 def nonmember_form(request):
     form = NonMemberForm(request.POST or None)
     if form.is_valid():
@@ -112,6 +111,7 @@ def clubmember_edit_form(request: HttpRequest, clubmember_id: int) -> HttpRespon
 
 # Added rendering for nonmember editing, referring to the nonmember id
 @login_required
+@group_required("Committee")
 def nonmember_edit_form(request: HttpRequest, nonmember_id: int) -> HttpResponse:
     nonmember = get_object_or_404(NonMember, pk=nonmember_id)
     if request.method == 'POST':
@@ -128,6 +128,7 @@ def nonmember_edit_form(request: HttpRequest, nonmember_id: int) -> HttpResponse
 
 
 @login_required
+@group_required("Committee")
 def remove_clubmember(request: HttpRequest, clubmember_id: int) -> HttpResponse:
     clubmember = get_object_or_404(ClubMember, pk=clubmember_id)
     clubmember.delete()
@@ -161,10 +162,9 @@ def signin(request):
 
 
 @login_required
-def logout(request):
+def signout(request):
     logout(request)
-    #authenticate.logout(request)
-    return redirect('/')
+    return HttpResponseRedirect('/')
 
 
 def operate_group(request):
