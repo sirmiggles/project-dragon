@@ -4,9 +4,10 @@ import django.utils
 from django.db import models
 #from guardian.models import GroupObjectPermissionBase
 
+
 class User(Model):
     id = AutoField(primary_key=True)
-    username = CharField(max_length=50)
+    firstName = CharField(max_length=50)
     surname = CharField(max_length=50)
     email = EmailField(default='')
     phoneNumber = CharField(max_length=20, default='')
@@ -17,7 +18,6 @@ class User(Model):
 
 class ClubMember(User):
 
-    password = CharField(max_length=20)
     preferredName = CharField(max_length=50, default='')
     preferredPronoun = CharField(max_length=20, default='')
     guildMember = BooleanField(default=True)
@@ -31,7 +31,8 @@ class ClubMember(User):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
+
+
 class NonMember(User):
 
     organization = CharField(max_length=200)
