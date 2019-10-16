@@ -6,10 +6,11 @@
     <h1>Welcome to UniGames</h1>
     <p>
         Unigames is the table-top gaming club at the University of Western Australia. We do roleplaying, wargaming, 
-        board and card gaming and indeed gaming in all forms (except video games, try next door at <a href ="">UCC</a> 
-        for that). Whether it's D&D, Magic the Gathering, Warhammer 40K, or any of our dozens of other systems and 
-        games, we've got you covered. We also have some chess sets, Mahjong, and at least 2 sets of Monopoly just in 
-        case. Check out our <a href="">Library</a>.
+        board and card gaming and indeed gaming in all forms (except video games, try next door at 
+        <a href ="https://www.ucc.asn.au">UCC</a> for that). Whether it's D&D, Magic the Gathering, Warhammer 40K, 
+        or any of our dozens of other systems and games, we've got you covered. We also have some chess sets, 
+        Mahjong, and at least 2 sets of Monopoly just in case. Check out our 
+        <a href="{% url 'library:ALL' %}">Library</a>.
     </p>
     <p>
         Membership costs $5 per year for Guild Members (but $7 for everyone else) and entitles you to vote at the 
@@ -22,7 +23,7 @@
         Ask for directions at the Guild Student Centre (ground floor in Guild Village).
     </p>
     <p>
-        A good place to start looking for information is the <a href="">Frequently Asked Questions</a>. 
+        A good place to start looking for information is the <a href="{% url 'faq' %}">Frequently Asked Questions</a>. 
         Otherwise, pick something interesting from the menu on the right!
     </p>
 {% endblock %}
