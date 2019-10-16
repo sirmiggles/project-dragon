@@ -6,7 +6,7 @@ from django.db import models
 
 class User(Model):
     id = AutoField(primary_key=True)
-    username = CharField(max_length=50)
+    FirstName = CharField(max_length=50)
     surname = CharField(max_length=50)
     email = EmailField(default='')
     phoneNumber = CharField(max_length=20, default='')

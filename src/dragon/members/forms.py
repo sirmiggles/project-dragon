@@ -5,7 +5,7 @@ class ClubMemberForm(forms.ModelForm):
     class Meta:
         model = ClubMember
         fields = [
-            'username',
+            'FirstName',
             'surname',
             'email',
             'phoneNumber',
@@ -19,7 +19,7 @@ class ClubMemberForm(forms.ModelForm):
             'incidents',
         ]
         labels= {
-            'username': 'First Name',
+            'FirstName': 'First Name',
             'surname': 'Surname',
             'email': 'Email address',
             'phoneNumber': 'Phone Number',
@@ -38,7 +38,7 @@ class NonMemberForm(forms.ModelForm):
     class Meta:
         model = NonMember
         fields = [
-            'username',
+            'FirstName',
             'surname',
             'email',
             'phoneNumber',
@@ -47,7 +47,7 @@ class NonMemberForm(forms.ModelForm):
             'addedDate'
         ]
         labels = {
-            'username': 'First name',
+            'FirstName': 'First name',
             'surname': 'Surname',
             'email': 'Email address',
             'phoneNumber': 'Phone Number',
