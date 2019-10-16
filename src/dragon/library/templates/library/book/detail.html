@@ -7,21 +7,33 @@
 <!--  Right column of item page  -->
 
 {% block attributes %}
-<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
   <h5 class="cat-header">Condition:</h5>
   <h6 class="cat-value">{{ book.get_condition_display }}</h6>
 </div>
-<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
   <h5 class="cat-header">Edition:</h5>
   <h6 class="cat-value">{{ book.edition }}</h6>
 </div>
-<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
   <h5 class="cat-header">Year:</h5>
   <h6 class="cat-value">{{ book.year }}</h6>
 </div>
-<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
   <h5 class="cat-header">ISBN:</h5>
+  {% if book.isbn != '' %}
   <h6 class="cat-value">{{ book.isbn }}</h6>
+  {% else %}
+  <h6 class="cat-value">N/A</h6>
+  {% endif %}
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Series:</h5>
+  {% if book.series != null %}
+  <h6 class="cat-value">{{ book.series.name }}</h6>
+  {% else %}
+  <h6 class="cat-value">N/A</h6>
+  {% endif %}
 </div>
 {% endblock %}
 

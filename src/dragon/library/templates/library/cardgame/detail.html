@@ -18,7 +18,7 @@
   <h6 class="cat-value">{{ card.minplayers }}-{{ card.maxplayers }} </h6>
 </div>
 <div class="p-0 col-12 col-md-2 text-md-center attr-cell">
-  <h5 class="cat-header">Duration:</h5>
+  <h5 class="cat-header">Duration (min):</h5>
   <h6 class="cat-value">{{ card.mingamelength }}-{{ card.maxgamelength }}</h6>
 </div>
 <div class="p-0 col-12 col-md-2 text-md-center attr-cell">
@@ -27,7 +27,19 @@
 </div>
 <div class="p-0 col-12 col-md-2 text-md-center attr-cell">
   <h5 class="cat-header">Deck Type:</h5>
+  {%if card.deck_type != '' %}
   <h6 class="cat-value">{{ card.deck_type }}</h6>
+  {% else %}
+  <h6 class="cat-value">N/A</h6>
+  {% endif %}
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Series:</h5>
+  {% if card.series != null %}
+  <h6 class="cat-value">{{ card.series.name }}</h6>
+  {% else %}
+  <h6 class="cat-value">N/A</h6>
+  {% endif %}
 </div>
 {% endblock %}
 
