@@ -57,6 +57,8 @@
   </div>
 </div>
 
+
+{% if user.is_authenticated %}
 <div class="d-flex flex-column flex-md-row" id="alter-section">
   <div class="col-12 col-md-6 text-center text-md-left alter-container">
     <h6 class="item-alter-message" id="edit-text">Click here to edit this item</h6>
@@ -69,6 +71,7 @@
     {% endblock %}
   </div>
 </div>
+{% endif %}
 {% endblock %}
 
 

@@ -17,6 +17,7 @@
 {% block lib-name %}Card Games{% endblock %}
 
 {% block table-col-header %}
+{% if cards|length > 0 %}
 <tr>
   <th>Name</th>
   <th class="d-none d-md-table-cell">Players</th>
@@ -29,9 +30,11 @@
   <th>Tags</th>
   <th>Available?</th>
 </tr>
+{% endif %}
 {% endblock %}
 
 {% block table-contents %}
+{% if cards|length > 0 %}
 {% for card in cards %}
   <tr>
     <td class="table-cell d-md-none">
@@ -75,6 +78,13 @@
     </td>
   </tr>
 {% endfor %}
+{% else %}
+<tr>
+  <td>
+    <h4 class="no-result">No results found.</h4>
+  </td>
+</tr>
+{% endif %}
 {% endblock %}
 
 {% block tag-list %}
@@ -110,14 +120,16 @@
 {% endblock %}
 
 {% block item-add %}
-<div class="col-12 addition-container">
-  <h5>Want to add something to this library?</h5>
-  <div class="btn-group">
-    <a class="btn btn-dark" href="{% url 'library:card_form' %}">Add Card Game</a><br>
-    <a class="btn btn-dark" href="{% url 'library:tag_form' %}">Manage Tags</a>
-    <a class="btn btn-dark" href="{% url 'library:genre_form' %}">Manage Genres</a>
-  </div>
-</div>
+  {% if request.user|has_group:"Committee" %} 
+    <div class="col-12 addition-container">
+      <h5>Want to add something to this library?</h5>
+      <div class="btn-group">
+        <a class="btn btn-dark" href="{% url 'library:card_form' %}">Add Card Game</a><br>
+        <a class="btn btn-dark" href="{% url 'library:tag_form' %}">Manage Tags</a>
+        <a class="btn btn-dark" href="{% url 'library:genre_form' %}">Manage Genres</a>
+      </div>
+    </div>
+  {% endif %}
 {% endblock %}
 
 
