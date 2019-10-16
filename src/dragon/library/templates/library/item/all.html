@@ -24,6 +24,7 @@
   <th class="d-none d-md-table-cell">Description</th>
   <th>Genre</th>
   <th>Tags</th>
+  <th>Series</th>
   <th>Availability</th>
 </tr>
 {% endif %}
@@ -66,6 +67,13 @@
   <td class="table-cell">
     {% if item.tags.all %}
       {{ item.tags.all|trimlist:32 }}
+    {% else %}
+      -
+    {% endif %}
+  </td>
+  <td class="table-cell">
+    {% if item.series.all %}
+      {{ item.series.all|trimlist:32 }}
     {% else %}
       -
     {% endif %}
