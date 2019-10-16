@@ -1,5 +1,5 @@
 from django import forms
-from .models import Book, Game, Card, Tag, Genre
+from .models import Book, Game, Card, Tag, Genre, Series
 
 # These classes produce a standard format to create a form
 # they can be instantiated in `views.py` and added to the
@@ -116,4 +116,15 @@ class GenreForm(forms.ModelForm):
         ]
         labels = {
             'name': 'Genre Name'
+        }
+
+
+class SeriesForm(forms.ModelForm):
+    class Meta:
+        model = Series
+        fields = [
+            'name'
+        ]
+        labels = {
+            'name': 'Series Name'
         }

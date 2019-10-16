@@ -1,8 +1,8 @@
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
-from .forms import BookForm, GameForm, CardForm, TagForm, GenreForm
-from .models import Item, Book, Game, Tag, Card, Borrow
+from .forms import BookForm, GameForm, CardForm, TagForm, GenreForm, SeriesForm
+from .models import Item, Book, Game, Card, Tag, Genre, Series, Borrow
 from .views_library import ItemList
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -122,6 +122,15 @@ def genre_form(request):
     return render(request, 'library/genre/create_form.html', {'form': form})
 
 
+def series_form(request):
+    form = SeriesForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect('/library/ALL/')
+
+    return render(request, 'library/series/create_form.html', {'form': form})
+
+
 # Added rendering for book editing, referring to the book id
 @login_required(login_url='/')
 @permission_required("library.change_book")
@@ -174,6 +183,60 @@ def card_edit_form(request: HttpRequest, card_id: int) -> HttpResponse:
         form = CardForm(instance=card)
 
     return render(request, "library/cardgame/edit_form.html", {'card': card, 'form': form})
+
+
+# Added rendering for tag editing, referring to the tag id
+@login_required
+@permission_required("library.change_tag")
+def tag_edit_form(request: HttpRequest, tag_id: int) -> HttpResponse:
+    tag = get_object_or_404(Tag, pk=tag_id)
+    if request.method == 'POST':
+        form = TagForm(request.POST, instance=tag)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            form.save_m2m()
+            return HttpResponseRedirect('/library/ALL/')
+    else:
+        form = TagForm(instance=tag)
+
+    return render(request, "library/tag/edit_form.html", {'tag': tag, 'form': form})
+
+
+# Added rendering for genre editing, referring to the genre id
+@login_required
+@permission_required("library.change_genre")
+def genre_edit_form(request: HttpRequest, genre_id: int) -> HttpResponse:
+    genre = get_object_or_404(Genre, pk=genre_id)
+    if request.method == 'POST':
+        form = GenreForm(request.POST, instance=genre)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            form.save_m2m()
+            return HttpResponseRedirect('/library/ALL/')
+    else:
+        form = GenreForm(instance=genre)
+
+    return render(request, "library/genre/edit_form.html", {'genre': genre, 'form': form})
+
+
+# Added rendering for series editing, referring to the series id
+@login_required
+@permission_required("library.change_series")
+def series_edit_form(request: HttpRequest, series_id: int) -> HttpResponse:
+    series = get_object_or_404(Series, pk=series_id)
+    if request.method == 'POST':
+        form = SeriesForm(request.POST, instance=series)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            form.save_m2m()
+            return HttpResponseRedirect('/library/ALL/')
+    else:
+        form = SeriesForm(instance=series)
+
+    return render(request, "library/series/edit_form.html", {'series': series, 'form': form})
 
 
 @login_required

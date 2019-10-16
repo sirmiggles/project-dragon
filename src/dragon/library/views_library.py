@@ -1,6 +1,6 @@
 from django.views.generic import ListView
 from django.db.models import Q
-from .models import Borrow, Tag, Genre, Item, Book, Card, Game
+from .models import Borrow, Tag, Genre, Item, Book, Card, Game, Series
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 
@@ -39,6 +39,7 @@ class ItemList(ListView):
         context["searchterm"] = self.request.GET.get("search", "")
         context["tags"] = Tag.objects.all()
         context["genres"] = Genre.objects.all()
+        context["series"] = Series.objects.all()
         return context
 
 
