@@ -18,7 +18,8 @@ class BookForm(forms.ModelForm):
             'year',
             'condition',
             'genres',
-            'tags'
+            'tags',
+            'series'
         ]
         labels = {
             'name': 'Name',
@@ -29,7 +30,8 @@ class BookForm(forms.ModelForm):
             'year': 'Year',
             'condition': 'Condition',
             'genres': 'Genres',
-            'tags': 'Tags'
+            'tags': 'Tags',
+            'series': 'Series'
         }
 
 
@@ -47,7 +49,8 @@ class GameForm(forms.ModelForm):
             'difficulty',
             'condition',
             'genres',
-            'tags'
+            'tags',
+            'series'
         ]
         labels = {
             'name': 'Name',
@@ -60,7 +63,8 @@ class GameForm(forms.ModelForm):
             'difficulty': 'Difficulty',
             'condition': 'Condition',
             'genres': 'Genres',
-            'tags': 'Tags'
+            'tags': 'Tags',
+            'series': 'Series'
         }
 
 
@@ -79,7 +83,8 @@ class CardForm(forms.ModelForm):
             'condition',
             'deck_type',
             'genres',
-            'tags'
+            'tags',
+            'series'
         ]
         labels = {
             'name': 'Name',
@@ -93,7 +98,8 @@ class CardForm(forms.ModelForm):
             'condition': 'Condition',
             'deck_type': 'Deck Type',
             'genres': 'Genres',
-            'tags': 'Tags'
+            'tags': 'Tags',
+            'series': 'Series'
         }
 
 
