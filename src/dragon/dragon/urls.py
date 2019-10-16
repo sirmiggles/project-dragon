@@ -22,6 +22,11 @@ from . import views
 urlpatterns: List[path] = [
     path('library/', include('library.urls')),
     path('', views.index, name='index'),  # '' = homepage
+    path('committee/', views.committee, name='committee'),
+    path('contact-us/', views.contactus, name='contact-us'),
+    path('roleplaying/', views.roleplaying, name='roleplaying'),
+    path('faq/', views.faq, name='faq'),
+    path('life-members/', views.lifemembers, name='life-members'),
     path('admin/', admin.site.urls, name='admin'),
     path('members/', include('members.urls')),
 ]

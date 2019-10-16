@@ -6,6 +6,20 @@ from .models import Item, Book, Game, Tag, Card, Borrow
 from .views_library import ItemList
 from django.contrib.auth.decorators import login_required,user_passes_test
 
+def has_perm(self, perm, obj=None):
+    try:
+        user_perm = self.user_permissions.get(codename=perm)
+    except ObjectDoesNotExist:
+        user_perm = False
+    if user_perm:
+        return True
+    else:
+        return False
+    
+def permission_required(*perms):
+    return user_passes_test(lambda u: any(u.has_perm(perm) for perm in perms), login_url='/')
+#group restriction filter(not using)
+
 def group_required(*group_names):
    """Requires user membership in at least one of the groups passed in."""
 
@@ -103,7 +117,7 @@ def genre_form(request):
 
 # Added rendering for book editing, referring to the book id
 @login_required(login_url='/')
-@group_required("Committee")
+@permission_required("library.change_book")
 def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
     if request.method == 'POST':
@@ -121,7 +135,7 @@ def book_edit_form(request: HttpRequest, book_id: int) -> HttpResponse:
 
 # Added rendering for game editing, referring to the game id
 @login_required
-@group_required("Committee")
+@permission_required("library.change_game")
 def game_edit_form(request: HttpRequest, game_id: int) -> HttpResponse:
     game = get_object_or_404(Game, pk=game_id)
     if request.method == 'POST':
@@ -139,7 +153,7 @@ def game_edit_form(request: HttpRequest, game_id: int) -> HttpResponse:
 
 # Added rendering for card game editing, referring to the card game id
 @login_required
-@group_required("Committee")
+@permission_required("library.change_card")
 def card_edit_form(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     if request.method == 'POST':
@@ -155,32 +169,34 @@ def card_edit_form(request: HttpRequest, card_id: int) -> HttpResponse:
     return render(request, "library/cardgame/edit_form.html", {'card': card, 'form': form})
 
 @login_required
-@group_required("Committee")
+@permission_required("library.delete_book")
 def remove_book(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
     book.delete()
     return HttpResponseRedirect('/library/books')
 
 @login_required
-@group_required("Committee")
+@permission_required("library.delete_game")
 def remove_game(request: HttpRequest, game_id: int) -> HttpResponse:
     game = get_object_or_404(Game, pk=game_id)
     game.delete()
     return HttpResponseRedirect('/library/games')
 
 @login_required
-@group_required("Committee")
+@permission_required("library.delete_card")
 def remove_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     card.delete()
     return HttpResponseRedirect('/library/cardgames')
 
 # Borrowing-related views
+@permission_required("library.add_borrow")
 def borrow_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     card.borrow_item()
     return HttpResponseRedirect('/library/cardgames')
 
+@permission_required("library.add_borrow")
 def borrowed(request: HttpRequest):
     books = Book.objects.order_by('name')
     games = Game.objects.order_by('name')
