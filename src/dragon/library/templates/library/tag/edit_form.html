@@ -1,0 +1,14 @@
+{% extends "library/base.html" %}
+
+{% block title %}{{ block.super }} - Edit Tag Name{% endblock %}
+
+{% block content %}
+<div class="col-12">
+  <h1>Edit Tag Name</h1>
+  <form action="" method="post">
+    {{ form.as_p }}
+    <input type="submit" value="Edit Tag Name">
+    {% csrf_token %}
+  </form>
+</div>
+{% endblock %}
