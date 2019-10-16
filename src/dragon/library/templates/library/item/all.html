@@ -116,6 +116,22 @@
 </table>
 {% endblock %}
 
+{% block series-list %}
+<h3>List of Series</h3>
+<table>
+  <tr>
+    <th>Series Name</th>
+  </tr>
+  {% for series in series %}
+    <tr>
+      <td>
+        {{ series.name }}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}
+
 {% block item-add %}
 {% if request.user|has_group:"Committee" or user.is_staff %} 
   <div class="col-12 addition-container">
@@ -126,6 +142,7 @@
       <a class="btn btn-dark" href="{% url 'library:card_form' %}">Card Game</a><br>
       <a class="btn btn-dark" href="{% url 'library:tag_form' %}">Tags</a><br>
       <a class="btn btn-dark" href="{% url 'library:genre_form' %}">Genres</a>
+      <a class="btn btn-dark" href="{% url 'library:series_form' %}">Series</a>
     </div>
   </div>
 {% endif %}

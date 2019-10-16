@@ -115,14 +115,31 @@
 </table>
 {% endblock %}
 
+{% block series-list %}
+<h3>List of Series</h3>
+<table>
+  <tr>
+    <th>Series Name</th>
+  </tr>
+  {% for series in series %}
+    <tr>
+      <td>
+        {{ series.name }}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}
+
 {% block item-add %}
   {% if request.user|has_group:"Committee" or user.is_staff %} 
     <div class="col-12 addition-container">
       <h5>Want to add something to this library?</h5>
       <div class="btn-group">
-        <a class="btn btn-dark" href="{% url 'library:game_form' %}">Add Game</a><br>
-        <a class="btn btn-dark" href="{% url 'library:tag_form' %}">Manage Tags</a>
-        <a class="btn btn-dark" href="{% url 'library:genre_form' %}">Manage Genres</a>
+        <a class="btn btn-dark"  href="{% url 'library:book_form' %}">Add Book</a><br>
+        <a class="btn btn-dark"  href="{% url 'library:tag_form' %}">Add Tags</a>
+        <a class="btn btn-dark"  href="{% url 'library:genre_form' %}">Add Genres</a>
+        <a class="btn btn-dark"  href="{% url 'library:series_form' %}">Add Series</a>
        </div>
     </div>
   {% endif %}
