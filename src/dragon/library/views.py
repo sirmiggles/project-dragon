@@ -4,7 +4,8 @@ from django.shortcuts import render, get_object_or_404
 from .forms import BookForm, GameForm, CardForm, TagForm, GenreForm
 from .models import Item, Book, Game, Tag, Card, Borrow
 from .views_library import ItemList
-from django.contrib.auth.decorators import login_required,user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test
+
 
 def has_perm(self, perm, obj=None):
     try:
@@ -15,20 +16,26 @@ def has_perm(self, perm, obj=None):
         return True
     else:
         return False
-    
+
+
 def permission_required(*perms):
     return user_passes_test(lambda u: any(u.has_perm(perm) for perm in perms), login_url='/')
-#group restriction filter(not using)
+
+
+# group restriction filter(not using)
+
 
 def group_required(*group_names):
-   """Requires user membership in at least one of the groups passed in."""
+    """Requires user membership in at least one of the groups passed in."""
 
-   def in_groups(user):
-       if user.is_authenticated:
-           if bool(user.groups.filter(name__in=group_names)) | user.is_superuser:
-               return True
-       return False
-   return user_passes_test(in_groups)
+    def in_groups(user):
+        if user.is_authenticated:
+            if bool(user.groups.filter(name__in=group_names)) | user.is_superuser:
+                return True
+        return False
+
+    return user_passes_test(in_groups)
+
 
 all_view = ItemList.as_view(
     model=Item, context_object_name="items", template_name="library/item/all.html")
@@ -168,12 +175,14 @@ def card_edit_form(request: HttpRequest, card_id: int) -> HttpResponse:
 
     return render(request, "library/cardgame/edit_form.html", {'card': card, 'form': form})
 
+
 @login_required
 @permission_required("library.delete_book")
 def remove_book(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
     book.delete()
     return HttpResponseRedirect('/library/books')
+
 
 @login_required
 @permission_required("library.delete_game")
@@ -182,6 +191,7 @@ def remove_game(request: HttpRequest, game_id: int) -> HttpResponse:
     game.delete()
     return HttpResponseRedirect('/library/games')
 
+
 @login_required
 @permission_required("library.delete_card")
 def remove_card(request: HttpRequest, card_id: int) -> HttpResponse:
@@ -189,12 +199,14 @@ def remove_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card.delete()
     return HttpResponseRedirect('/library/cardgames')
 
+
 # Borrowing-related views
 @permission_required("library.add_borrow")
 def borrow_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     card.borrow_item()
     return HttpResponseRedirect('/library/cardgames')
+
 
 @permission_required("library.add_borrow")
 def borrowed(request: HttpRequest):

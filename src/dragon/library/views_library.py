@@ -1,6 +1,6 @@
 from django.views.generic import ListView
 from django.db.models import Q
-from .models import Borrow, Tag, Genre
+from .models import Borrow, Tag, Genre, Item, Book, Card, Game
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 
@@ -16,7 +16,6 @@ def group_required(*group_names):
     return user_passes_test(in_groups)
 
 
-# this isn't been used, @dan switched it back, so I (@kieran) can experiment
 class ItemList(ListView):
 
     # template_name = "library/item/all.html"
@@ -24,7 +23,14 @@ class ItemList(ListView):
     def get_queryset(self):
         query = self.request.GET.get("search")
         if query is not None:
-            return self.model.objects.filter(Q(name__icontains=query))
+            if self.model == Book:
+                return self.model.objects.filter(Q(name__icontains=query))
+            elif self.model == Game:
+                return self.model.objects.filter(Q(name__icontains=query))
+            elif self.model == Card:
+                return self.model.objects.filter(Q(name__icontains=query))
+            else:
+                return self.model.objects.filter(Q(name__icontains=query))
         else:
             return self.model.objects.order_by("name")
 
