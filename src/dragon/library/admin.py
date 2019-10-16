@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 # These models will be added to the Django admin page
 from .models import Book, Game, Tag
 
