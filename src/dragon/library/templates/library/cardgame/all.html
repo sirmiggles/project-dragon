@@ -28,6 +28,7 @@
   <th class="d-none d-md-table-cell">Duration (mins.)</th>
   <th>Genres</th>
   <th>Tags</th>
+  <th>Series</th>
   <th>Available?</th>
 </tr>
 {% endif %}
@@ -69,6 +70,13 @@
     <td class="table-cell">
       {% if card.tags.all %}
         {{ card.tags.all|trimlist:32 }}
+      {% else %}
+        -
+      {% endif %}
+    </td>
+    <td class="table-cell">
+      {% if card.series.all %}
+        {{ card.series.all|trimlist:32 }}
       {% else %}
         -
       {% endif %}
@@ -140,7 +148,7 @@
     <div class="col-12 addition-container">
       <h5>Want to add something to this library?</h5>
       <div class="btn-group">
-        <a class="btn btn-dark"  href="{% url 'library:book_form' %}">Add Book</a><br>
+        <a class="btn btn-dark"  href="{% url 'library:card_form' %}">Add Card Game</a><br>
         <a class="btn btn-dark"  href="{% url 'library:tag_form' %}">Add Tags</a>
         <a class="btn btn-dark"  href="{% url 'library:genre_form' %}">Add Genres</a>
         <a class="btn btn-dark"  href="{% url 'library:series_form' %}">Add Series</a>

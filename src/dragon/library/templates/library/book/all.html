@@ -25,6 +25,7 @@
   <th class="d-none d-md-table-cell">ISBN</th>
   <th>Genres</th>
   <th>Tags</th>
+  <th>Series</th>
   <th>Available?</th>
 </tr>
 {% endif %}
@@ -63,6 +64,13 @@
     <td class="table-cell">
       {% if book.tags.all %}
         {{ book.tags.all|trimlist:32 }}
+      {% else %}
+        -
+      {% endif %}
+    </td>
+    <td class="table-cell">
+      {% if book.series.all %}
+        {{ book.series.all|trimlist:32 }}
       {% else %}
         -
       {% endif %}
