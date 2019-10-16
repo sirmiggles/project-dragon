@@ -263,6 +263,30 @@ def remove_card(request: HttpRequest, card_id: int) -> HttpResponse:
     return HttpResponseRedirect('/library/cardgames')
 
 
+@login_required
+@permission_required("library.delete_tag")
+def remove_tag(request: HttpRequest, tag_id: int) -> HttpResponse:
+    tag = get_object_or_404(Tag, pk=tag_id)
+    tag.delete()
+    return HttpResponseRedirect('/library/ALL')
+
+
+@login_required
+@permission_required("library.delete_genre")
+def remove_genre(request: HttpRequest, genre_id: int) -> HttpResponse:
+    genre = get_object_or_404(Genre, pk=genre_id)
+    genre.delete()
+    return HttpResponseRedirect('/library/ALL')
+
+
+@login_required
+@permission_required("library.delete_series")
+def remove_series(request: HttpRequest, series_id: int) -> HttpResponse:
+    series = get_object_or_404(Series, pk=series_id)
+    series.delete()
+    return HttpResponseRedirect('/library/ALL')
+
+
 # Borrowing-related views
 @permission_required("library.add_borrow")
 def borrow_card(request: HttpRequest, card_id: int) -> HttpResponse:

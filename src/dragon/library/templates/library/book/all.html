@@ -97,14 +97,26 @@
 <h3>List of Tags</h3>
 <table>
   <tr>
-    <th>Tag Name</th>
+    <th>Tag</th>
+    <th>Edit</th>
+    <th>Remove</th>
   </tr>
   {% for tag in tags %}
-  <tr>
-    <td>
-      {{ tag.name }}
-    </td>
-  </tr>
+    <tr>
+      <td class="table-cell">
+        {{ tag.name }}
+      </td>
+      <td class="table-cell">
+        <a href="{% url 'library:tag_edit_form' tag.id %}">
+          <button type="button" class="btn btn-outline-primary">Edit</button>
+        </a>
+      </td>
+      <td class="table-cell">
+        <a href="{% url 'library:remove_tag' tag.id %}">
+          <button type="button" class="btn btn-outline-danger">Delete</button>
+        </a>
+      </td>
+    </tr>
   {% endfor %}
 </table>
 {% endblock %}
@@ -113,12 +125,22 @@
 <h3>List of Genres</h3>
 <table>
   <tr>
-    <th>Genre Name</th>
+    <th>Genre</th>
   </tr>
   {% for genre in genres %}
     <tr>
-      <td>
+      <td class="table-cell">
         {{ genre.name }}
+      </td>
+      <td class="table-cell">
+        <a href="{% url 'library:genre_edit_form' genre.id %}">
+          <button type="button" class="btn btn-outline-primary">Edit</button>
+        </a>
+      </td>
+      <td class="table-cell">
+        <a href="{% url 'library:remove_genre' genre.id %}">
+          <button type="button" class="btn btn-outline-danger">Delete</button>
+        </a>
       </td>
     </tr>
   {% endfor %}
@@ -129,12 +151,22 @@
 <h3>List of Series</h3>
 <table>
   <tr>
-    <th>Series Name</th>
+    <th>Series</th>
   </tr>
   {% for series in series %}
     <tr>
-      <td>
+      <td class="table-cell">
         {{ series.name }}
+      </td>
+      <td class="table-cell">
+        <a href="{% url 'library:series_edit_form' series.id %}">
+          <button type="button" class="btn btn-outline-primary">Edit</button>
+        </a>
+      </td>
+      <td class="table-cell">
+        <a href="{% url 'library:remove_series' series.id %}">
+          <button type="button" class="btn btn-outline-danger">Delete</button>
+        </a>
       </td>
     </tr>
   {% endfor %}

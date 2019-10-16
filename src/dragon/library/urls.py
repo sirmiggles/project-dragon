@@ -34,14 +34,17 @@ urlpatterns = [
     # Urls for tags
     path('tag_form/', views.tag_form, name='tag_form'),
     path('tag_edit_form/<int:tag_id>/', views.tag_edit_form, name='tag_edit_form'),
+    path('remove_tag/<int:tag_id>/', views.remove_tag, name='remove_tag'),
 
     # Urls for genres
     path('genre_form/', views.genre_form, name='genre_form'),
     path('genre_edit_form/<int:genre_id>/', views.genre_edit_form, name='genre_edit_form'),
+    path('remove_genre/<int:genre_id>/', views.remove_genre, name='remove_genre'),
 
     # Urls for series
     path('series_form/', views.series_form, name='series_form'),
     path('series_edit_form/<int:series_id>/', views.series_edit_form, name='series_edit_form'),
+    path('remove_series/<int:series_id>/', views.remove_series, name='remove_series'),
 
     # Urls for borrowing
     path('borrow_card/<int:card_id>/', views.borrow_card, name='borrow_card'),
