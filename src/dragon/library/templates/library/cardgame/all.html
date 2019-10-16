@@ -55,7 +55,11 @@
       {{ card.get_difficulty_display }}
     </td>
     <td class="d-none d-md-table-cell non-key">
+    {% if card.deck_type != '' %}
       {{ card.deck_type }}
+    {% else %}
+      N/A
+    {% endif %}
     </td>
     <td class="d-none d-md-table-cell non-key">
       {{ card.mingamelength }}-{{ card.maxgamelength }}
