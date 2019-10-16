@@ -11,6 +11,7 @@ from django.contrib.auth.models import User,auth,Group,Permission,ContentType
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib import messages
 
+#Group permission filter(not using but could be used in the future)
 def group_required(*group_names):
    """Requires user membership in at least one of the groups passed in."""
 
@@ -21,8 +22,20 @@ def group_required(*group_names):
        return False
    return user_passes_test(in_groups)
 
+def has_perm(self, perm, obj=None):
+    try:
+        user_perm = self.user_permissions.get(codename=perm)
+    except ObjectDoesNotExist:
+        user_perm = False
+    if user_perm:
+        return True
+    else:
+        return False
+def permission_required(*perms):
+    return user_passes_test(lambda u: any(u.has_perm(perm) for perm in perms), login_url='/')
+
 @login_required(login_url='/')
-@group_required("Committee")
+@permission_required("members.delete_clubmember", "members.change_clubmember", "members.view_clubmember")
 def clubmembers(request):
 
     searchterm = ''
@@ -37,7 +50,7 @@ def clubmembers(request):
     return render(request, 'members/clubmembers.html', {'clubmembers': clubmembers, 'searchterm': searchterm})
 
 @login_required
-@group_required("Committee")
+@permission_required("members.delete_nonmember", "members.change_nonmember", "members.view_nonmember")
 def nonmembers(request):
 
     searchterm = ''
@@ -51,6 +64,7 @@ def nonmembers(request):
     return render(request, 'members/nonmembers.html', {'nonmembers': nonmembers, 'searchterm': searchterm})
 
 @login_required
+@permission_required("members.add_clubmember")
 def clubmember_form(request):
     form = ClubMemberForm(request.POST or None)
     if form.is_valid():
@@ -59,6 +73,7 @@ def clubmember_form(request):
     return render(request, "members/clubmember_form.html", {'form': form})
 
 @login_required
+@permission_required("members.add_nonmember")
 def nonmember_form(request):
     form = NonMemberForm(request.POST or None)
     if form.is_valid():
@@ -67,6 +82,7 @@ def nonmember_form(request):
     return render(request, "members/nonmember_form.html", {'form': form})
 
 @login_required
+@permission_required("members.add_clubmember")
 def add_clubmember(request):
     FirstName= request.POST['FirstName']
     surname = request.POST['surname']
@@ -91,6 +107,7 @@ def add_clubmember(request):
     return HttpResponseRedirect('/members/clubmembers/')
 
 @login_required
+@permission_required("members.add_nonmember")
 def add_nonmember(request):
     FirstName = request.POST['FirstName']
     surname = request.POST['surname']
@@ -108,19 +125,19 @@ def add_nonmember(request):
     return HttpResponseRedirect('/members/nonmembers/')
 
 @login_required
-@group_required("Committee")
+@permission_required("members.view_clubmember")
 def clubmember_detail(request, clubmember_id):
     clubmember = get_object_or_404(ClubMember, pk=clubmember_id)
     return render(request, 'members/clubmember_detail.html', {'clubmember': clubmember})
 
 @login_required
-@group_required("Committee")
+@permission_required("members.view_nonmember")
 def nonmember_detail(request, nonmember_id):
     nonmember = get_object_or_404(NonMember, pk=nonmember_id)
     return render(request, 'members/nonmember_detail.html', {'nonmember': nonmember})
 
 @login_required
-@group_required("Committee")
+@permission_required("members.change_clubmember")
 def update_clubmember(request: HttpRequest, clubmember_id: int):
     clubmember = get_object_or_404(ClubMember, pk=clubmember_id)
     clubmember.FirstName = request.POST['FirstName']
@@ -142,7 +159,7 @@ def update_clubmember(request: HttpRequest, clubmember_id: int):
 
 # Added rendering for clubmember editing, referring to the clubmember id
 @login_required
-@group_required("Committee")
+@permission_required("members.change_clubmember")
 def clubmember_edit_form(request: HttpRequest, clubmember_id: int) -> HttpResponse:
     clubmember = get_object_or_404(ClubMember, pk=clubmember_id)
     form = ClubMemberForm(instance=clubmember)
@@ -151,7 +168,7 @@ def clubmember_edit_form(request: HttpRequest, clubmember_id: int) -> HttpRespon
     return render(request, "members/clubmember_edit_form.html", {'clubmember': clubmember, 'form': form})
 
 @login_required
-@group_required("Committee")
+@permission_required("members.change_nonmember")
 def update_nonmember(request: HttpRequest, nonmember_id: int):
     nonmember = get_object_or_404(NonMember, pk=nonmember_id)
     nonmember.FirstName = request.POST['FirstName']
@@ -168,7 +185,7 @@ def update_nonmember(request: HttpRequest, nonmember_id: int):
 
 # Added rendering for nonmember editing, referring to the nonmember id
 @login_required
-@group_required("Committee")
+@permission_required("members.change_nonmember")
 def nonmember_edit_form(request: HttpRequest, nonmember_id: int) -> HttpResponse:
     nonmember = get_object_or_404(NonMember, pk=nonmember_id)
     form = NonMemberForm(instance=nonmember)
@@ -177,14 +194,14 @@ def nonmember_edit_form(request: HttpRequest, nonmember_id: int) -> HttpResponse
     return render(request, "members/nonmember_edit_form.html", {'nonmember': nonmember, 'form': form})
 
 @login_required
-@group_required("Committee")
+@permission_required("members.delete_clubmember")
 def remove_clubmember(request: HttpRequest, clubmember_id: int) -> HttpResponse:
     clubmember = get_object_or_404(ClubMember, pk=clubmember_id)
     clubmember.delete()
     return HttpResponseRedirect('/members/clubmembers/')
 
 @login_required
-@group_required("Committee")
+@permission_required("members.delete_nonmember")
 def remove_nonmember(request: HttpRequest, nonmember_id: int) -> HttpResponse:
     nonmember = get_object_or_404(NonMember, pk=nonmember_id)
     nonmember.delete()
@@ -212,9 +229,3 @@ def signin(request):
 def signout(request):
     logout(request)
     return HttpResponseRedirect('/')
-
-def operate_group(request):
-    group = group.objects.create(name='Gatekeeper')
-    #content_type =
-    #permissions
-    group.save()
