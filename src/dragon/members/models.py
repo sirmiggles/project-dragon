@@ -13,7 +13,8 @@ class User(Model):
     phoneNumber = CharField(max_length=20, default='')
 
     def __str__(self):
-        return self.id
+        return self.FirstName
+        #return self.id
 
 
 class ClubMember(User):
@@ -35,7 +36,8 @@ class ClubMember(User):
 
 
     def __str__(self):
-        return self.id
+        return self.FirstName
+        #return self.id
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -48,7 +50,7 @@ class NonMember(User):
     incidents = TextField(max_length=400, default='N/A')
 
     def __str__(self):
-        return self.id
+        return self.FirstName
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
