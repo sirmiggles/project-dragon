@@ -1,0 +1,14 @@
+{% extends "dragon/base.html" %}
+
+{% block title %}{{ block.super }} - Add Series{% endblock %}
+
+{% block content %}
+<div class="col-12">
+  <h1>Add Series</h1>
+  <form action="" method="post">
+    {{ form.as_p }}
+    <input type="submit" value="Add Series">
+    {% csrf_token %}
+  </form>
+</div>
+{% endblock %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Book, Game, Card, Tag, Genre
+from .models import Book, Game, Card, Tag, Genre, Series
 
 # These classes produce a standard format to create a form
 # they can be instantiated in `views.py` and added to the
@@ -18,7 +18,8 @@ class BookForm(forms.ModelForm):
             'year',
             'condition',
             'genres',
-            'tags'
+            'tags',
+            'series'
         ]
         labels = {
             'name': 'Name',
@@ -29,7 +30,8 @@ class BookForm(forms.ModelForm):
             'year': 'Year',
             'condition': 'Condition',
             'genres': 'Genres',
-            'tags': 'Tags'
+            'tags': 'Tags',
+            'series': 'Series'
         }
 
 
@@ -47,7 +49,8 @@ class GameForm(forms.ModelForm):
             'difficulty',
             'condition',
             'genres',
-            'tags'
+            'tags',
+            'series'
         ]
         labels = {
             'name': 'Name',
@@ -60,7 +63,8 @@ class GameForm(forms.ModelForm):
             'difficulty': 'Difficulty',
             'condition': 'Condition',
             'genres': 'Genres',
-            'tags': 'Tags'
+            'tags': 'Tags',
+            'series': 'Series'
         }
 
 
@@ -79,7 +83,8 @@ class CardForm(forms.ModelForm):
             'condition',
             'deck_type',
             'genres',
-            'tags'
+            'tags',
+            'series'
         ]
         labels = {
             'name': 'Name',
@@ -93,7 +98,8 @@ class CardForm(forms.ModelForm):
             'condition': 'Condition',
             'deck_type': 'Deck Type',
             'genres': 'Genres',
-            'tags': 'Tags'
+            'tags': 'Tags',
+            'series': 'Series'
         }
 
 
@@ -116,4 +122,15 @@ class GenreForm(forms.ModelForm):
         ]
         labels = {
             'name': 'Genre Name'
+        }
+
+
+class SeriesForm(forms.ModelForm):
+    class Meta:
+        model = Series
+        fields = [
+            'name'
+        ]
+        labels = {
+            'name': 'Series Name'
         }

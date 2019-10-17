@@ -9,21 +9,29 @@
 {% endblock %}
 
 {% block attributes %}
-<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
   <h5 class="cat-header">Condition:</h5>
   <h6 class="cat-value">{{ game.get_condition_display }}</h6>
 </div>
-<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
   <h5 class="cat-header">Players:</h5>
   <h6 class="cat-value">{{ game.minplayers }}-{{ game.maxplayers }} </h6>
 </div>
-<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
-  <h5 class="cat-header">Duration:</h5>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Duration (mins.):</h5>
   <h6 class="cat-value">{{ game.mingamelength }}-{{ game.maxgamelength }}</h6>
 </div>
-<div class="p-0 col-12 col-md-3 text-md-center attr-cell">
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
   <h5 class="cat-header">Difficulty:</h5>
   <h6 class="cat-value">{{ game.get_difficulty_display }}</h6>
+</div>
+<div class="p-0 col-12 col-md-2 text-md-center attr-cell">
+  <h5 class="cat-header">Series:</h5>
+  {% if game.series != null %}
+  <h6 class="cat-value">{{ game.series.name }}</h6>
+  {% else %}
+  <h6 class="cat-value">N/A</h6>
+  {% endif %}
 </div>
 {% endblock %}
 
