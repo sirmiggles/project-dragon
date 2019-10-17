@@ -23,14 +23,19 @@ class ItemList(ListView):
     def get_queryset(self):
         query = self.request.GET.get("search")
         if query is not None:
+            lookup = Q(name__icontains=query) | Q(tags__name__icontains=query) | Q(genres__name__icontains=query)
+            lookup = lookup | Q(series__name__icontains=query)
+
             if self.model == Book:
-                return self.model.objects.filter(Q(name__icontains=query))
+                lookup = lookup | Q(isbn__icontains=query) | Q(edition__icontains=query) | Q(year__icontains=query)
+                return self.model.objects.filter(lookup)
             elif self.model == Game:
-                return self.model.objects.filter(Q(name__icontains=query))
+                return self.model.objects.filter(lookup)
             elif self.model == Card:
-                return self.model.objects.filter(Q(name__icontains=query))
+                lookup = lookup | Q(deck_type__icontains=query)
+                return self.model.objects.filter(lookup)
             else:
-                return self.model.objects.filter(Q(name__icontains=query))
+                return self.model.objects.filter(lookup)
         else:
             return self.model.objects.order_by("name")
 
