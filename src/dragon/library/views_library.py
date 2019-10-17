@@ -22,26 +22,29 @@ class ItemList(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get("search")
+        order = self.request.GET.get("order")
+        result = self.model.objects.all
+        if order is not None:
+            result = self.model.objects.order_by(order)
+        else:
+            result = self.model.objects.order_by("name")
         if query is not None:
             lookup = Q(name__icontains=query) | Q(tags__name__icontains=query) | Q(genres__name__icontains=query)
             lookup = lookup | Q(series__name__icontains=query)
 
             if self.model == Book:
-                lookup = lookup | Q(isbn__icontains=query) | Q(edition__icontains=query) | Q(year__icontains=query)
-                return self.model.objects.filter(lookup)
-            elif self.model == Game:
-                return self.model.objects.filter(lookup)
+                lookup = lookup | Q(isbn__icontains=query) | Q(year__icontains=query)
             elif self.model == Card:
                 lookup = lookup | Q(deck_type__icontains=query)
-                return self.model.objects.filter(lookup)
-            else:
-                return self.model.objects.filter(lookup)
+
+            return result.filter(lookup)
         else:
-            return self.model.objects.order_by("name")
+            return result
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["searchterm"] = self.request.GET.get("search", "")
+        context["order"] = self.request.GET.get("order", "")
         context["tags"] = Tag.objects.all()
         context["genres"] = Genre.objects.all()
         context["series"] = Series.objects.all()

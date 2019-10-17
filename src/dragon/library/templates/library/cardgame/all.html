@@ -3,15 +3,31 @@
 {% block page-title %}Card Games{% endblock %}
 
 {% block search-form %}
-<form class="form-inline my-2 my-lg-2">
-  <input class="form-control mr-sm-2"
-         type="search"
-         placeholder="Search"
-         aria-label="Search"
-         name="search"
-         value={{ searchterm }}>
-  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-</form>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <h6>Search: </h6>
+    <form class="form-inline ml-sm-2 my-2 my-lg-2">
+      <input class="form-control mr-sm-2"
+             type="search"
+             placeholder="Search"
+             aria-label="Search"
+             name="search"
+             value={{ searchterm }}>
+      <h6>Order By: </h6>
+      <select class="form-control ml-sm-2 mr-sm-2" name="order">
+        <option value="name">Name</option>
+        <option value="minplayers">Min. Players</option>
+        <option value="maxplayers">Max. Players</option>
+        <option value="difficulty">Difficulty</option>
+        <option value="deck_type">Deck Type</option>
+        <option value="mingamelength">Min. Duration</option>
+        <option value="maxgamelength">Max. Duration</option>
+      </select>
+      <button class="btn btn-outline-success my-2 my-sm-0 mr-sm-2" type="submit">Submit</button>
+    </form>
+  </div>
+</nav>
 {% endblock %}
 
 {% block lib-name %}Card Games{% endblock %}
