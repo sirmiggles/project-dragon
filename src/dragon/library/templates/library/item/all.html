@@ -3,15 +3,26 @@
 {% block page-title %}Library{% endblock %}
 
 {% block search-form %}
-  <form class="form-inline my-2 my-lg-2">
-    <input class="form-control mr-sm-2"
-           type="search"
-           placeholder="Search"
-           aria-label="Search"
-           name="search"
-           value={{ searchterm }}>
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-  </form>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <h6>Search: </h6>
+    <form class="form-inline ml-sm-2 my-2 my-lg-2">
+      <input class="form-control mr-sm-2"
+             type="search"
+             placeholder="Search"
+             aria-label="Search"
+             name="search"
+             value={{ searchterm }}>
+      <h6>Order By: </h6>
+      <select class="form-control ml-sm-2 mr-sm-2" name="order">
+        <option value="name">Name</option>
+        <option value="type">Type</option>
+      </select>
+      <button class="btn btn-outline-success my-2 my-sm-0 mr-sm-2" type="submit">Submit</button>
+    </form>
+  </div>
+</nav>
 {% endblock %}
 
 {% block lib-name %}All Items{% endblock %}
@@ -24,6 +35,7 @@
   <th class="d-none d-md-table-cell">Description</th>
   <th>Genre</th>
   <th>Tags</th>
+  <th>Series</th>
   <th>Availability</th>
 </tr>
 {% endif %}
@@ -71,6 +83,13 @@
     {% endif %}
   </td>
   <td class="table-cell">
+    {% if item.series.all %}
+      {{ item.series.all|trimlist:32 }}
+    {% else %}
+      -
+    {% endif %}
+  </td>
+  <td class="table-cell">
     {{ item.is_available }}
   </td>
 </tr>
@@ -87,13 +106,20 @@
 {% block tag-list %}
 <h3>List of Tags</h3>
 <table>
-  <tr>
-    <th>Tag Name</th>
-  </tr>
   {% for tag in tags %}
     <tr>
-      <td>
+      <td class="table-cell">
         {{ tag.name }}
+      </td>
+      <td class="table-cell">
+        <a href="{% url 'library:tag_edit_form' tag.id %}">
+          <button type="button" class="btn btn-outline-primary">Edit</button>
+        </a>
+      </td>
+      <td class="table-cell">
+        <a href="{% url 'library:remove_tag' tag.id %}">
+          <button type="button" class="btn btn-outline-danger">Delete</button>
+        </a>
       </td>
     </tr>
   {% endfor %}
@@ -103,13 +129,43 @@
 {% block genre-list %}
 <h3>List of Genres</h3>
 <table>
-  <tr>
-    <th>Genre Name</th>
-  </tr>
   {% for genre in genres %}
     <tr>
-      <td>
+      <td class="table-cell">
         {{ genre.name }}
+      </td>
+      <td class="table-cell">
+        <a href="{% url 'library:genre_edit_form' genre.id %}">
+          <button type="button" class="btn btn-outline-primary">Edit</button>
+        </a>
+      </td>
+      <td class="table-cell">
+        <a href="{% url 'library:remove_genre' genre.id %}">
+          <button type="button" class="btn btn-outline-danger">Delete</button>
+        </a>
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}
+
+{% block series-list %}
+<h3>List of Series</h3>
+<table>
+  {% for series in series %}
+    <tr>
+      <td class="table-cell">
+        {{ series.name }}
+      </td>
+      <td class="table-cell">
+        <a href="{% url 'library:series_edit_form' series.id %}">
+          <button type="button" class="btn btn-outline-primary">Edit</button>
+        </a>
+      </td>
+      <td class="table-cell">
+        <a href="{% url 'library:remove_series' series.id %}">
+          <button type="button" class="btn btn-outline-danger">Delete</button>
+        </a>
       </td>
     </tr>
   {% endfor %}
@@ -126,6 +182,7 @@
       <a class="btn btn-dark" href="{% url 'library:card_form' %}">Card Game</a><br>
       <a class="btn btn-dark" href="{% url 'library:tag_form' %}">Tags</a><br>
       <a class="btn btn-dark" href="{% url 'library:genre_form' %}">Genres</a>
+      <a class="btn btn-dark" href="{% url 'library:series_form' %}">Series</a>
     </div>
   </div>
 {% endif %}

@@ -1,7 +1,7 @@
 import datetime
 
 from django.db import models
-from django.db.models import Model, CharField, TextField, AutoField, IntegerField, ManyToManyField
+from django.db.models import Model, CharField, TextField, AutoField, IntegerField, ManyToManyField, ForeignKey
 from django.shortcuts import get_object_or_404
 
 # These classes are mapped to database entries,
@@ -33,6 +33,13 @@ class Tag(models.Model):
         return self.name
 
 
+class Series(models.Model):
+    name = CharField(max_length=200, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 # todo: semantically it makes sense for the library items to be mostly static data
 # todo: so any fields that are likely to change temporarily (such as being borrowed)
 # todo: should be moved into a separate model that reflects a more dynamic aspect of
@@ -46,6 +53,7 @@ class Item(Model):
     notes = TextField(max_length=1000, blank=True, default='')
     tags = ManyToManyField(Tag, blank=True)
     genres = ManyToManyField(Genre, blank=True)
+    series = ForeignKey(Series, null=True, on_delete=models.CASCADE)
 
     type_choices = ((0, 'Book'), (1, 'Game'), (2, 'Card'))
     type = IntegerField(choices=type_choices)

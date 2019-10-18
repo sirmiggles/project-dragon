@@ -1,10 +1,11 @@
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
-from .forms import BookForm, GameForm, CardForm, TagForm, GenreForm
-from .models import Item, Book, Game, Tag, Card, Borrow
+from .forms import BookForm, GameForm, CardForm, TagForm, GenreForm, SeriesForm
+from .models import Item, Book, Game, Card, Tag, Genre, Series, Borrow
 from .views_library import ItemList
-from django.contrib.auth.decorators import login_required,user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test
+
 
 def has_perm(self, perm, obj=None):
     try:
@@ -15,20 +16,26 @@ def has_perm(self, perm, obj=None):
         return True
     else:
         return False
-    
+
+
 def permission_required(*perms):
     return user_passes_test(lambda u: any(u.has_perm(perm) for perm in perms), login_url='/')
-#group restriction filter(not using)
+
+
+# group restriction filter(not using)
+
 
 def group_required(*group_names):
-   """Requires user membership in at least one of the groups passed in."""
+    """Requires user membership in at least one of the groups passed in."""
 
-   def in_groups(user):
-       if user.is_authenticated:
-           if bool(user.groups.filter(name__in=group_names)) | user.is_superuser:
-               return True
-       return False
-   return user_passes_test(in_groups)
+    def in_groups(user):
+        if user.is_authenticated:
+            if bool(user.groups.filter(name__in=group_names)) | user.is_superuser:
+                return True
+        return False
+
+    return user_passes_test(in_groups)
+
 
 all_view = ItemList.as_view(
     model=Item, context_object_name="items", template_name="library/item/all.html")
@@ -115,6 +122,15 @@ def genre_form(request):
     return render(request, 'library/genre/create_form.html', {'form': form})
 
 
+def series_form(request):
+    form = SeriesForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect('/library/ALL/')
+
+    return render(request, 'library/series/create_form.html', {'form': form})
+
+
 # Added rendering for book editing, referring to the book id
 @login_required(login_url='/')
 @permission_required("library.change_book")
@@ -168,12 +184,68 @@ def card_edit_form(request: HttpRequest, card_id: int) -> HttpResponse:
 
     return render(request, "library/cardgame/edit_form.html", {'card': card, 'form': form})
 
+
+# Added rendering for tag editing, referring to the tag id
+@login_required
+@permission_required("library.change_tag")
+def tag_edit_form(request: HttpRequest, tag_id: int) -> HttpResponse:
+    tag = get_object_or_404(Tag, pk=tag_id)
+    if request.method == 'POST':
+        form = TagForm(request.POST, instance=tag)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            form.save_m2m()
+            return HttpResponseRedirect('/library/ALL/')
+    else:
+        form = TagForm(instance=tag)
+
+    return render(request, "library/tag/edit_form.html", {'tag': tag, 'form': form})
+
+
+# Added rendering for genre editing, referring to the genre id
+@login_required
+@permission_required("library.change_genre")
+def genre_edit_form(request: HttpRequest, genre_id: int) -> HttpResponse:
+    genre = get_object_or_404(Genre, pk=genre_id)
+    if request.method == 'POST':
+        form = GenreForm(request.POST, instance=genre)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            form.save_m2m()
+            return HttpResponseRedirect('/library/ALL/')
+    else:
+        form = GenreForm(instance=genre)
+
+    return render(request, "library/genre/edit_form.html", {'genre': genre, 'form': form})
+
+
+# Added rendering for series editing, referring to the series id
+@login_required
+@permission_required("library.change_series")
+def series_edit_form(request: HttpRequest, series_id: int) -> HttpResponse:
+    series = get_object_or_404(Series, pk=series_id)
+    if request.method == 'POST':
+        form = SeriesForm(request.POST, instance=series)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            form.save_m2m()
+            return HttpResponseRedirect('/library/ALL/')
+    else:
+        form = SeriesForm(instance=series)
+
+    return render(request, "library/series/edit_form.html", {'series': series, 'form': form})
+
+
 @login_required
 @permission_required("library.delete_book")
 def remove_book(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
     book.delete()
     return HttpResponseRedirect('/library/books')
+
 
 @login_required
 @permission_required("library.delete_game")
@@ -182,6 +254,7 @@ def remove_game(request: HttpRequest, game_id: int) -> HttpResponse:
     game.delete()
     return HttpResponseRedirect('/library/games')
 
+
 @login_required
 @permission_required("library.delete_card")
 def remove_card(request: HttpRequest, card_id: int) -> HttpResponse:
@@ -189,12 +262,38 @@ def remove_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card.delete()
     return HttpResponseRedirect('/library/cardgames')
 
+
+@login_required
+@permission_required("library.delete_tag")
+def remove_tag(request: HttpRequest, tag_id: int) -> HttpResponse:
+    tag = get_object_or_404(Tag, pk=tag_id)
+    tag.delete()
+    return HttpResponseRedirect('/library/ALL')
+
+
+@login_required
+@permission_required("library.delete_genre")
+def remove_genre(request: HttpRequest, genre_id: int) -> HttpResponse:
+    genre = get_object_or_404(Genre, pk=genre_id)
+    genre.delete()
+    return HttpResponseRedirect('/library/ALL')
+
+
+@login_required
+@permission_required("library.delete_series")
+def remove_series(request: HttpRequest, series_id: int) -> HttpResponse:
+    series = get_object_or_404(Series, pk=series_id)
+    series.delete()
+    return HttpResponseRedirect('/library/ALL')
+
+
 # Borrowing-related views
 @permission_required("library.add_borrow")
 def borrow_card(request: HttpRequest, card_id: int) -> HttpResponse:
     card = get_object_or_404(Card, pk=card_id)
     card.borrow_item()
     return HttpResponseRedirect('/library/cardgames')
+
 
 @permission_required("library.add_borrow")
 def borrowed(request: HttpRequest):
