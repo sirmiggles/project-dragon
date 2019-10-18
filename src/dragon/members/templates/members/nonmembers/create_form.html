@@ -3,10 +3,16 @@
 {% block title %}{{ block.super }} - Add Non-Member{% endblock %}
 
 {% block content %}
-<h1>Add Non-Member</h1>
-<form action="" method="post">
-  {{ form.as_p }}
-  <input type="submit" value="Add Non-Member">
-  {% csrf_token %}
-</form>
+        <div class="mx-auto">
+            <div class="card">
+                <div class="card-body bg-light">
+                <h1>Add Non-Member</h1>
+                <form action="" method="post">
+                  {{ form.as_p }}
+                  <input type="submit" value="Add Non-Member">
+                  {% csrf_token %}
+                </form>
+              </div>
+           </div>
+        </div>
 {% endblock %}
