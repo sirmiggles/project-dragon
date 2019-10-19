@@ -9,11 +9,12 @@ class User(Model):
     id = AutoField(primary_key=True)
     FirstName = CharField(max_length=50)
     surname = CharField(max_length=50)
-    email = EmailField(default='')
-    phoneNumber = CharField(max_length=20, default='')
+    email = EmailField(default='',unique=True)
+    phoneNumber = CharField(max_length=20, default='',unique=True)
 
     def __str__(self):
-        return self.id
+        return self.FirstName
+        #return self.id
 
 
 class ClubMember(User):
@@ -22,7 +23,7 @@ class ClubMember(User):
     preferredPronoun = CharField(max_length=20, default='')
     guildMember = BooleanField(default=True)
     isStudent = BooleanField(default=True)
-    universityID = CharField(max_length=8, default='')
+    universityID = CharField(max_length=8, default='',unique=True)
     joinDate = DateField(default=django.utils.timezone.now)
     incidents = TextField(max_length=400, default='N/A')
     
@@ -35,7 +36,8 @@ class ClubMember(User):
 
 
     def __str__(self):
-        return self.id
+        return self.FirstName
+        #return self.id
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -48,7 +50,7 @@ class NonMember(User):
     incidents = TextField(max_length=400, default='N/A')
 
     def __str__(self):
-        return self.id
+        return self.FirstName
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

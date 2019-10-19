@@ -11,7 +11,7 @@ admin.site.register(NonMember)
 #limit non-superusers permission
 class UserAdmin(BaseUserAdmin):
         list_display = ('username', 'email', 'is_staff')
-        list_filter = ('is_staff',)
+        list_filter = ('is_staff','groups')
         #this displays after initial user creation for additional information
         fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),

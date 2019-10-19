@@ -88,6 +88,7 @@ def nonmember_form(request):
         nonmember.save()
         form.save_m2m()
         return HttpResponseRedirect('/members/nonmembers/')
+    return render(request, "members/nonmembers/create_form.html", {'form': form})
 
 @login_required
 @permission_required("members.add_clubmember")
