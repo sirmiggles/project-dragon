@@ -3,33 +3,42 @@
 {% block title %}{{ block.super }} - Club Member: {{ clubmember.firstName }}{% endblock %}
 
 {% block content %}
-<h3>Name</h3>
-<p>First Name: {{ clubmember.firstName }}<br>
-    Surname: {{ clubmember.surname }}<br>
-</p>
-<h3>Personal Details</h3>
-<p>
-  Preferred Name: {{ clubmember.preferredName }}<br>
-  Preferred Pronoun: {{ clubmember.preferredPronoun }}<br>
-  Guild Membership: {{ clubmember.guildMember }}<br>
-  Is Student: {{ clubmember.isStudent }}<br>
-  University ID: {{ clubmember.universityID }}<br>
-  Member Rank: {{ clubmember.get_clubRank_display }}<br>
-</p>
-<h3>Contact Details</h3>
-<p>
-  Email: {{ clubmember.email }}<br>
-  Phone Number: {{ clubmember.phoneNumber }}<br>
-<h3>Additional Info</h3>
-<p>
-  Join Date: {{ clubmember.joinDate }}<br>
-  Incidents: {{ clubmember.incidents }}<br>
-</p>
+  <div class="container">
+    <div class="row">
+        <div class="col-sm-10 col-md-15 col-lg-10 mx-auto">
+            <div class="card card-signin my-5  text-center">
+                <div class="card-body bg-light">
+                    <h3>Name</h3>
+                    <p>First Name: {{ clubmember.firstName }}<br>
+                        Surname: {{ clubmember.surname }}<br>
+                    </p>
+                    <h3>Personal Details</h3>
+                    <p>
+                      Preferred Name: {{ clubmember.preferredName }}<br>
+                      Preferred Pronoun: {{ clubmember.preferredPronoun }}<br>
+                      Guild Membership: {{ clubmember.guildMember }}<br>
+                      Is Student: {{ clubmember.isStudent }}<br>
+                      University ID: {{ clubmember.universityID }}<br>
+                      Member Rank: {{ clubmember.get_clubRank_display }}<br>
+                    </p>
+                    <h3>Contact Details</h3>
+                    <p>
+                      Email: {{ clubmember.email }}<br>
+                      Phone Number: {{ clubmember.phoneNumber }}<br>
+                    <h3>Additional Info</h3>
+                    <p>
+                      Join Date: {{ clubmember.joinDate }}<br>
+                      Incidents: {{ clubmember.incidents }}<br>
+                    </p>
+                    <h3>Delete</h3>
+                    <form action="{% url 'members:remove_clubmember' clubmember.id %}" method="post">
+                      <input type="submit" value="Delete Club Member" class="btn btn-primary">
+                      {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+        </div>
+      </div>
+</div>
 
-</p>
-<h3>Delete</h3>
-<form action="{% url 'members:remove_clubmember' clubmember.id %}" method="post">
-  <input type="submit" value="Delete Club Member">
-  {% csrf_token %}
-</form>
 {% endblock %}
