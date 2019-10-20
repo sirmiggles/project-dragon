@@ -6,7 +6,7 @@
 
 Use of this program and repository falls under the [**GNU General Public License v3.0**](https://github.com/sirmiggles/project-dragon/blob/master/LICENSE)
 
-## Install Instructions
+## Installation
 
 1. Clone this repository with `git clone`
 2. From the root directory, run the following commands:
@@ -24,7 +24,7 @@ Once it is installed run the command
     make execute
 ```
 
-## The code structure
+## The Code Structure
 
 The website was written using Django, a high-level Python web framework. Thus, the code structure follows the general
 structure of a Django project. The code is partitioned into 3 major sections, called `apps`. Each app covers different
@@ -81,7 +81,7 @@ https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/
 This app is mainly focused around rendering all pages related to the library and interacting with the item database.
 The display of item tables and searching, filtering and ordering of items is implemented here. Futhermore, each item
 has their own description page which lists relevant information. All interations with the item database are defined in
-this app.
+this app. Viewing of items is allowed for any user, however editing and adding is limited to committee members.
 
 The `library\templates` folder contains another subfolder, `library\templates\library`. In here, we find 7 further
 subfolders, named `book`, `cardgame`, `game`, `item`, `series` and `tags`. As their name suggests, each folder
@@ -117,7 +117,7 @@ in order to conditionally display certain information or even truncate any displ
 certain size requirement. For more information about template filters, see
 https://docs.djangoproject.com/en/2.2/howto/custom-template-tags/
 
-The library app also contains many python source code files.
+The library app also contains many python source code files:
 
 `admin.py` lets you register models, in order for them to be visible and editable in Django Admin.
 
@@ -146,6 +146,26 @@ https://docs.djangoproject.com/en/2.2/topics/http/views/
 `views_library.py` further refines the item table views in `views.py`. Here, we add constraints to the returned
 querysets, in order to allow for searching, filtering and ordering in the table view.
 
+### 3. Members
+This app is mainly focused around rendering all pages related to users and interacting with the item database.
+The display of members tables and filtering of members is implemented here. Futhermore, each member has their own
+description page which lists relevant information. All interactions with the member database are defined in
+this app. All functionality of the members app is limited to gate keepers and committee members, in order to respect
+the privacy of members.
+
+The `members\templates` folder contains a subfolder `members\templates\members`. This subfolder contains 2 further
+folders, `clubmembers` and `nonmembers`. These 2 folders contain similar html templates to the ones listed in
+the library section and can be treated in the same way.
+
+However, the `members\templates` folder also contains the `signin.html` template, which renders the login page for
+gate keepers and committee members (as well as the super user, which can be defined when setting up the server).
+
+All further files, i.e. `admin.py`, `apps.py`, `forms.py`, `models.py`, `urls.py` and `views.py` are analogous to
+their respective counterparts in the library app.
+
+However, `models.py` contains 3 models: `User`, `ClubMember` and `NonMember`, where the latter two inherit fields from
+the `User` model. The views in `views.py`, naturally, are centered around displaying (non)member tables or detail pages
+and adding/updating/removing (non)members.
 
 
 
