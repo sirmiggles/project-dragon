@@ -61,21 +61,54 @@ all HTML templates that are rendered when accessing the pages with the same name
 files which currently have a static render.
 
 `dragon\settings.py` contains configuration variables for the Django Project and is used to declare apps, the type of
-database to be used, as well as various other settings. For more detail,
-see https://docs.djangoproject.com/en/2.2/topics/settings/
+database to be used, as well as various other settings. For more detail, see
+https://docs.djangoproject.com/en/2.2/topics/settings/
 
 `dragon\urls.py` contains a list called `urlpatterns`, which routes URLs to views. For any view declared in `views.py`,
 an entry must be made in `urlpatterns` in order to access the view, which in turn renders a page or handles a request.
-For more information, see: https://docs.djangoproject.com/en/2.2/topics/http/urls/
+For more information, see
+https://docs.djangoproject.com/en/2.2/topics/http/urls/
 
-'dragon\wsgi.py' is the WSGI configuration file for the project. This file should not be of too much concern when making
-changes to the code, but for more information, see https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/
+`dragon\wsgi.py` is the WSGI configuration file for the project. This file should not be of too much concern when making
+changes to the code, but for more information, see
+https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/
 
-### 2. library
+### 2. Library
 This app is mainly focused around rendering all pages related to the library and interacting with the item database.
 The display of item tables and searching, filtering and ordering of items is implemented here. Futhermore, each item
 has their own description page which lists relevant information. All interations with the item database are defined in
-this app. 
+this app.
+
+The `library\templates` folder contains another subfolder, `library\templates\library'. In here, we find 7 further
+subfolders, named `book`, `cardgame`, `game`, `item`, `series` and `tags`. As their name suggests, each folder
+contains html templates which are specific for a given item or object in the database:
+
+```
+    1. `book`, `cardgame` and `game` all contain 4 similar (yet slightly different) templates:
+        - `all.html` is the template which renders the table of the given medium type
+        - `detail.html` is the template which renders the specific detail page of a given item
+        - `create_form.html` is the template which displays a form to add an item to the database
+        - `edit_form.html` renders a form to edit the details of a specific item
+
+    2. `tag`, `series` and `genre` all contain `create_form.html` and `edit_form.html`, similar to above
+
+    3. `item` also contains `all.html`, `details.html`, but also contains `libview_base.html`, which defines the
+    generic layout and design of all book, game, card game or item tables.
+```
+
+Furthermore, `library\templates\library' also contains 3 further templates:
+
+```
+    1. `base.html`: This template is currently empty, but make in future contain a navbar to easily switch between
+    tables.
+
+    2. `borrow_detail.html`: This template is destined to show the details of a certain item borrow.
+
+    3. `borrowed.html`: This template is currently not in use, but is destined to display a list of all active borrows.
+
+```
+
+
 
 
 
