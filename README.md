@@ -36,12 +36,13 @@ These are:
     3. members
 ```
 
-## 1. Dragon
+### 1. Dragon
 This app provides the `homepage` and several other pages such as `FAQ` or `Committee`. Furthermore,
 the base CSS styling for the entire website is defined here, including the background colour, navbar design and font
 of the navbar. We will now go into more detail:
 
-The `static` folder contains a subfolder  which is also named `dragon`. In here we have the following files:
+The `dragon\static` folder contains a subfolder  which is named `dragon\static\dragon`. In here we have the following
+files:
 ```
     1. base_sytle.css: This file defines the base styling properties such as background colour, font, layout and design
     of the navbar and much more. Any changes to the overall look of the website should be made here and will update the
@@ -55,16 +56,27 @@ The `static` folder contains a subfolder  which is also named `dragon`. In here 
 
 ```
 
-The `templates` folder contains another subfolder, which is also called `dragon`. In here we have all HTML templates
-that are rendered when accessing the pages with the same name/URL. All files in here are simple HTML files which
-currently have a static render.
+The `dragon\templates` folder contains another subfolder, which is called `dragon\templates\dragon`. In here we have
+all HTML templates that are rendered when accessing the pages with the same name/URL. All files in here are simple HTML
+files which currently have a static render.
 
-`settings.py` contains configuration variables for the Django Project and is used to declare apps, the type of
+`dragon\settings.py` contains configuration variables for the Django Project and is used to declare apps, the type of
 database to be used, as well as various other settings. For more detail,
 see https://docs.djangoproject.com/en/2.2/topics/settings/
 
-`urls.py` contains a list called `urlpatterns`, which routes URLs to views. For any view declared in `views.py`, an
-entry must be made in `urlpatterns` in order to access the view, which in turn renders a page or handles a request.
+`dragon\urls.py` contains a list called `urlpatterns`, which routes URLs to views. For any view declared in `views.py`,
+an entry must be made in `urlpatterns` in order to access the view, which in turn renders a page or handles a request.
+For more information, see: https://docs.djangoproject.com/en/2.2/topics/http/urls/
+
+'dragon\wsgi.py' is the WSGI configuration file for the project. This file should not be of too much concern when making
+changes to the code, but for more information, see https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/
+
+### 2. library
+This app is mainly focused around rendering all pages related to the library and interacting with the item database.
+The display of item tables and searching, filtering and ordering of items is implemented here. Futhermore, each item
+has their own description page which lists relevant information. All interations with the item database are defined in
+this app. 
+
 
 
 
