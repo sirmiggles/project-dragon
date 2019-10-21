@@ -4,10 +4,9 @@
 	AUTHOR:			TABADERO, MIGUEL ARIES SAMBAT (22240204)
 	(C):			2019
 	DATE CREATED:	20/8/2019
-	LAST MODIFIED:	22/8/2019
+	LAST MODIFIED:	20/10/2019
 	==========================================================
-	**!!	 WARNING	!!**
-	**	SQL Script must be run using SQLCMD mode in SSMS	**
+
 */
 
 #	:setvar DBName "unigames_schema"
@@ -18,6 +17,9 @@
 	==========================================================
 */
 
+
+#   This set of queries simply generates a new database and drops all old tables. WARNING: If custom data was added
+#   to the database, DO NOT RUN ANY DROP OR CREATE COMMANDS.
 CREATE DATABASE IF NOT EXISTS unigames;
 USE unigames;
 DROP TABLE IF EXISTS
@@ -26,127 +28,127 @@ DROP TABLE IF EXISTS
     ItemType, NonMember, ClubMember, ClubRank, Collection, Users
 ;
 
-#	Table for the Items	#
+#	Table Items. It generalizes all media types and groups all common attributes of library items together.
 CREATE TABLE Item
 (
-    ItemID          INT PRIMARY KEY NOT NULL AUTO_INCREMENT,            # 	PK for Items
-    ItemTitle       VARCHAR(256)    NOT NULL,                           #	Name/Title of the Item
-    ItemType        INT             NOT NULL,                           # 	FK from ItemType Table - Describes if it is a book, boardgame, etc.	(Mainly used for IF, Procedure)
-    ItemDescription VARCHAR(1024)            DEFAULT 'N/A',             #	General description of the Item
-    ItemCondition   ENUM ('EXCELLENT','VERY GOOD','GOOD','FAIR','BAD'), #	Item's condition
-    Available       BOOL            NOT NULL DEFAULT TRUE,              #	Boolean for availability of the item
-    Collection      INT                      DEFAULT NULL,              #	FK from Collection Table - Describes which collection the item belongs to
-    Notes           VARCHAR(1024)            DEFAULT 'N/A'              #	Item notes, e.g. is the item missing pieces?
+    ItemID          INT PRIMARY KEY NOT NULL AUTO_INCREMENT,            # PK for Items
+    ItemTitle       VARCHAR(256)    NOT NULL,                           # Name/Title of the Item
+    ItemType        INT             NOT NULL,                           # FK from ItemType Table - Describes if it is a book, boardgame, etc.	(Mainly used for IF, Procedure)
+    ItemDescription VARCHAR(1024)            DEFAULT 'N/A',             # General description of the Item
+    ItemCondition   ENUM ('EXCELLENT','VERY GOOD','GOOD','FAIR','BAD'), # Item's condition
+    Available       BOOL            NOT NULL DEFAULT TRUE,              # Boolean for availability of the item
+    Collection      INT                      DEFAULT NULL,              # FK from Collection Table - Describes which collection the item belongs to
+    Notes           VARCHAR(1024)            DEFAULT 'N/A'              # Item notes, e.g. is the item missing pieces?
 );
 
-#	Reference Table for Games (MAIN STORAGE OF GAME INFORMATION)
+#	Reference Table for Games (MAIN STORAGE OF GAME INFORMATION).
 CREATE TABLE Game
 (
-    GameID        INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK for Game SubType Table
-    GameItemID    INT UNIQUE      NOT NULL,                #	FK from Item Table
-    MinPlayers    INT DEFAULT 2,                           #	Minimum number of players to be able to play a proper game
-    MaxPlayers    INT DEFAULT 4,                           #	Maximum number of players to be able to play a proper game
-    MinGameLength VARCHAR(16),                             #	Minimum length of the game
-    MaxGameLength VARCHAR(16)                              #	Maximum length of the game
+    GameID        INT PRIMARY KEY NOT NULL AUTO_INCREMENT, # PK for Game SubType Table
+    GameItemID    INT UNIQUE      NOT NULL,                # FK from Item Table
+    MinPlayers    INT DEFAULT 2,                           # Minimum number of players to be able to play a proper game
+    MaxPlayers    INT DEFAULT 4,                           # Maximum number of players to be able to play a proper game
+    MinGameLength VARCHAR(16),                             # Minimum length of the game
+    MaxGameLength VARCHAR(16)                              # Maximum length of the game
 );
 
-#	Reference Table for Books (MAIN STORAGE OF BOOK INFORMATION)
+#	Reference Table for Books (MAIN STORAGE OF BOOK INFORMATION).
 CREATE TABLE Book
 (
-    BookID     INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK for Book SubType Table
-    BookItemID INT UNIQUE      NOT NULL,                #	FK from Item Table
-    ISBN       VARCHAR(16) DEFAULT NULL                 #	ISBN of the book
+    BookID     INT PRIMARY KEY NOT NULL AUTO_INCREMENT, # PK for Book SubType Table
+    BookItemID INT UNIQUE      NOT NULL,                # FK from Item Table
+    ISBN       VARCHAR(16) DEFAULT NULL                 # ISBN of the book
 );
 
-#	Reference Table for Card Games (MAIN STORAGE OF CARD GAME INFORMATION)
+#	Reference Table for Card Games (MAIN STORAGE OF CARD GAME INFORMATION).
 CREATE TABLE CardGame
 (
-    CardGameID     INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK for the CardGame Table
-    CardGameItemID INT UNIQUE      NOT NULL,                #	FK from the Item Table
-    MinPlayers     INT DEFAULT 2,                           #	Minimum number of players to be able to play a proper game
-    MaxPlayers     INT DEFAULT 4                            #	Maximum number of players to be able to play a proper game
+    CardGameID     INT PRIMARY KEY NOT NULL AUTO_INCREMENT, # PK for the CardGame Table
+    CardGameItemID INT UNIQUE      NOT NULL,                # FK from the Item Table
+    MinPlayers     INT DEFAULT 2,                           # Minimum number of players to be able to play a proper game
+    MaxPlayers     INT DEFAULT 4                            # Maximum number of players to be able to play a proper game
 );
 
-#	Reference Table for Card Games (MAIN STORAGE OF CARD GAME INFORMATION)
+#	Reference Table for Miscellaneous Items (MAIN STORAGE OF MISCELLANEOUS INFORMATION).
 CREATE TABLE Miscellaneous
 (
-    MiscID     INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK for the Miscellaneous Table
-    MiscItemID INT UNIQUE      NOT NULL                 #	FK from the Item Table
+    MiscID     INT PRIMARY KEY NOT NULL AUTO_INCREMENT, # PK for the Miscellaneous Table
+    MiscItemID INT UNIQUE      NOT NULL                 # FK from the Item Table
 );
 
-#	Reference Table for the Collection an Item belongs to
+#	Reference Table for the Collection an Item belongs to.
 CREATE TABLE Collection
 (
-    CollectionID   INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK for Collection Table
-    CollectionName VARCHAR(32)     NOT NULL                 #	Name of the collection
+    CollectionID   INT PRIMARY KEY NOT NULL AUTO_INCREMENT, # PK for Collection Table
+    CollectionName VARCHAR(32)     NOT NULL                 # Name of the collection
 );
 
-#	Reference Table for Categories (Board Game, Book, etc)	#
+#	Reference Table for Categories (Board Game, Book, etc).
 CREATE TABLE ItemType
 (
     TypeID   INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK of the ItemType Table
     TypeName VARCHAR(255)    NOT NULL                 #	Name of the category (should be updated w.r.t. SubTypes of the Item Table)
 );
 
-#	Table containing Genres (Family, RPG, TCG, etc.)
+#	Table containing Genres (Family, RPG, TCG, etc).
 CREATE TABLE Genre
 (
-    GenreID   INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK of the Genre Table
-    GenreName VARCHAR(255)    NOT NULL                 #	Name of the genre
+    GenreID   INT PRIMARY KEY NOT NULL AUTO_INCREMENT, # PK of the Genre Table
+    GenreName VARCHAR(255)    NOT NULL                 # Name of the genre
 );
 
-#	Link Table between Genres and Items
+#	Link Table between Genres and Items.
 CREATE TABLE ItemGenre
 (
     GenreID INT NOT NULL, #	FK from the Genre Table
     ItemID  INT NOT NULL  #	FK from the Item Table
 );
 
-#	Table containing names of various (game) mechanics of an Item
+#	Table containing names of various (game) mechanics of an Item.
 CREATE TABLE Mechanic
 (
-    MechanicID          INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK for the Mechanics Table
-    MechanicName        VARCHAR(255)    NOT NULL,                #	Name of the Mechanic
-    MechanicDescription VARCHAR(1024)   NOT NULL                 #	Brief description of what the mechanic entails
+    MechanicID          INT PRIMARY KEY NOT NULL AUTO_INCREMENT, # PK for the Mechanics Table
+    MechanicName        VARCHAR(255)    NOT NULL,                # Name of the Mechanic
+    MechanicDescription VARCHAR(1024)   NOT NULL                 # Brief description of what the mechanic entails
 );
 
-#	Link Table between Item and Mechanic
+#	Link Table between Item and Mechanic.
 CREATE TABLE ItemMechanic
 (
     ItemID     INT NOT NULL, #	FK from the Item Table
     MechanicID INT NOT NULL  #	FK from the Mechanic Table
 );
 
-#	Table containing information about Equipment
+#	Table containing information about Equipment.
 CREATE TABLE Equipment
 (
-    EquipmentID   INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK of the Equipment Table
-    EquipmentName VARCHAR(255)    NOT NULL,                #	Name of the Equipment Item
-    Notes         VARCHAR(1024) DEFAULT 'N/A'              #	Extra Notes on the Equipment
+    EquipmentID   INT PRIMARY KEY NOT NULL AUTO_INCREMENT, # PK of the Equipment Table
+    EquipmentName VARCHAR(255)    NOT NULL,                # Name of the Equipment Item
+    Notes         VARCHAR(1024) DEFAULT 'N/A'              # Extra Notes on the Equipment
 );
 
-#	Link Table between Equipment and Item
+#	Link Table between Equipment and Item.
 CREATE TABLE ItemEquipment
 (
     ItemID      INT NOT NULL, #	FK from the Item Table
     EquipmentID INT NOT NULL  #	FK from the Equipment Table
 );
 
-#	Table containing member data (raw - no logins yet)
+#	Table containing all data points relevant to all club members of Unigames.
 CREATE TABLE ClubMember
 (
     MemberID         INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK of the ClubMember Table
     FirstName        VARCHAR(255)    NOT NULL,                #	First Name of the member
     Surname          VARCHAR(255)    NOT NULL,                #	Surname of the member
-    PreferredName    VARCHAR(255),                            #   Preferred name - to be updated by a trigger to equal FirstName if NULL
+    PreferredName    VARCHAR(255),                            # Preferred name - to be updated by a trigger to equal FirstName if NULL
     PreferredPronoun VARCHAR(8)   DEFAULT 'N/A',              #	Preferred pronoun of member
     MemberRank       INT             NOT NULL,                #	FK from ClubRank Table - Member permissions and status
     GuildMember      BOOLEAN      DEFAULT FALSE,              #	Guild Membership (also for non-students!)
     UniversityID     VARCHAR(8)   DEFAULT NULL,               #	UWA Student or Staff ID
-    JoinDate         DATETIME     DEFAULT NOW(),              #   Datetime when member is added to the Table
-    Email            BLOB(512)       NOT NULL,                #   Email address is mandatory (can be changed)
-    PhoneNumber      BLOB(512)       NOT NULL,                # 	Phone Number of the member
-    Incidents        VARCHAR(255) DEFAULT 'N/A',              #   Comments about previous bad behaviour
+    JoinDate         DATETIME     DEFAULT NOW(),              # Datetime when member is added to the Table
+    Email            BLOB(512)       NOT NULL,                # Email address is mandatory (can be changed)
+    PhoneNumber      BLOB(512)       NOT NULL,                # Phone Number of the member
+    Incidents        VARCHAR(255) DEFAULT 'N/A',              # Comments about previous bad behaviour
     UserID           INT             NOT NULL                 #	FK from Users Table
 );
 
@@ -156,80 +158,80 @@ CREATE TABLE NonMember
     FirstName        VARCHAR(255)    NOT NULL,                #	First Name
     Surname          VARCHAR(255)    NOT NULL,                #	Surname
     OrganizationName VARCHAR(255) DEFAULT NULL,               #	Name of the club or Organization
-    Email            BLOB(512)       NOT NULL,                #   Email address of the non-member or organization
-    PhoneNumber      BLOB(512)       NOT NULL,                # 	Phone Number of the non-member or organization
+    Email            BLOB(512)       NOT NULL,                # Email address of the non-member or organization
+    PhoneNumber      BLOB(512)       NOT NULL,                # Phone Number of the non-member or organization
     UserID           INT             NOT NULL                 #	FK from Users Table
 );
 
-#	Table which generalizes a user and represents both members and non-members/organizations
+#	Table which generalizes a user and represents both members and non-members/organizations.
 CREATE TABLE Users
 (
-    UserID INT PRIMARY KEY NOT NULL AUTO_INCREMENT #	PK of the Users Table
+    UserID INT PRIMARY KEY NOT NULL AUTO_INCREMENT # PK of the Users Table
 );
 
-#	Table which contains various possible member interests
+#	Table which contains various possible member interests.
 CREATE TABLE Interest
 (
     InterestID   INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK for Interest Table
     InterestName VARCHAR(32)                              #	Name of the interest ('Card Games', 'RPGs', etc.)
 );
 
-#	Link Table to Member Interests
+#	Link Table to Member Interests.
 CREATE TABLE MemberInterest
 (
-    MemberID   INT NOT NULL, #	FK from the ClubMember Table
-    InterestID INT NOT NULL  # 	FK from the Interest Table
+    MemberID   INT NOT NULL, # FK from the ClubMember Table
+    InterestID INT NOT NULL  # FK from the Interest Table
 );
 
-#	Reference Table for Membership Status and Permissions	
+#	Reference Table for Membership Status and Permissions.
 CREATE TABLE ClubRank
 (
     RankID   INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK for the ClubRank Table
     RankName VARCHAR(32)     NOT NULL                 #	Name of membership rank ('Ordinary Member', 'Gatekeeper', etc.)
 );
 
-#	Transaction Table for Borrowings (Main Library Table)
+#	Transaction Table for Borrowings. Transactions cover a set of items that were borrowed simultaneously.
 CREATE TABLE Transactions
 (
-    TransactionID     INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK for the Transactions Table
-    BorrowerID        INT             NOT NULL,                #	FK from Users Table - Which member borrowed it?
-    ApproverID        INT             NOT NULL,                #	FK from Users Table - Which member approved the transaction?
-    DateBorrowed      DATETIME        NOT NULL,                #	Date which the item was borrowed
-    DueDate           DATETIME        NOT NULL,                #	Date when the item is due to be returned
-    ReturnConfirmerID INT      DEFAULT NULL,                   #	FK from Users Table - Which member confirmed the item return? (default NULL, as it may have not been returned)
-    DateReturned      DATETIME DEFAULT NULL                    #	Date which item was returned (default NULL, as it may have not been returned)
+    TransactionID     INT PRIMARY KEY NOT NULL AUTO_INCREMENT, # PK for the Transactions Table
+    BorrowerID        INT             NOT NULL,                # FK from Users Table - Which member borrowed it?
+    ApproverID        INT             NOT NULL,                # FK from Users Table - Which member approved the transaction?
+    DateBorrowed      DATETIME        NOT NULL,                # Date which the item was borrowed
+    DueDate           DATETIME        NOT NULL,                # Date when the item is due to be returned
+    ReturnConfirmerID INT      DEFAULT NULL,                   # FK from Users Table - Which member confirmed the item return? (default NULL, as it may have not been returned)
+    DateReturned      DATETIME DEFAULT NULL                    # Date which item was returned (default NULL, as it may have not been returned)
 );
 
-#	Table for Tracking Item Borrowings
+#	Table for tracking borrowing of a single item in a transaction.
 CREATE TABLE Loan
 (
-    LoanID            INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK for the Loan Table
-    LoanTransactionID INT             NOT NULL,                #	FK from Transaction Table - ID of the transaction that the Item was borrowed in
-    LoanItemID        INT             NOT NULL                 #	FK from Item Table - ID of the Item that was borrowed
+    LoanID            INT PRIMARY KEY NOT NULL AUTO_INCREMENT, # PK for the Loan Table
+    LoanTransactionID INT             NOT NULL,                # FK from Transaction Table - ID of the transaction that the Item was borrowed in
+    LoanItemID        INT             NOT NULL                 # FK from Item Table - ID of the Item that was borrowed
 );
 
-#	Table for Tracking Item Reservations
+#	Table for tracking Item Reservations.
 CREATE TABLE Reservations
 (
-    ReservationID INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK for the Reservations Table
-    UserID        INT             NOT NULL,                #	FK from Users Table - ID of user who wants to reserve an item
-    ItemID        INT             NOT NULL UNIQUE,         #	FK from Items Table - ID of item to be borrowed
-    StartDate     DATETIME        NOT NULL,                #	Earliest date where item shall no longer be borrowed to another user
-    ExpiryDate    DATETIME        NOT NULL                 #	Latest date until reservation expires
+    ReservationID INT PRIMARY KEY NOT NULL AUTO_INCREMENT, # PK for the Reservations Table
+    UserID        INT             NOT NULL,                # FK from Users Table - ID of user who wants to reserve an item
+    ItemID        INT             NOT NULL UNIQUE,         # FK from Items Table - ID of item to be borrowed
+    StartDate     DATETIME        NOT NULL,                # Earliest date where item shall no longer be borrowed to another user
+    ExpiryDate    DATETIME        NOT NULL                 # Latest date until reservation expires
 );
 
-#	Reference Table for the Tags
+#	Reference Table for the Tags.
 CREATE TABLE Tag
 (
-    TagID   INT PRIMARY KEY NOT NULL AUTO_INCREMENT, #	PK for the Tag Table - Tag Identifier
-    TagName VARCHAR(32)     NOT NULL                 #	Tag name/descriptor for the tag
+    TagID   INT PRIMARY KEY NOT NULL AUTO_INCREMENT, # PK for the Tag Table - Tag Identifier
+    TagName VARCHAR(32)     NOT NULL                 # Tag name/descriptor for the tag
 );
 
-#	Link Table for Items and Tags
+#	Link Table for Items and Tags.
 CREATE TABLE ItemTag
 (
-    TagID  INT NOT NULL, #	FK from Tag Table - ID of the tag
-    ItemID INT NOT NULL  #	FK from Item Table - ID of the item to be tagged
+    TagID  INT NOT NULL, # FK from Tag Table - ID of the tag
+    ItemID INT NOT NULL  # FK from Item Table - ID of the item to be tagged
 );
 
 /*
