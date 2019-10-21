@@ -4,12 +4,19 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 #these will be added to the admin page
 from .models import NonMember,ClubMember
+from django import forms
 
 admin.site.register(ClubMember)
 admin.site.register(NonMember)
 
 #limit non-superusers permission
 class UserAdmin(BaseUserAdmin):
+    def get_queryset(self, request):
+        qs = super(UserAdmin, self).get_queryset(request)
+        if not request.user.is_superuser:
+            return qs.filter(is_superuser=False)
+        return qs
+    
         list_display = ('username', 'email', 'is_staff')
         list_filter = ('is_staff','groups')
         #this displays after initial user creation for additional information
@@ -28,7 +35,6 @@ class UserAdmin(BaseUserAdmin):
         )
         search_fields = ('username',)
         ordering = ('username',)
-
     #unregister the default user admin
 admin.site.unregister(User)
     # Now register the new UserAdmin...
