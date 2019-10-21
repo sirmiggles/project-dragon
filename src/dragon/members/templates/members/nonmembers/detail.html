@@ -1,13 +1,13 @@
 {% extends "dragon/base.html" %}
 
-{% block title %}{{ block.super }} - Non-Member: {{ nonmember.firstname }}{% endblock %}
+{% block title %}{{ block.super }} - Non-Member: {{ nonmember.Firstname }}{% endblock %}
 
 {% block content %}
 <div class="col-sm-10 col-md-15 col-lg-10 mx-auto">
   <div class="card text-center">
     <div class="card-body bg-light">
     <h3>Name</h3>
-    <p>First Name: {{ nonmember.firstName }}<br>
+    <p>First Name: {{ nonmember.FirstName }}<br>
        Surname: {{ nonmember.surname }}<br>
     </p>
     <h3>Contact Details</h3>
@@ -19,7 +19,6 @@
     <p>
       Added Date: {{ nonmember.addedDate }}<br>
       Incidents: {{ nonmember.incidents }}<br>
-    </p>
     </p>
     <h3>Delete</h3>
     <form action="{% url 'members:remove_nonmember' nonmember.id %}" method="post">

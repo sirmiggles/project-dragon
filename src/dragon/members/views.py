@@ -144,7 +144,7 @@ def clubmember_detail(request, clubmember_id):
 @permission_required("members.view_nonmember")
 def nonmember_detail(request, nonmember_id):
     nonmember = get_object_or_404(NonMember, pk=nonmember_id)
-    return render(request, 'members/nonmember_detail.html', {'nonmember': nonmember})
+    return render(request, 'members/nonmembers/detail.html', {'nonmember': nonmember})
 
 @login_required
 @permission_required("members.change_clubmember")
