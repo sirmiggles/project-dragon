@@ -1,6 +1,6 @@
 {% extends "dragon/base.html" %}
 
-{% block title %}{{ block.super }} - Club Member: {{ clubmember.firstName }}{% endblock %}
+{% block title %}{{ block.super }} - Club Member: {{ clubmember.FirstName }}{% endblock %}
 
 {% block content %}
   <div class="container">
@@ -9,7 +9,7 @@
             <div class="card card-signin my-5  text-center">
                 <div class="card-body bg-light">
                     <h3>Name</h3>
-                    <p>First Name: {{ clubmember.firstName }}<br>
+                    <p>First Name: {{ clubmember.FirstName }}<br>
                         Surname: {{ clubmember.surname }}<br>
                     </p>
                     <h3>Personal Details</h3>

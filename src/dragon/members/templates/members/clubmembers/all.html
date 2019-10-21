@@ -25,7 +25,7 @@
     </tr>
     {% for clubmember in clubmembers %}
       <tr>
-        <td><a href="{% url 'members:clubmember_detail' clubmember.id %}">{{ clubmember.firstName }} {{ clubmember.surname }}</a></td>
+        <td><a href="{% url 'members:clubmember_detail' clubmember.id %}">{{ clubmember.FirstName }} {{ clubmember.surname }}</a></td>
         <td> {{ clubmember.preferredName }}</td>
         <td> {{ clubmember.phoneNumber }}</td>
         <td> {{ clubmember.email }}</td>
